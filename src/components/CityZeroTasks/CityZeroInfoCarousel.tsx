@@ -2,7 +2,8 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useLanguage } from "../../context/useLanguage";
 import "./CityZeroInfoCarousel.css";
 
-const AUTOPLAY_INTERVAL_MS = 4000;
+/* 注: autoplay 节奏由 CSS @keyframes pillFill 的 4s 控制,
+   见 CityZeroInfoCarousel.css 中的 .pagination-pill-segment.active::before */
 const MANUAL_PAUSE_MS = 10000;
 
 interface CarouselItem {

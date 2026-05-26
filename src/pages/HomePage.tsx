@@ -1,11 +1,10 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import NFTShowcase from "../components/HomePage/NFTShowcase";
 import FAQ from "../components/HomePage/FAQ";
 
 import { useLanguage } from "../context/useLanguage";
 import { useRevealObserver } from "../hooks/useRevealObserver";
-import { evmContractService } from "../utils/evmContract";
 import "./HomePage.css";
 
 function HomePage() {
@@ -14,9 +13,6 @@ function HomePage() {
     (zh: string, en: string) => (language === "zh" ? zh : en),
     [language],
   );
-
-  const [totalMinted, setTotalMinted] = useState(0);
-  const [maxSupply, setMaxSupply] = useState(0);
 
   const deploymentTimeline = useMemo(
     () => [
@@ -65,36 +61,6 @@ function HomePage() {
   );
 
   useRevealObserver(translate);
-
-  useEffect(() => {
-    let isMounted = true;
-    const loadData = async () => {
-      try {
-        const total = await evmContractService.getTotalMinted();
-        if (!isMounted) return;
-        setTotalMinted(total);
-        const hardcodedMax = 500;
-        setMaxSupply(hardcodedMax);
-      } catch (error) {
-        console.error(
-          translate("加载合约数据失败:", "Failed to load contract data:"),
-          error,
-        );
-      }
-    };
-
-    loadData();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [translate]);
-
-  const safeMaxSupply = maxSupply || 500;
-  const mintedRatio = Math.min(
-    100,
-    Math.round((totalMinted / safeMaxSupply) * 100),
-  );
 
   return (
     <div className="page-wrapper home-page reveal in-view">
