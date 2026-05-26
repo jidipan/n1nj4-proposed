@@ -1,0 +1,268 @@
+/* CityZeroInfoCarousel · 对齐 UI_GUIDELINES 全站规范
+   颜色: 品牌粉/橙 + 中性灰 (rgba(12,16,30,X)) | 字号: clamp | 断点: 唯一 900px */
+
+.info-carousel-section {
+  padding: 50px 40px;
+  background-color: #fafbfc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Section kicker · 与其它 section 节奏一致 */
+.info-carousel-kicker {
+  margin: 0 0 30px;
+  color: #f68535;
+  text-align: center;
+}
+
+.info-carousel-frame {
+  width: 100%;
+  max-width: 1460px;
+  background: linear-gradient(180deg, rgba(244, 247, 251, 0.96) 0%, rgba(240, 245, 250, 0.96) 100%);
+  border: 1px solid rgba(12, 16, 30, 0.07);
+  border-radius: 22px;
+  padding: 32px 36px 24px;
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+}
+
+.carousel-container {
+  max-width: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.carousel-track-container {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+}
+
+.carousel-slide {
+  min-width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide-content-wrapper {
+  max-width: 1320px;
+  width: 100%;
+  display: flex;
+  gap: 4rem;
+  align-items: center;
+  padding: 0 64px; /* arrow 让位 */
+}
+
+.slide-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* H3 (条目标题 · slide 内) · 沿用全站 H3 档位 clamp(1.5rem, 3.75vw, 3rem) = 24-48px */
+.slide-text h3 {
+  font-size: clamp(1.5rem, 3.75vw, 3rem);
+  font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 24px;
+  color: #0f131d;
+  letter-spacing: -0.01em;
+}
+
+/* Body p · 正文 16-17px */
+.slide-description p {
+  font-size: 1.02rem;
+  line-height: 1.65;
+  color: rgba(12, 16, 30, 0.62);
+  margin: 0 0 16px;
+}
+
+.slide-description p:last-child {
+  margin-bottom: 0;
+}
+
+/* Read more · 品牌橙文字链 */
+.read-more-btn {
+  background: none;
+  border: none;
+  color: #f68535;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: left;
+  padding: 0;
+  margin-top: 20px;
+  cursor: pointer;
+  width: fit-content;
+  transition: color 0.15s ease-out;
+  text-decoration: none;
+}
+
+.read-more-btn:hover {
+  color: #ee6a9e;
+  text-decoration: underline;
+}
+
+.slide-image-container {
+  flex: 1;
+  aspect-ratio: 1110 / 862;  /* 锁定与 city_image1/2.png 一致比例, Stadium 超宽图靠 object-fit cover 横向裁切 */
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(12, 16, 30, 0.1);
+  display: flex;
+  max-width: 600px;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 24px;
+}
+
+/* Arrow Navigation */
+.carousel-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(12, 16, 30, 0.1);
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: all 0.15s ease-out;
+  color: rgba(12, 16, 30, 0.62);
+  box-shadow: 0 4px 6px rgba(12, 16, 30, 0.05);
+}
+
+.carousel-arrow:hover {
+  background-color: #ffffff;
+  color: #0f131d;
+  box-shadow: 0 6px 12px rgba(12, 16, 30, 0.1);
+  transform: translateY(-50%) scale(1.05);
+}
+
+/* Arrow 贴 carousel-frame 左右内边缘 (视觉上紧贴卡片左右边距) */
+.left-arrow { left: 0; }
+.right-arrow { right: 0; }
+
+/* Pagination Pill · 分段进度条 (替代圆点)
+   - 总长 200px, 高 5px, 圆头
+   - 分 N 段, 每段平分宽度
+   - active 段执行 4s linear 填色动画, 完成时 onAnimationEnd 推进下一张
+   - past 段保持填满, future 段空白
+   - is-paused (hover/manual) 时冻结当前动画 */
+.pagination-pill {
+  display: flex;
+  width: 200px;
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(12, 16, 30, 0.15);
+  overflow: hidden;
+  margin: 24px auto 0;
+  gap: 2px;
+}
+
+.pagination-pill-segment {
+  flex: 1;
+  position: relative;
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.pagination-pill-segment::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #ee6a9e;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+/* 当前播放段 · 4s linear 填色 */
+.pagination-pill-segment.active::before {
+  animation: pillFill 4s linear forwards;
+}
+
+/* 已播放完的段 · 保持填满 */
+.pagination-pill-segment.past::before {
+  transform: scaleX(1);
+}
+
+/* 暂停时冻结当前动画 (hover 或手动操作后) */
+.pagination-pill.is-paused .pagination-pill-segment.active::before {
+  animation-play-state: paused;
+}
+
+@keyframes pillFill {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Responsive · 唯一断点 900px */
+@media (max-width: 900px) {
+  .info-carousel-section {
+    padding: 48px 20px;
+  }
+
+  .info-carousel-frame {
+    padding: 24px 20px 20px;
+    border-radius: 18px;
+  }
+
+  .slide-content-wrapper {
+    flex-direction: column;
+    gap: 32px;
+    padding: 0 32px;
+  }
+
+  .slide-image-container {
+    max-width: 100%;
+    max-height: 400px;
+    order: -1; /* image on top for mobile */
+  }
+
+  .slide-text h3 {
+    font-size: clamp(1.125rem, 5vw, 1.5rem);
+    text-align: center;
+  }
+
+  .slide-description p {
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+  .read-more-btn {
+    align-self: center;
+  }
+
+  .carousel-arrow {
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+
+  .left-arrow { left: -8px; }
+  .right-arrow { right: -8px; }
+}

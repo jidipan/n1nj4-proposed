@@ -1,0 +1,647 @@
+.stadium-page {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: -105px;
+    /* Pull up to render underneath the sticky header */
+}
+
+/* Hero Section */
+.stadium-hero-section {
+    width: 100%;
+    position: relative;
+    background-color: #f7f9fc;
+}
+
+.stadium-hero-image-container {
+    width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+.stadium-hero-image {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Content Section */
+.stadium-content-section {
+    padding: 4rem 2.5rem;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+}
+
+.stadium-content {
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+/* Header Row Elements */
+.stadium-header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    border-bottom: 2px solid #f3f4f6;
+    padding-bottom: 2rem;
+}
+
+.stadium-title-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stadium-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.stadium-deadline {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #111827;
+    margin: 0;
+}
+
+.stadium-status-badge {
+    background-color: #fef08a;
+    /* Light yellow */
+    color: #1f2937;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.25rem;
+    border-radius: 9999px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+}
+
+
+/* Body Columns Elements (Original Layout) */
+.stadium-body-row {
+    display: flex;
+    gap: 5rem;
+    align-items: stretch;
+    margin-bottom: 4rem;
+    /* Added margin to push down the advanced layout */
+}
+
+.stadium-text-column {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+}
+
+.stadium-subtitle {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #4b5563;
+    letter-spacing: 0.05em;
+    margin: 0 0 1rem 0;
+}
+
+.stadium-text-column p {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #374151;
+    margin-bottom: 1.25rem;
+}
+
+/* Progress Column Elements */
+.stadium-progress-column {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.progress-label {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #111827;
+    margin-bottom: 0.75rem;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 20px;
+    background-color: #ffffff;
+    border: 1px solid #d1d5db;
+    border-radius: 9999px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #3b82f6;
+    border-radius: 9999px;
+    transition: width 0.5s ease;
+}
+
+/* Advanced Layout Body */
+.stadium-advanced-body {
+    display: flex;
+    gap: 4.5rem;
+    align-items: flex-start;
+}
+
+/* Phase Cards (Left Column) */
+.stadium-phases-column {
+    flex: 6.5;
+    /* 65% width */
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}
+
+.phase-card {
+    background-color: #f9fafb;
+    border-radius: 1.5rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.phase-image-wrapper {
+    width: 100%;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.phase-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+}
+
+.phase-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.phase-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0;
+}
+
+.phase-status-badge {
+    padding: 0.35rem 1rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #1f2937;
+}
+
+/* Green */
+
+/* Yellow */
+
+/* Brighter Yellow/Orange mix */
+
+.phase-content p {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+.phase-content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Sidebar Widgets (Right Column) */
+.stadium-sidebar-column {
+    flex: 3.5;
+    /* 35% width */
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sidebar-widget {
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    overflow: hidden;
+}
+
+.sidebar-widget.no-padding {
+    padding: 0;
+    gap: 0;
+}
+
+.widget-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+/* Participant List */
+.participant-list {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.5rem;
+}
+
+.participant-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #fef3c7;
+    padding: 0.25rem 0.5rem 0.25rem 0.25rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.p-avatar {
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+}
+
+.project-link-btn {
+    display: inline-block;
+    background-color: #f3f4f6;
+    color: #111827;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    align-self: flex-start;
+    transition: background-color 0.2s;
+}
+
+.project-link-btn:hover {
+    background-color: #e5e7eb;
+}
+
+/* Support & Reward Headers */
+.widget-header-wrapper {
+    padding: 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.widget-body-wrapper {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.widget-main-title {
+    font-size: 1.35rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0;
+}
+
+/* Support Body */
+.pledge-title {
+    font-size: 1.15rem;
+    font-weight: 500;
+    margin: 0 0 1.5rem 0;
+    color: #374151;
+}
+
+.pledge-input-group {
+    display: flex;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.pledge-currency {
+    padding: 0.75rem 1rem;
+    background-color: #f9fafb;
+    color: #6b7280;
+    font-weight: 500;
+    border-right: 1px solid #e5e7eb;
+}
+
+.pledge-input {
+    flex: 1;
+    border: none;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    outline: none;
+}
+
+.pledge-about {
+    font-size: 0.8rem;
+    color: #9ca3af;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+}
+
+.pledge-reason-box {
+    background-color: #eff6ff;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.pledge-reason-box h5 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0 0 0.75rem 0;
+}
+
+.pledge-reason-box p {
+    font-size: 0.95rem;
+    color: #4b5563;
+    margin: 0;
+    line-height: 1.5;
+}
+
+/* Reward Body */
+.reward-body {
+    gap: 1.5rem;
+}
+
+.reward-product-image {
+    width: 100%;
+    border-radius: 0.5rem;
+    object-fit: contain;
+}
+
+.reward-pricing {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.reward-price-left h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+}
+
+.reward-price-left p {
+    color: #6b7280;
+    margin: 0;
+    font-size: 0.95rem;
+}
+
+.reward-price-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.reward-price-right .currency {
+    font-size: 0.9rem;
+    color: #4b5563;
+}
+
+.reward-price-right .amount {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111827;
+    line-height: 1;
+}
+
+.reward-price-right .approx {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    margin-top: 0.25rem;
+}
+
+.reward-details-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.highlight-text {
+    font-size: 0.9rem;
+    color: #4b5563;
+    margin: 0;
+}
+
+.detail-header {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #d97706;
+    /* Orange lightning color */
+    margin: 0;
+}
+
+.reward-details-list ul {
+    padding-left: 1rem;
+    margin: 0;
+    color: #4b5563;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.reward-details-list .disclaimer {
+    font-size: 0.85rem;
+    color: #6b7280;
+    margin: 0;
+}
+
+.reward-shipping-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+}
+
+.shipping-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.info-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #111827;
+}
+
+.info-val {
+    font-size: 0.95rem;
+    color: #4b5563;
+}
+
+.reward-footer {
+    padding-top: 1rem;
+    border-top: 1px solid #e5e7eb;
+    font-size: 0.85rem;
+    color: #6b7280;
+}
+
+.reward-footer strong {
+    color: #111827;
+}
+
+/* Footer Actions */
+.stadium-footer-actions {
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+.return-city-zero-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.75rem;
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 9999px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3), 0 2px 4px -1px rgba(59, 130, 246, 0.15);
+}
+
+.return-city-zero-btn::before {
+    content: "←";
+    font-size: 1.2rem;
+    line-height: 1;
+    margin-right: 0.25rem;
+}
+
+.return-city-zero-btn:hover {
+    background-color: #2563eb;
+    transform: translateY(-2px);
+}
+
+/* Grants & Incubation Widget */
+.grants-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.grants-intro {
+    font-size: 0.875rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.grants-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.grants-section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.grants-badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+}
+
+.grants-badge-green {
+    background-color: #dcfce7;
+    color: #15803d;
+}
+
+.grants-badge-blue {
+    background-color: #dbeafe;
+    color: #1d4ed8;
+}
+
+.grants-section-desc {
+    font-size: 0.85rem;
+    color: #374151;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.grants-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.grants-tag {
+    padding: 0.2rem 0.6rem;
+    background-color: #f3f4f6;
+    color: #4b5563;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+.grants-divider {
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 0.25rem 0;
+}
+
+.grants-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.grants-list li {
+    font-size: 0.82rem;
+    color: #374151;
+    line-height: 1.5;
+}
+
+.grants-apply-btn {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.6rem 1.25rem;
+    background-color: #111827;
+    color: #ffffff;
+    font-size: 0.85rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 6px;
+    text-align: center;
+    transition: background-color 0.2s ease;
+}
+
+.grants-apply-btn:hover {
+    background-color: #374151;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .stadium-advanced-body {
+        flex-direction: column;
+    }
+}

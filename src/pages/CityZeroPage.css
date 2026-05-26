@@ -1,0 +1,174 @@
+.city-zero-page {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-top: -64px;
+  /* Pull up by exactly the header height (64px) so hero fills viewport */
+}
+
+/* Hero Section */
+.hero-section {
+  width: 100%;
+  position: relative;
+  background-color: #f7f9fc;
+}
+
+.scrolling-announcements {
+  width: 100%;
+  position: absolute;
+  top: 64px;
+  /* Flush against header bottom (header height = 64px) */
+  z-index: 10;
+
+  /* 同 Header 同款液态玻璃效果 (引用 Header.tsx 内全局 SVG filter #liquid-glass) */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: url(#liquid-glass) blur(3px) saturate(150%) brightness(1.03);
+  -webkit-backdrop-filter: blur(4px) saturate(140%) brightness(1.02);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+
+  padding: 6px 0;
+  overflow: hidden;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+}
+
+.scrolling-text {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scrollText 20s linear infinite;
+  font-family: "Impact", "Arial Black", sans-serif;
+  font-style: italic;
+  font-weight: 900;
+  font-size: 1.25rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.scrolling-announcements:hover .scrolling-text,
+.scrolling-announcements:focus-within .scrolling-text {
+  animation-play-state: paused;
+}
+
+.scrolling-text-zh {
+  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  font-style: normal;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: none;
+}
+
+.scrolling-text span {
+  padding: 0 40px;
+}
+
+.text-color-1 {
+  color: #ffffff;
+  -webkit-text-stroke: 2px #111827;
+  text-shadow: 3px 3px 0 #111827;
+}
+
+.text-color-2 {
+  color: #bfff00;
+  -webkit-text-stroke: 2px #111827;
+  text-shadow: 3px 3px 0 #111827;
+}
+
+.scrolling-text-zh .text-color-1,
+.scrolling-text-zh .text-color-2 {
+  -webkit-text-stroke: 1.6px #111827;
+  text-shadow:
+    2px 2px 0 #111827,
+    0 0 14px rgba(17, 24, 39, 0.22);
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  100% {
+    transform: translate3d(-100%, 0, 0);
+  }
+}
+
+.hero-image-container {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;       /* dynamic viewport · 移动端 address bar 自适应 */
+  min-height: 100vh;
+  display: flex;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+/* Stadium Action Button */
+.stadium-action-btn {
+  position: absolute;
+  /* Approximate positions based on layout - bottom right */
+  top: 72%;
+  left: 77%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #bfff00;
+  color: #000;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-family: "Impact", "Arial Black", sans-serif;
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 900;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  z-index: 20;
+  box-shadow:
+    0 10px 30px rgba(191, 255, 0, 0.4),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border: 4px solid #000;
+}
+
+.stadium-action-btn:hover {
+  transform: translate(-50%, -54%) scale(1.05);
+  box-shadow:
+    0 15px 40px rgba(191, 255, 0, 0.6),
+    inset 0 -4px 0 rgba(0, 0, 0, 0.2);
+  background: #cfff33;
+}
+
+.stadium-action-btn:active {
+  transform: translate(-50%, -50%) scale(0.98);
+  box-shadow:
+    0 5px 15px rgba(191, 255, 0, 0.4),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #000;
+  color: #bfff00;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  transition: transform 0.3s ease;
+}
+
+.stadium-action-btn:hover .btn-icon {
+  transform: translateX(5px);
+}
+
+/* (旧版 .info-text 和 .read-more-btn 样式已删除 — 实际使用的样式
+   在 CityZeroInfoCarousel.css 内, 此处保留位置作为标记) */

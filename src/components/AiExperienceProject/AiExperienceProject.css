@@ -1,0 +1,305 @@
+/* AiExperienceProject · 对齐 UI_GUIDELINES 全站规范
+   颜色: 品牌粉橙 + 中性灰 | 字号: clamp + ≥14px 下限 | 断点: 唯一 900px */
+
+/* Layout & Container */
+.ai-experience-section {
+  padding: 50px 40px 80px;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+.ai-experience-container {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Section kicker */
+.ai-experience-kicker {
+  margin: 0 0 30px;
+  color: #f68535;
+}
+
+/* H2 · 沿用全站 clamp(2rem, 5vw, 4rem) 档位 */
+.ai-experience-title {
+  font-size: clamp(2rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
+  margin: 0 0 48px;
+  color: #0f131d;
+  letter-spacing: -0.01em;
+}
+
+/* Banner */
+.contribution-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f4f3f1;
+  border: 1px solid rgba(12, 16, 30, 0.07);
+  border-radius: 16px;
+  padding: 24px 32px;
+  margin-bottom: 32px;
+}
+
+.banner-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Rocket icon · 用品牌粉 */
+.rocket-icon {
+  background-color: #ee6a9e;
+  color: #fff;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  box-shadow: 0 4px 6px rgba(238, 106, 158, 0.3);
+  flex-shrink: 0;
+}
+
+.banner-text h3 {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #0f131d;
+  margin: 0 0 4px 0;
+}
+
+.banner-text p {
+  font-size: 0.95rem;
+  color: rgba(12, 16, 30, 0.62);
+  margin: 0;
+}
+
+.banner-right {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+/* Banner 按钮 · 沿用全站按钮规范 (uppercase + letter-spacing + pill) */
+.banner-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 22px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.15s ease-out, background 0.15s ease-out, box-shadow 0.15s ease-out, border-color 0.15s ease-out;
+}
+
+.secondary-btn {
+  background-color: transparent;
+  color: #0f131d;
+  border: 1px solid rgba(12, 16, 30, 0.25);
+}
+
+.secondary-btn:hover {
+  background-color: rgba(15, 19, 29, 0.04);
+  border-color: rgba(12, 16, 30, 0.5);
+  transform: translateY(-2px);
+}
+
+.primary-btn {
+  background-color: #0f131d;
+  color: #fff;
+  border: 1px solid #0f131d;
+  box-shadow: 0 2px 4px rgba(15, 19, 29, 0.2);
+}
+
+.primary-btn:hover {
+  background-color: #ee6a9e;
+  border-color: #ee6a9e;
+  box-shadow: 0 8px 22px rgba(238, 106, 158, 0.25);
+  transform: translateY(-2px);
+}
+
+/* Steps Navigation */
+.steps-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #f9f8f5;
+  border: 1px solid rgba(12, 16, 30, 0.06);
+  border-radius: 16px;
+  padding: 28px;
+  margin-bottom: 48px;
+  position: relative;
+}
+
+.step-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+/* Step 编号圆 · 用品牌粉 */
+.step-number {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #ee6a9e;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.95rem;
+  z-index: 2;
+}
+
+.step-label {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f131d;
+  text-align: center;
+}
+
+.step-divider {
+  color: rgba(12, 16, 30, 0.3);
+  font-weight: 300;
+  font-size: 1.2rem;
+}
+
+/* Project Grid */
+.project-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 28px;
+}
+
+.projects-empty-state {
+  border: 1px dashed rgba(12, 16, 30, 0.18);
+  border-radius: 16px;
+  min-height: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  color: rgba(12, 16, 30, 0.62);
+  font-size: 0.95rem;
+  text-align: center;
+  background: #f9f8f5;
+}
+
+/* Submit Card */
+.submit-new-card {
+  border: 2px dashed rgba(12, 16, 30, 0.2);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  min-height: 400px;
+  cursor: pointer;
+  transition: border-color 0.15s ease-out, background-color 0.15s ease-out, transform 0.15s ease-out;
+  background-color: #fcfcfc;
+}
+
+.submit-new-card:hover {
+  border-color: #ee6a9e;
+  background-color: rgba(238, 106, 158, 0.04);
+  transform: translateY(-4px);
+}
+
+.submit-icon-circle {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 1px dashed rgba(12, 16, 30, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  color: rgba(12, 16, 30, 0.62);
+  transition: border-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+.submit-new-card:hover .submit-icon-circle {
+  border-color: #ee6a9e;
+  color: #ee6a9e;
+}
+
+.plus-icon {
+  font-size: 2rem;
+  font-weight: 300;
+}
+
+/* Submit card 内的 H3 · 卡片标题档位 */
+.submit-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f131d;
+  margin: 0 0 14px;
+  letter-spacing: -0.005em;
+}
+
+/* Submit tag · 品牌粉浅底 */
+.submit-tag {
+  background-color: rgba(238, 106, 158, 0.14);
+  color: #c84a7c;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Responsive · 唯一断点 900px */
+@media (max-width: 900px) {
+  .ai-experience-section {
+    padding: 50px 16px;
+  }
+
+  .ai-experience-title {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+    margin-bottom: 32px;
+  }
+
+  .contribution-banner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .banner-right {
+    width: 100%;
+  }
+
+  .banner-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .steps-navigation {
+    flex-direction: column;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .step-divider {
+    transform: rotate(90deg);
+  }
+
+  .project-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}

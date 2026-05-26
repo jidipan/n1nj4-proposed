@@ -1,0 +1,325 @@
+/* CityZeroTasks · 对齐 UI_GUIDELINES 全站规范
+   颜色: 暗色 section + 中性灰 cards | 字号: clamp | 断点: 唯一 900px */
+
+.city-tasks-section {
+  width: 100%;
+  padding: 50px 0 80px;
+  background: #000000;
+  overflow: hidden;
+  position: relative;
+}
+
+.city-tasks-container {
+  width: 100%;
+  max-width: 1520px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* Section kicker · 暗色背景下用淡色橙, 顶部居中 */
+.city-tasks-kicker {
+  margin: 0 0 30px;
+  color: #f68535;
+  text-align: center;
+}
+
+/* H3 · 沿用全站 H3 档位 clamp(1.5rem, 3.75vw, 3rem) = 24-48px */
+.city-tasks-title {
+  margin: 0 0 64px 0;
+  font-family: "Space Grotesk", sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.75vw, 3rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.tasks-marquee-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* Base Marquee Row */
+.marquee-row {
+  display: flex;
+  width: max-content;
+  gap: 20px;
+}
+
+/* The Track holding the cards */
+.marquee-track {
+  display: flex;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+/* Animations */
+.marquee-right-to-left {
+  animation: scrollRightToLeft 40s linear infinite;
+}
+
+/* Pause on hover for better UX */
+.marquee-row:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scrollRightToLeft {
+  from { transform: translateX(0%); }
+  to   { transform: translateX(-50%); }
+}
+
+/* --- Task Card Styles --- */
+
+.city-task-card {
+  width: 380px;
+  background-color: #dce6ee;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: none;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: transform 0.15s ease-out;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.city-task-card:hover {
+  transform: translateY(-6px);
+}
+
+.task-card-header {
+  display: none;
+}
+
+.task-category {
+  font-weight: 700;
+  font-size: 1.02rem;
+  color: #0f131d;
+  letter-spacing: 0.02em;
+}
+
+.task-card-image-wrapper {
+  width: 100%;
+  padding: 0;
+  background-color: transparent;
+}
+
+.task-card-image {
+  width: 100%;
+  height: 228px;
+  object-fit: cover;
+  border-radius: 0;
+}
+
+.task-card-content {
+  padding: 16px 18px 18px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #dce6ee;
+}
+
+/* Card title · H3 卡片层级 */
+.task-card-title {
+  margin: 0 0 10px;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(1.25rem, 1.8vw, 1.625rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #0f131d;
+  letter-spacing: -0.005em;
+}
+
+/* Card description · ≥14px 保证可读 */
+.task-card-desc {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: rgba(12, 16, 30, 0.62);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ============================================================
+   Static grid variant · 用于 COMMUNITY GALLERY 2 (无轮播)
+   默认: 图 + meta + 标题 + tag 可见 (描述隐藏)
+   Hover: 图片向上偏移裁切顶部, 描述淡入
+   ============================================================ */
+
+.tasks-static-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* 卡片本体 · 固定高度 + overflow hidden, 让 top group 上滑时被裁切 */
+.city-news-card {
+  position: relative;
+  height: 380px;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(12, 16, 30, 0.06);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.25s ease-out, transform 0.25s ease-out;
+}
+
+.city-news-card:hover {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+}
+
+/* Top group · 图 + meta-block, hover 时整体上移 */
+.city-news-card-top {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s ease-out;
+}
+
+.city-news-card:hover .city-news-card-top {
+  /* 上滑 152px: 让图片从 247px 可见缩到 95px 可见 (65% → 25%) */
+  transform: translateY(-152px);
+}
+
+/* 图片容器 · 65% × 380 = 247px */
+.city-news-card-image-wrapper {
+  width: 100%;
+  height: 247px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #f4f3f1;
+}
+
+.city-news-card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Meta block · title + tag, 填满 image 下方剩余空间 */
+.city-news-card-meta-block {
+  padding: 20px 28px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.city-news-card-title {
+  margin: 0;
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+  font-weight: 800;
+  color: #0f131d;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* Desc · 绝对定位在卡片底部, 默认 opacity 0, hover 时与 top group 上滑同步淡入 */
+.city-news-card-desc {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 28px;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(12, 16, 30, 0.62);
+  opacity: 0;
+  transition: opacity 0.25s ease-out 0.1s;
+  /* 最多 6 行 · 长正文也能露出更多 */
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.city-news-card:hover .city-news-card-desc {
+  opacity: 1;
+}
+
+/* tag · 类似 outline pill, 底部 align-self start */
+.city-news-card-tag {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border: 1px solid rgba(12, 16, 30, 0.2);
+  border-radius: 5px;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #0f131d;
+  letter-spacing: 0.03em;
+}
+
+/* Static grid · 移动端单列 */
+@media (max-width: 900px) {
+  .tasks-static-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 0 16px;
+  }
+  .city-news-card {
+    height: 380px;
+  }
+  /* 移动端图片高度和 translateY 沿用桌面 (247 / -152, 同 65/25 比例) */
+  .city-news-card-meta-block {
+    padding: 18px 22px 12px;
+  }
+  .city-news-card-title {
+    font-size: clamp(1.05rem, 5vw, 1.25rem);
+  }
+  .city-news-card-desc {
+    left: 22px;
+    right: 22px;
+    bottom: 22px;
+    font-size: 0.88rem;
+  }
+}
+
+/* Responsive · 唯一断点 900px */
+@media (max-width: 900px) {
+  .city-tasks-section {
+    padding: 50px 0 56px;
+  }
+
+  .city-tasks-container {
+    padding: 0 16px;
+  }
+
+  .city-tasks-kicker {
+    margin-bottom: 20px;
+  }
+
+  .city-tasks-title {
+    font-size: clamp(1.125rem, 5vw, 1.5rem);
+    margin-bottom: 32px;
+  }
+
+  .city-task-card {
+    width: 280px;
+  }
+
+  .task-card-image {
+    height: 172px;
+  }
+
+  .task-card-title {
+    font-size: clamp(1.125rem, 5.5vw, 1.4rem);
+  }
+
+  .task-card-desc {
+    font-size: 0.8125rem;
+  }
+}

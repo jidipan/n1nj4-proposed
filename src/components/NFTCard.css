@@ -1,0 +1,145 @@
+/* CryptoPunks风格的 NFT 卡片 - 浅色主题 */
+.nft-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.nft-card {
+  background: var(--bg-primary);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.nft-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--text-primary);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.nft-card-image-wrapper {
+  position: relative;
+}
+
+.nft-card-image {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 2px solid var(--border-color);
+  background: var(--bg-primary);
+}
+
+.nft-image-display {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+
+.nft-card-content {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+  background: var(--bg-primary);
+}
+
+.nft-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.nft-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.nft-id {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  margin: 0;
+  font-weight: 600;
+  font-family: monospace;
+}
+
+/* 属性标签 */
+.nft-attributes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.attribute-tag {
+  padding: 4px 8px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.nft-owner-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
+}
+
+.owner-label {
+  color: var(--text-tertiary);
+  font-weight: 500;
+}
+
+.owner-address {
+  color: var(--text-secondary);
+  font-weight: 600;
+  font-family: monospace;
+  font-size: 0.7rem;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .nft-card-content {
+    padding: 12px;
+    gap: 8px;
+  }
+
+  .nft-name {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nft-card-content {
+    padding: 10px;
+  }
+
+  .attribute-tag {
+    font-size: 0.65rem;
+    padding: 3px 6px;
+  }
+}
+

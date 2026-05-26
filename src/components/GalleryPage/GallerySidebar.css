@@ -1,0 +1,123 @@
+/* Azuki 风格的左侧边栏 */
+.gallery-sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  padding: 24px 0;
+  position: sticky;
+  top: 100px;
+  align-self: flex-start;
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.sidebar-section {
+  margin-bottom: 32px;
+}
+
+.sidebar-section-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dropdown-icon {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  transition: transform 0.2s ease;
+}
+
+.dropdown-icon.open {
+  transform: rotate(180deg);
+}
+
+.sidebar-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.sidebar-options {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-option {
+  width: 100%;
+  padding: 12px 16px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+}
+
+.sidebar-option:hover {
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+
+.sidebar-option.active {
+  background: var(--bg-secondary);
+  border-color: var(--text-primary);
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: var(--border-color);
+  margin: 24px 0;
+}
+
+.sidebar-divider.light {
+  margin: 16px 0 0;
+  opacity: 0.4;
+}
+
+/* 滚动条样式 */
+.gallery-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.gallery-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.gallery-sidebar::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 3px;
+}
+
+.gallery-sidebar::-webkit-scrollbar-thumb:hover {
+  background: #bbb;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .gallery-sidebar {
+    width: 240px;
+  }
+}
+
+@media (max-width: 768px) {
+  .gallery-sidebar {
+    display: none;
+  }
+}
+

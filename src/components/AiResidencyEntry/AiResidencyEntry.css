@@ -1,0 +1,419 @@
+/* AI Residency Entry · City Zero 页面静态 section
+   结构: header (kicker + h2 + h3 subtitle) → toggle → collapse → CTA
+   后端就位后, .ai-residency-btn-primary 的 href 需替换为实际 apply 路由 */
+
+.ai-residency-section {
+  position: relative;
+  padding: 50px 20px 80px;
+  background: linear-gradient(180deg, #f4f3f1 0%, #ece9e2 100%);
+  overflow: hidden;
+}
+
+.ai-residency-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* === Header · 用独立 margin 控制 kicker→h2 = 30, h2→h3 = 10 (符合 guidelines) === */
+.ai-residency-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.ai-residency-kicker {
+  margin: 0 0 30px;
+  font-size: 0.88rem;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+  color: #c84a7c;
+  font-weight: 600;
+}
+
+.ai-residency-title {
+  margin: 0 0 10px;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  color: #0f131d;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.ai-residency-subtitle {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.4vw, 1.75rem);
+  line-height: 1.4;
+  color: rgba(12, 16, 30, 0.62);
+  font-weight: 500;
+}
+
+/* === Toggle 卡片 · 整张卡可点击, 展开/收起详细内容 === */
+.ai-residency-toggle-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid rgba(12, 16, 30, 0.08);
+  border-radius: 16px;
+  padding: 24px 28px;
+  cursor: pointer;
+  text-align: left;
+  font: inherit;
+  color: inherit;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, border-color 0.15s ease-out, background 0.15s ease-out;
+}
+
+.ai-residency-toggle-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+  border-color: rgba(200, 74, 124, 0.4);
+}
+
+.ai-residency-toggle-card.is-open {
+  border-color: #c84a7c;
+  background: rgba(200, 74, 124, 0.04);
+}
+
+.ai-residency-toggle-card-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex: 1;
+  min-width: 0;
+}
+
+.ai-residency-toggle-card-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #c84a7c 0%, #ee6a9e 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  box-shadow: 0 4px 12px rgba(200, 74, 124, 0.3);
+  flex-shrink: 0;
+}
+
+.ai-residency-toggle-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.ai-residency-toggle-card-title {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: #0f131d;
+  letter-spacing: -0.005em;
+  line-height: 1.25;
+}
+
+.ai-residency-toggle-card-preview {
+  font-size: 0.9rem;
+  color: rgba(12, 16, 30, 0.55);
+  line-height: 1.4;
+}
+
+.ai-residency-toggle-card-chevron {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 400;
+  color: rgba(12, 16, 30, 0.4);
+  transform: rotate(90deg);
+  transition: transform 0.3s ease-out, color 0.15s ease-out;
+  flex-shrink: 0;
+}
+
+.ai-residency-toggle-card:hover .ai-residency-toggle-card-chevron {
+  color: #c84a7c;
+}
+
+.ai-residency-toggle-card.is-open .ai-residency-toggle-card-chevron {
+  transform: rotate(-90deg);
+  color: #c84a7c;
+}
+
+/* === Collapsible · grid-template-rows 自适应内容高度 === */
+.ai-residency-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition: grid-template-rows 0.4s ease-out, opacity 0.3s ease-out, margin 0.4s ease-out;
+  margin-top: -28px; /* 收起时抵消上方一半 gap, 视觉上更紧凑 */
+}
+
+.ai-residency-collapse.is-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin-top: 0;
+}
+
+.ai-residency-collapse-inner {
+  overflow: hidden;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+}
+
+/* === Value Props (3 cards) === */
+.ai-residency-props {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.ai-residency-prop {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 32px 28px;
+  border-radius: 24px;
+  background: #ffffff;
+  border: 1px solid rgba(12, 16, 30, 0.08);
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, border-color 0.15s ease-out;
+}
+
+.ai-residency-prop:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
+  border-color: rgba(200, 74, 124, 0.4);
+}
+
+.ai-residency-prop-tag {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: #c84a7c;
+}
+
+.ai-residency-prop-title {
+  margin: 0;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #0f131d;
+  letter-spacing: -0.01em;
+}
+
+.ai-residency-prop-body {
+  margin: 0;
+  font-size: 0.96rem;
+  line-height: 1.65;
+  color: rgba(12, 16, 30, 0.62);
+}
+
+/* === How It Works === */
+.ai-residency-flow,
+.ai-residency-eligibility {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ai-residency-flow-kicker {
+  margin: 0;
+  font-size: 0.82rem;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: rgba(12, 16, 30, 0.45);
+  font-weight: 600;
+}
+
+.ai-residency-steps {
+  list-style: none;
+  margin: 0;
+  padding: 24px 28px;
+  background: rgba(255, 255, 255, 0.6);
+  border: 1px solid rgba(12, 16, 30, 0.06);
+  border-radius: 18px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+.ai-residency-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.ai-residency-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #0f131d;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.ai-residency-step-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ai-residency-step-body strong {
+  font-size: 1rem;
+  color: #0f131d;
+  letter-spacing: -0.005em;
+}
+
+.ai-residency-step-body span {
+  font-size: 0.85rem;
+  color: rgba(12, 16, 30, 0.55);
+  line-height: 1.4;
+}
+
+.ai-residency-step-divider {
+  color: rgba(12, 16, 30, 0.25);
+  font-size: 1.2rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+/* === Eligibility === */
+.ai-residency-eligibility-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ai-residency-eligibility-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(12, 16, 30, 0.78);
+}
+
+.ai-residency-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #c84a7c;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ai-residency-eligibility-note {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(12, 16, 30, 0.45);
+  font-style: italic;
+}
+
+/* === CTA === */
+.ai-residency-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.ai-residency-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 56px;
+  padding: 0 36px;
+  border-radius: 999px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: transform 0.15s ease-out, box-shadow 0.15s ease-out, background 0.2s ease-out;
+  cursor: pointer;
+}
+
+.ai-residency-btn-primary {
+  background: #0f131d;
+  color: #fff;
+  border: 1px solid #0f131d;
+}
+
+.ai-residency-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 22px rgba(15, 19, 29, 0.25);
+  background: #c84a7c;
+  border-color: #c84a7c;
+}
+
+.ai-residency-btn-secondary {
+  background: transparent;
+  color: #0f131d;
+  border: 1px solid rgba(12, 16, 30, 0.25);
+}
+
+.ai-residency-btn-secondary:hover {
+  transform: translateY(-2px);
+  background: rgba(15, 19, 29, 0.04);
+  border-color: rgba(12, 16, 30, 0.5);
+}
+
+/* === Responsive === */
+@media (max-width: 900px) {
+  .ai-residency-section {
+    padding: 50px 16px;
+  }
+  .ai-residency-container {
+    gap: 40px;
+  }
+  .ai-residency-props {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .ai-residency-steps {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 20px;
+  }
+  .ai-residency-step {
+    min-width: 0;
+  }
+  .ai-residency-step-divider {
+    text-align: center;
+    transform: rotate(90deg);
+  }
+  .ai-residency-actions {
+    flex-direction: column;
+  }
+  .ai-residency-btn {
+    width: 100%;
+  }
+}
