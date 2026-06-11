@@ -1,0 +1,70 @@
+/* ImagePlaceholder · 图片占位块 (灰色斜纹) */
+.imgph {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  text-align: center;
+  border-radius: 14px;
+  background-color: #e7e3da;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(28, 31, 43, 0.045) 0,
+    rgba(28, 31, 43, 0.045) 10px,
+    transparent 10px,
+    transparent 20px
+  );
+  border: 1px dashed rgba(28, 31, 43, 0.28);
+  overflow: hidden;
+}
+
+.imgph-icon {
+  font-size: 1.5rem;
+  opacity: 0.5;
+  line-height: 1;
+}
+
+.imgph-label {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: rgba(28, 31, 43, 0.55);
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+
+.imgph-real {
+  padding: 0;
+  border: 0;
+  background: none;
+}
+
+.imgph-real img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 300ms ease;
+}
+
+/* —— 圆形/小方块变体(头像、图标) —— */
+.imgph-round {
+  border-radius: 50%;
+}
+
+.imgph-mini {
+  gap: 3px;
+  padding: 6px;
+  border-radius: 12px;
+}
+
+.imgph-mini .imgph-icon {
+  font-size: 1.1rem;
+}
+
+.imgph-mini .imgph-label {
+  font-size: 0.55rem;
+  font-weight: 700;
+}

@@ -1,0 +1,170 @@
+/* ====================================================================
+   NewsTicker · 城市快报
+   3 卡传送带轮播 (每 3s 整排左移一格: 新卡右侧滑入, 最左卡滑出)
+   + 借鉴 COMMUNITY GALLERY 的 hover 上滑揭示。沿用站点 Variant A 设计语言。
+   ==================================================================== */
+
+/* 间距对齐站内标准: 顶部 50px (同 cyber-ronin/about/showcase), 底部 60px (同相邻 NINJA INDEX) */
+.news-ticker-section {
+  padding: 50px 20px 60px;
+}
+
+/* 标题居中,对齐站内其他 section (COMMUNITY GALLERY / NINJA INDEX) */
+.news-ticker-header {
+  text-align: center;
+}
+.news-ticker-header .section-kicker {
+  margin: 0 0 30px;
+  color: #f68535;
+}
+
+/* 「查看全部」移到栏底居中 */
+.news-ticker-footer {
+  text-align: center;
+  margin-top: 36px;
+}
+.news-ticker-all {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #c23a6b;
+  white-space: nowrap;
+}
+.news-ticker-all:hover { color: #ff7096; }
+
+/* ---- 传送带结构 ----
+   viewport 只裁横向 (overflow-x: clip), 纵向保持可见 → 不剪卡片 hover 上浮与投影;
+   track 平时无 transition, 轮换时加 .is-shifting 左移正好一格 (卡宽 + gap)。 */
+.news-ticker-viewport {
+  max-width: 1200px;
+  margin: 0 auto;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.news-ticker-track {
+  --tk-gap: 24px;
+  --tk-visible: 3;
+  display: flex;
+  gap: var(--tk-gap);
+}
+
+.news-ticker-track.is-shifting {
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+  /* 一格 = 卡宽 + gap = (容器宽 - (n-1)*gap)/n + gap = (容器宽 + gap)/n */
+  transform: translateX(calc(-1 * (100% + var(--tk-gap)) / var(--tk-visible)));
+}
+
+/* ---- 卡片 (借鉴 city-news-card 的 hover 上滑揭示) ---- */
+.news-tk-card {
+  position: relative;
+  flex: 0 0 calc((100% - (var(--tk-visible) - 1) * var(--tk-gap)) / var(--tk-visible));
+  height: 360px;
+  background: #ffffff;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(12, 16, 30, 0.06);
+  text-decoration: none;
+  color: inherit;
+  box-shadow: 0 20px 60px rgba(120, 90, 60, 0.1);
+  transition: box-shadow 0.25s ease-out, transform 0.25s ease-out;
+}
+
+.news-tk-card:hover {
+  box-shadow: 0 26px 70px rgba(255, 164, 90, 0.28);
+  transform: translateY(-4px);
+}
+
+/* top group · 图 + meta, hover 整体上移露出底部 desc */
+.news-tk-top {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.news-tk-card:hover .news-tk-top {
+  transform: translateY(-128px);
+}
+
+.news-tk-media {
+  width: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+  background: #f4f3f1;
+}
+.news-tk-media .imgph,
+.news-tk-media .imgph-real { border-radius: 0; }
+.news-tk-card:hover .news-tk-media .imgph-real img {
+  transform: scale(1.04);
+}
+
+.news-tk-meta {
+  padding: 18px 26px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+}
+
+.news-tk-tagrow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.news-tk-tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.news-tk-tag-dev { background: rgba(69, 211, 255, 0.18); color: #0a7ea4; }
+.news-tk-tag-trading { background: rgba(212, 234, 60, 0.3); color: #5a7a00; }
+.news-tk-tag-content { background: rgba(255, 112, 150, 0.18); color: #c23a6b; }
+.news-tk-tag-media { background: rgba(150, 110, 230, 0.18); color: #6b46c1; }
+.news-tk-tag-news { background: rgba(255, 179, 71, 0.22); color: #b9701a; }
+
+.news-tk-source {
+  font-family: monospace;
+  font-size: 0.76rem;
+  color: var(--text-tertiary);
+}
+
+.news-tk-title {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.6vw, 1.5rem);
+  font-weight: 800;
+  color: #0f131d;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* desc · 绝对底部, 默认隐藏, hover 淡入 */
+.news-tk-desc {
+  position: absolute;
+  left: 26px;
+  right: 26px;
+  bottom: 24px;
+  margin: 0;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  color: rgba(12, 16, 30, 0.62);
+  opacity: 0;
+  transition: opacity 0.25s ease-out 0.1s;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.news-tk-card:hover .news-tk-desc { opacity: 1; }
+
+/* 窄屏减少可见卡数, 轮换逻辑不变 (track 上多余的卡被 viewport 裁掉) */
+@media (max-width: 1024px) {
+  .news-ticker-track { --tk-visible: 2; }
+}
+@media (max-width: 768px) {
+  .news-ticker-track { --tk-visible: 1; --tk-gap: 18px; }
+  .news-tk-card { height: 340px; }
+}

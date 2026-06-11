@@ -11,6 +11,32 @@
   --text-primary: #1c1f2b;
   --text-secondary: rgba(12, 16, 30, 0.7);
   --text-tertiary: rgba(12, 16, 30, 0.45);
+
+  /* ===== v2 设计 token (见 UI_GUIDELINES.md) ===== */
+  /* 品牌主色 + 渐变 */
+  --accent-orange: #f68535;
+  --pink-primary: #ee6a9e;
+  --pink-bright: #ff7096;
+  --brand-gradient: linear-gradient(120deg, #ffb347, #ff7096);
+  --text-gradient: linear-gradient(120deg, #ff8a3d, #ff7096);
+
+  /* 四套功能 token 配色 · accent / tint / ink(深字) */
+  --tk-identity: #2bb6e0; --tk-identity-tint: rgba(69, 211, 255, 0.16); --tk-identity-ink: #0a7ea4;
+  --tk-work: #f5933d;     --tk-work-tint: rgba(255, 179, 71, 0.18);     --tk-work-ink: #b9701a;
+  --tk-growth: #7f9c1f;   --tk-growth-tint: rgba(212, 234, 60, 0.30);   --tk-growth-ink: #5a7a00;
+  --tk-culture: #8b63d4;  --tk-culture-tint: rgba(150, 110, 230, 0.16); --tk-culture-ink: #6b46c1;
+
+  /* 卡片基元 */
+  --card-bg: rgba(255, 255, 255, 0.85);
+  --card-border: rgba(12, 16, 30, 0.08);
+  --card-radius: 18px;
+  --card-shadow: 0 20px 60px rgba(120, 90, 60, 0.12);
+  --card-shadow-hover: 0 32px 80px rgba(120, 90, 60, 0.18);
+
+  /* 动效时长 */
+  --dur-micro: 150ms;
+  --dur-mid: 300ms;
+  --dur-reveal: 800ms;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

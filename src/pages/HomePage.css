@@ -336,54 +336,64 @@
   gap: 24px;
 }
 
-/* 柱子 · 整个矩形 = cap + shaft + base 的合体, gradient 连续铺满
-   默认: 淡米灰填充 + 细线描边 (剪影可见); hover: 切换为 per-pillar 彩色渐变 */
+/* THREE PILLARS · 图标卡 (方向 A) · 统一站点毛玻璃卡 + 每柱 token 配色
+   bg 用低透明度白 (over #efedeb ≈ #f7f5f4)：只比 section 底色提亮一档, 不再"跳"出来; 投影同步减淡 */
 .city-zero-pillar {
   position: relative;
-  width: 92%;                              /* 等于原 cap 宽度 (70% × 1.32) */
-  margin: 0 auto 38px;
-  min-height: 288px;                       /* 200 (原 shaft) + 44 (cap) + 44 (base) */
-  padding: 54px calc(12% + 20px);          /* 上下 44 cap/base + 10 content; 横向 12% mask + 20px content */
-  background:
-    radial-gradient(ellipse 60% 35% at 50% 0%, transparent 0%, transparent 75%),
-    linear-gradient(135deg, #e5e7ec 0%, #e5e7ec 100%);
-  border: 1px solid rgba(12, 16, 30, 0.18);
-  transition: background 0.4s ease;
-  border-radius: 6px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: flex-start;
   gap: 14px;
-  text-align: center;
+  padding: 30px 26px 26px;
+  background: rgba(255, 255, 255, 0.45);
+  border: 1px solid rgba(12, 16, 30, 0.08);
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(120, 90, 60, 0.06);
+  overflow: hidden;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
-/* 左侧 mask · 切出 shaft 左肩 (offset -1px 盖住 outer left border)
-   带 top/right/bottom border, 画出左侧 step 线 + 柱身左竖边 */
+/* 图标 + 标题同行 */
+.pillar-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* 顶部强调色条 (per-pillar) */
 .city-zero-pillar::before {
   content: "";
   position: absolute;
-  top: 44px;
-  bottom: 44px;
-  left: -1px;
-  width: calc(12% + 1px);
-  background: #efedeb;
-  border-top: 1px solid rgba(12, 16, 30, 0.18);
-  border-right: 1px solid rgba(12, 16, 30, 0.18);
-  border-bottom: 1px solid rgba(12, 16, 30, 0.18);
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--pillar-accent, #ffb347);
 }
 
-/* 右侧 mask · 切出 shaft 右肩 (镜像) */
-.city-zero-pillar::after {
-  content: "";
-  position: absolute;
-  top: 44px;
-  bottom: 44px;
-  right: -1px;
-  width: calc(12% + 1px);
-  background: #efedeb;
-  border-top: 1px solid rgba(12, 16, 30, 0.18);
-  border-left: 1px solid rgba(12, 16, 30, 0.18);
-  border-bottom: 1px solid rgba(12, 16, 30, 0.18);
+.city-zero-pillar:hover {
+  transform: translateY(-6px);
+  border-color: var(--pillar-accent, rgba(255, 138, 61, 0.5));
+  box-shadow: 0 18px 44px rgba(120, 90, 60, 0.12);
+}
+
+/* 图标圆角底 (与标题同行后缩小一档: 56→44) */
+.pillar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 13px;
+  background: var(--pillar-tint, rgba(255, 179, 71, 0.16));
+  color: var(--pillar-accent, #ff8a3d);
+}
+.pillar-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
 }
 
 .city-zero-pillar h4 {
@@ -401,26 +411,10 @@
   color: rgba(12, 16, 30, 0.62);
 }
 
-/* Three Pillars · 每根柱子独立渐变配色 (沿用 Roadmap 卡片 135deg + rgba 边框公式) */
-
-/* Hover 时各柱子显现渐变色 + 柱顶聚光灯 (radial 在上层, color gradient 在下层) */
-.city-zero-pillar:nth-child(1):hover {
-  background:
-    radial-gradient(ellipse 60% 35% at 50% 0%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 75%),
-    linear-gradient(135deg, #c6e83a 0%, #eef0bc 100%);
-}
-
-.city-zero-pillar:nth-child(2):hover {
-  background:
-    radial-gradient(ellipse 60% 35% at 50% 0%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 75%),
-    linear-gradient(135deg, #f5b94e 0%, #fae6b3 100%);
-}
-
-.city-zero-pillar:nth-child(3):hover {
-  background:
-    radial-gradient(ellipse 60% 35% at 50% 0%, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0) 75%),
-    linear-gradient(135deg, #caa872 0%, #f0e0bd 100%);
-}
+/* per-pillar 配色 token (Identity 青 · Habitat 橙 · Growth 柠檬) */
+.pillar-identity { --pillar-accent: #2bb6e0; --pillar-tint: rgba(69, 211, 255, 0.16); }
+.pillar-habitat  { --pillar-accent: #f5933d; --pillar-tint: rgba(255, 179, 71, 0.18); }
+.pillar-growth   { --pillar-accent: #7f9c1f; --pillar-tint: rgba(212, 234, 60, 0.30); }
 
 /* About City Zero · 柱身底 → Explore 按钮 = 30px (pillar mb 0 + flex gap 30 + padding-top 0) */
 .about-city-zero-section .city-zero-pillar {
@@ -447,20 +441,8 @@
     gap: 16px;
   }
   .city-zero-pillar {
-    width: 96%;                              /* 移动端 cap 等宽 (原 shaft 80% × 1.2) */
-    min-height: 200px;
-    padding: 42px calc(8.5% + 16px);         /* 上下 32 cap/base + 10 content; 横向 8.5% mask + 16px content */
-    margin: 28px auto;
+    padding: 24px 22px;
   }
-  .city-zero-pillar::before,
-  .city-zero-pillar::after {
-    top: 32px;
-    bottom: 32px;
-    height: auto;
-    width: calc(8.5% + 1px);
-  }
-  .city-zero-pillar::before { left: -1px; right: auto; }
-  .city-zero-pillar::after { right: -1px; left: auto; }
   .city-zero-stats-grid {
     grid-template-columns: 1fr !important;
   }
@@ -2332,6 +2314,42 @@
   font-size: 1rem;
   color: #fff;
   font-weight: 500;
+}
+
+/* 加密情报态 · drop 参数未公布时的占位 */
+.cyber-ronin-facts .fact-encrypted {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.92rem;
+  letter-spacing: 0.1em;
+  color: #ee6a9e;
+  animation: fact-encrypted-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes fact-encrypted-pulse {
+  50% {
+    opacity: 0.45;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cyber-ronin-facts .fact-encrypted {
+    animation: none;
+  }
+}
+
+.cyber-ronin-facts-note {
+  display: inline-block;
+  margin-top: 14px;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  color: #a99ec8;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.cyber-ronin-facts-note:hover {
+  color: #ee6a9e;
 }
 
 /* === Light variant · 用在 Section 02 (light bg) 上, 复用结构,覆盖颜色 === */

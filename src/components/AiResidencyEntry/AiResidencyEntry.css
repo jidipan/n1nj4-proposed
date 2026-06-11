@@ -36,6 +36,41 @@
   font-weight: 600;
 }
 
+/* 「即将开放」徽章 · 与 City Landmarks 施工徽章同语言 */
+.ai-residency-soon-badge {
+  display: inline-block;
+  margin-left: 12px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: rgba(255, 179, 71, 0.2);
+  color: #b9701a;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+/* 申请按钮 · 灰色禁用态 (通道随 AI 居民塔开放再启用)
+   双类选择器提高优先级, 盖过后文 .ai-residency-btn 基类的 cursor/transition */
+.ai-residency-btn.ai-residency-btn-disabled {
+  background: rgba(12, 16, 30, 0.07);
+  color: rgba(12, 16, 30, 0.38);
+  border: 1px solid rgba(12, 16, 30, 0.1);
+  cursor: not-allowed;
+  font-family: inherit;
+}
+.ai-residency-btn.ai-residency-btn-disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+.ai-residency-btn-soon {
+  margin-left: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: none;
+}
+
 .ai-residency-title {
   margin: 0 0 10px;
   font-size: clamp(2rem, 5vw, 4rem);

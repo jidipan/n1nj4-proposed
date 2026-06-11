@@ -15,15 +15,39 @@ interface ProjectItem {
 
 type JsonRecord = Record<string, unknown>;
 
+interface AiExperienceProjectProps {
+    /** full = kicker+banner+grid (原样); showcase = 仅项目网格; submit = 仅接入流程 */
+    mode?: "full" | "showcase" | "submit";
+}
+
 const AI_EXPERIENCE_IMAGE_POOL = [
     "/AI EXPERIENCE PROJECT/Ninja Labs CN-banner-2-2.jpg",
     "/AI EXPERIENCE PROJECT/Ninja Labs CN-banner-2-1.png",
     "/AI EXPERIENCE PROJECT/Star-Office-UI-INJ.png",
 ];
+
+/* 内置种子项目 · 与线上 n1nj4.fun/city-zero 展示一致。
+   Google Sheet 未配置或拉取失败时直接展示;配置后与 Sheet 数据按 repo 去重合并。 */
+const SEED_PROJECTS: ProjectItem[] = [
+    {
+        title: "NinjaNFTFrontend",
+        description: "500 unique cyberpunk ninjas are descending upon the N1NJ4 City Zero. City Zero is initiated by Ninja Labs and co-built by the community.",
+        imageSrc: "/AI EXPERIENCE PROJECT/Ninja Labs CN-banner-2-1.png",
+        tags: ["React", "TypeScript"],
+        githubRepo: "Ninja-Labs-Devs/NinjaNFTFrontend",
+    },
+    {
+        title: "Star-Office-UI-INJ",
+        description: "A pixel-art styled office dashboard for visualizing AI agent work status in real-time, with Injective EVM wallet integration via MetaMask.",
+        imageSrc: "/AI EXPERIENCE PROJECT/Star-Office-UI-INJ.png",
+        tags: ["Python", "React"],
+        githubRepo: "Ninja-Labs-Devs/Star-Office-UI-INJ",
+    },
+];
 const PROJECTS_CACHE_KEY = 'ai_experience_projects_cache_v1';
 const PROJECTS_CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
 
-const AiExperienceProject: React.FC = () => {
+const AiExperienceProject: React.FC<AiExperienceProjectProps> = ({ mode = "full" }) => {
     const { language } = useLanguage();
     const isZh = language === "zh";
     const translate = useCallback((zh: string, en: string) => (isZh ? zh : en), [isZh]);
@@ -35,6 +59,11 @@ const AiExperienceProject: React.FC = () => {
     const [projectsMessage, setProjectsMessage] = useState('');
 
     useEffect(() => {
+        // submit 模式不展示网格,无需拉取数据
+        if (mode === "submit") {
+            setIsLoadingProjects(false);
+            return;
+        }
         const sheetApiUrl = import.meta.env.VITE_GOOGLE_SHEET_API;
 
         const readProjectsCache = (): ProjectItem[] | null => {
@@ -69,8 +98,8 @@ const AiExperienceProject: React.FC = () => {
         }
 
         if (!sheetApiUrl) {
-            setProjects([]);
-            setProjectsMessage(translate('未配置 VITE_GOOGLE_SHEET_API。', 'VITE_GOOGLE_SHEET_API is not configured.'));
+            // 未配置 Sheet API:直接展示内置种子项目
+            setProjects(SEED_PROJECTS);
             setIsLoadingProjects(false);
             return;
         }
@@ -227,6 +256,13 @@ const AiExperienceProject: React.FC = () => {
                 const rows = extractRows(payload);
                 const parsedProjects = rows.map(toProjectItem).filter(Boolean) as ProjectItem[];
 
+                // 合并内置种子项目 (按 repo 去重, Sheet 数据优先)
+                for (const seed of SEED_PROJECTS) {
+                    if (!parsedProjects.some(p => p.githubRepo === seed.githubRepo)) {
+                        parsedProjects.push(seed);
+                    }
+                }
+
                 const githubToken = import.meta.env.VITE_GITHUB_API_KEY;
                 const headers: HeadersInit = { Accept: 'application/vnd.github+json' };
                 if (githubToken) {
@@ -261,23 +297,28 @@ const AiExperienceProject: React.FC = () => {
                 }
             } catch (error) {
                 console.error('Failed to load AI projects from Google Sheet:', error);
-                setProjects([]);
-                setProjectsMessage(translate('从 Google Sheet 加载项目失败。', 'Failed to load projects from Google Sheet.'));
+                // 拉取失败:退回内置种子项目
+                setProjects(SEED_PROJECTS);
             } finally {
                 setIsLoadingProjects(false);
             }
         };
 
         fetchProjects();
-    }, [translate]);
+    }, [translate, mode]);
 
     return (
         <section className="ai-experience-section reveal">
             <div className="ai-experience-container">
-                <p className="section-kicker ai-experience-kicker">{translate("社区贡献", "COMMUNITY BUILDS")}</p>
-                <h2 className="ai-experience-title">{translate("AI 体验项目", "AI Experiment Projects")}</h2>
+                {mode === "full" && (
+                    <>
+                        <p className="section-kicker ai-experience-kicker">{translate("社区贡献", "COMMUNITY BUILDS")}</p>
+                        <h2 className="ai-experience-title">{translate("AI 体验项目", "AI Experiment Projects")}</h2>
+                    </>
+                )}
 
-                {/* Banner */}
+                {/* Banner · 接入引导 (showcase 模式隐藏 · full/submit 显示) */}
+                {mode !== "showcase" && (
                 <div className="contribution-banner">
                     <div className="banner-left">
                         <div className="rocket-icon">🚀</div>
@@ -293,9 +334,10 @@ const AiExperienceProject: React.FC = () => {
                         <button className="banner-btn primary-btn" onClick={() => setIsModalOpen(true)}>{translate('提交项目', 'Submit project')} →</button>
                     </div>
                 </div>
+                )}
 
                 {/* Steps Navigation */}
-                {showSteps && (
+                {showSteps && mode !== "showcase" && (
                     <div className="steps-navigation">
                         <div className="step-item">
                             <div className="step-number">1</div>
@@ -319,7 +361,46 @@ const AiExperienceProject: React.FC = () => {
                     </div>
                 )}
 
-                {/* Project Grid */}
+                {/* Project Grid · showcase 模式按性质分两栏: 社区项目 / 官方仓库 */}
+                {mode === "showcase" && (() => {
+                    const isOfficialRepo = (p: ProjectItem) =>
+                        p.githubRepo.toLowerCase().startsWith("ninja-labs-devs/");
+                    const communityProjects = projects.filter((p) => !isOfficialRepo(p));
+                    const officialRepos = projects.filter(isOfficialRepo);
+                    return (
+                        <>
+                            {/* 社区项目 (Sheet 来源) · 不带自己的标题, 视觉上归入上方 COMMUNITY PROJECTS 栏 */}
+                            {communityProjects.length > 0 && (
+                                <div className="project-group">
+                                    <div className="project-grid">
+                                        {communityProjects.map((project) => (
+                                            <ProjectCard key={project.githubRepo} {...project} />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            {officialRepos.length > 0 && (
+                                <div className="project-group">
+                                    {/* 标题样式与上方 COMMUNITY PROJECTS (city-tasks-kicker) 同款 */}
+                                    <p className="section-kicker project-group-kicker">{translate("官方仓库", "REPOS")}</p>
+                                    <div className="project-grid">
+                                        {officialRepos.map((project) => (
+                                            <ProjectCard key={project.githubRepo} {...project} />
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                            {!isLoadingProjects && projects.length === 0 && (
+                                <div className="projects-empty-state">
+                                    {projectsMessage || translate('暂无可展示项目。', 'No projects available.')}
+                                </div>
+                            )}
+                        </>
+                    );
+                })()}
+
+                {/* Project Grid · full 模式保留原平铺网格 */}
+                {mode === "full" && (
                 <div className="project-grid">
                     {projects.map((project, idx) => (
                         <ProjectCard key={idx} {...project} />
@@ -331,7 +412,7 @@ const AiExperienceProject: React.FC = () => {
                         </div>
                     )}
 
-                    {/* Submit New Card (Dashed Border) */}
+                    {/* Submit New Card · 仅 full 模式 (接入入口已独立成章节) */}
                     <div className="submit-new-card" onClick={() => setIsModalOpen(true)}>
                         <div className="submit-icon-circle">
                             <span className="plus-icon">+</span>
@@ -340,6 +421,7 @@ const AiExperienceProject: React.FC = () => {
                         <div className="submit-tag">{translate('开放贡献中', 'Open for contributors')}</div>
                     </div>
                 </div>
+                )}
             </div>
 
             <SubmitProjectModal 

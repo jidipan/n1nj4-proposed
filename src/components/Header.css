@@ -361,6 +361,136 @@
   box-shadow: inset 0 0 0 1px rgba(255, 180, 140, 0.6);
 }
 
+/* ====================================================================
+   Connected account popover · 连接后弹窗 (含 Dashboard 入口)
+   RainbowKit 默认 account modal 不可定制,故用自定义 popover 承载
+   身份摘要 + Dashboard 按钮 + 钱包详情 + 断开连接。
+   ==================================================================== */
+.account-menu-wrap {
+  position: relative;
+}
+
+.account-popover {
+  position: absolute;
+  top: calc(100% + 0.5rem);
+  right: 0;
+  width: 280px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 24px 70px rgba(28, 31, 43, 0.2);
+  border: 1px solid rgba(28, 31, 43, 0.08);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  z-index: 60;
+}
+
+.account-popover-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.25rem 0.25rem 0.5rem;
+}
+
+.account-avatar {
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #1c1f2b, #3a2140);
+  color: #deff44;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.05rem;
+  box-shadow: inset 0 0 0 1px rgba(222, 255, 68, 0.4);
+}
+
+.account-popover-id {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.account-popover-citizen {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.account-tier-chip {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #1c1f2b;
+  color: #deff44;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.account-popover-series {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.account-popover-addr {
+  font-family: monospace;
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.account-popover-divider {
+  height: 1px;
+  background: rgba(28, 31, 43, 0.08);
+  margin: 0.25rem 0;
+}
+
+.account-popover-item {
+  border: none;
+  background: transparent;
+  text-align: left;
+  padding: 0.6rem 0.75rem;
+  border-radius: 12px;
+  font-family: inherit;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.15s ease;
+}
+
+.account-popover-item:hover {
+  background: rgba(255, 180, 140, 0.15);
+}
+
+.account-popover-item.primary {
+  background: linear-gradient(120deg, #ffb347, #ff7096);
+  color: #fff;
+  text-align: center;
+}
+
+.account-popover-item.primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 26px rgba(255, 140, 120, 0.35);
+}
+
+.account-popover-item.danger {
+  color: #b94545;
+}
+
+.account-popover-item.danger:hover {
+  background: rgba(185, 69, 69, 0.1);
+}
+
 .header-divider {
   /* Hidden in current Azuki-style header — no separator between header-right buttons.
      Original treatment:

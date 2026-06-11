@@ -1,0 +1,286 @@
+/* ====================================================================
+   StadiumEvents · the Stadium · 竞技场赛事看板
+   沿用站点 Variant A:暖奶白底、毛玻璃卡、橙 kicker、token 强调色。
+   头部间距对齐 CityLandmarks (kicker mb 14 / header mb 48)。
+   ==================================================================== */
+
+.se-section {
+  width: 100%;
+  padding: 76px 24px 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 顶部柔光 · 与 CityLandmarks 同语言, 偏暖 (赛场灯光) */
+.se-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(255, 138, 61, 0.1), transparent 46%),
+    radial-gradient(circle at 90% 20%, rgba(150, 110, 230, 0.06), transparent 40%);
+  pointer-events: none;
+}
+
+.se-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ---- 头部 (对齐 czl-header: kicker + 主标题 + 一句副标题) ---- */
+.se-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.se-header .section-kicker {
+  color: #f68535;
+  margin: 0 0 14px;
+}
+.se-title {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 auto 12px;
+  letter-spacing: -0.01em;
+}
+.se-lead {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ---- 赛事卡 · 两列紧凑卡 (3:1 浅题图条 + 单行信息) ---- */
+.se-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.se-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(12, 16, 30, 0.08);
+  box-shadow: 0 16px 44px rgba(120, 90, 60, 0.1);
+  overflow: hidden;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease, border-color 0.28s ease;
+}
+
+/* 题图 (热链 HackQuest banner) · 3:1 浅横条, 不抢版面 */
+.se-card-media {
+  position: relative;
+  overflow: hidden;
+  background: #f4f3f1;
+}
+.se-card-media .imgph,
+.se-card-media .imgph-real {
+  border-radius: 0;
+}
+.se-card-media .imgph-real img {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.se-card:hover .se-card-media .imgph-real img {
+  transform: scale(1.04);
+}
+
+.se-card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 22px 16px;
+  flex: 1;
+  min-width: 0;
+}
+.se-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--se-accent, #ffb347);
+  z-index: 1; /* 压在题图之上 */
+}
+.se-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--se-accent, rgba(255, 138, 61, 0.5));
+  box-shadow: 0 24px 60px rgba(120, 90, 60, 0.16);
+}
+
+/* 状态行 */
+.se-card-toprow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.se-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: var(--se-tint, rgba(255, 179, 71, 0.14));
+  color: var(--se-accent, #b9701a);
+}
+.se-status-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: se-pulse 1.8s ease-in-out infinite;
+}
+.se-status-ended .se-status-dot {
+  animation: none;
+  opacity: 0.5;
+}
+@keyframes se-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+.se-status-note {
+  font-family: monospace;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+.se-card-title {
+  margin: 0;
+  font-size: clamp(1.15rem, 1.6vw, 1.4rem);
+  font-weight: 800;
+  color: #0f131d;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+/* 关键信息行: 主办 · 奖池 · 参与者 (中圆点分隔) */
+.se-card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 0;
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+.se-card-meta span + span::before {
+  content: "·";
+  margin: 0 8px;
+  color: var(--se-accent, #b9701a);
+}
+.se-meta-strong {
+  color: var(--se-accent, #b9701a);
+  font-weight: 800;
+}
+
+/* 日期线 · 横向里程碑 */
+.se-timeline {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+.se-timeline li {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.se-timeline li + li::before {
+  content: "→";
+  color: var(--se-accent, #b9701a);
+  opacity: 0.6;
+}
+
+/* 底行: 持有者权益 (左) + CTA (右) · 窄卡内允许换行 */
+.se-card-bottomrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: auto;
+}
+
+/* N1NJ4 持有者权益 · 紧凑徽章条 */
+.se-holder-perk {
+  margin: 0;
+  padding: 6px 11px;
+  border-radius: 999px;
+  border: 1px dashed var(--se-accent, #f68535);
+  background: rgba(255, 255, 255, 0.5);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--se-accent, #b9701a);
+}
+
+/* CTA · 文字链 */
+.se-card-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  color: var(--se-accent, #f68535);
+  text-decoration: none;
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+.se-card-cta:hover {
+  opacity: 0.75;
+}
+
+/* ---- 底部 ---- */
+.se-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  margin-top: 36px;
+}
+.se-footer-link {
+  font-size: 0.88rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #c23a6b;
+  text-decoration: none;
+}
+.se-footer-link:hover {
+  color: #ff7096;
+}
+.se-powered {
+  font-family: monospace;
+  font-size: 0.76rem;
+  color: var(--text-tertiary);
+}
+
+@media (max-width: 900px) {
+  .se-section {
+    padding: 56px 20px 48px;
+  }
+  .se-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .se-card-body {
+    padding: 16px 20px 16px;
+  }
+}

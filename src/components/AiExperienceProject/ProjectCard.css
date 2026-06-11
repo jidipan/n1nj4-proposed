@@ -1,23 +1,48 @@
+/* ====================================================================
+   ProjectCard · AI 体验项目卡
+   布局/动效对齐 FEATURED BUILDS 的 city-news-card (CityZeroTasks.css):
+   380px 定高 · 图 247px (65%) · 默认露图+标题+tags/stats ·
+   hover 时 top group 上滑 152px, 底部 desc 淡入, 卡体上浮 4px。
+   保留 GitHub star/fork 作为本卡特有信息。
+   ==================================================================== */
+
 .ai-project-card {
-  background-color: #fafbfc;
-  border-radius: 16px;
+  position: relative;
+  height: 380px;
+  background: #ffffff;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  display: flex;
-  flex-direction: column;
-  transition: transform 0.2s, box-shadow 0.2s;
-  border: 1px solid #e5e7eb;
+  border: 1px solid rgba(12, 16, 30, 0.06);
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  transition: box-shadow 0.25s ease-out, transform 0.25s ease-out;
 }
 
 .ai-project-card:hover {
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.1);
   transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
 }
 
+/* Top group · 图 + meta-block, hover 时整体上移 (同 city-news-card-top) */
+.ai-project-card-top {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.35s ease-out;
+}
+
+.ai-project-card:hover .ai-project-card-top {
+  transform: translateY(-152px);
+}
+
+/* 图片容器 · 65% × 380 = 247px */
 .ai-project-image-container {
   width: 100%;
-  aspect-ratio: 16/9; /* Standard card ratio */
+  height: 247px;
+  flex-shrink: 0;
   overflow: hidden;
+  background: #f4f3f1;
 }
 
 .ai-project-image {
@@ -27,56 +52,58 @@
   display: block;
 }
 
-.ai-project-content {
-  padding: 1.5rem;
+/* Meta block · 标题 + tags/stats 行, 填满图片下方剩余空间 */
+.ai-project-meta-block {
+  padding: 20px 28px 12px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  gap: 14px;
+  flex: 1;
 }
 
 .ai-project-card-title {
-  font-family: 'Space Grotesk', sans-serif;
-  font-style: normal;
-  font-weight: 500;
-  font-size: 24px;
-  line-height: 31px;
-  color: #111111;
-  margin: 0 0 0.75rem 0;
+  margin: 0;
+  font-size: clamp(1.25rem, 1.8vw, 1.6rem);
+  font-weight: 800;
+  color: #0f131d;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
 }
 
-.ai-project-desc {
-  font-size: 0.9rem;
-  color: #4b5563;
-  line-height: 1.5;
-  margin: 0 0 1.5rem 0;
-  flex-grow: 1;
+/* tags (左) + GitHub stats (右) 一行 */
+.ai-project-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
-/* Tag Styles */
 .ai-project-tags {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  gap: 8px;
 }
 
+/* tag · outline pill, 同 city-news-card-tag */
 .ai-project-tag {
-  font-size: 0.75rem;
-  color: #d97706; /* deeper orange/yellowish */
-  background-color: #fef3c7;
-  padding: 0.2rem 0.6rem;
-  border-radius: 4px;
-  font-weight: 500;
+  display: inline-block;
+  padding: 4px 10px;
+  border: 1px solid rgba(12, 16, 30, 0.2);
+  border-radius: 5px;
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #0f131d;
+  letter-spacing: 0.03em;
 }
 
-/* GitHub Stats Footer */
+/* GitHub Stats · 行内紧凑 */
 .ai-project-stats {
   display: flex;
   align-items: center;
-  gap: 1.25rem;
-  padding-top: 1rem;
-  border-top: 1px solid #e5e7eb;
+  gap: 14px;
+  flex-shrink: 0;
 }
 
 .stat-item {
@@ -91,5 +118,43 @@
 .stat-icon {
   width: 16px;
   height: 16px;
-  color: #4b5563; /* Gray to match standard GH look */
+  color: #4b5563;
+}
+
+/* Desc · 绝对定位卡片底部, 默认 opacity 0, hover 时随 top group 上滑后淡入 */
+.ai-project-desc {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 28px;
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: rgba(12, 16, 30, 0.62);
+  opacity: 0;
+  transition: opacity 0.25s ease-out 0.1s;
+  /* 最多 6 行 */
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ai-project-card:hover .ai-project-desc {
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  .ai-project-meta-block {
+    padding: 18px 22px 12px;
+  }
+  .ai-project-card-title {
+    font-size: clamp(1.05rem, 5vw, 1.25rem);
+  }
+  .ai-project-desc {
+    left: 22px;
+    right: 22px;
+    bottom: 22px;
+    font-size: 0.88rem;
+  }
 }

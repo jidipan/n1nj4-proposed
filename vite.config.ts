@@ -21,6 +21,10 @@ const stripUseClientDirective = (): PluginOption => ({
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  // 尊重外部分配的端口 (如 preview harness 的 PORT env); 未设置时走 Vite 默认 5173
+  server: {
+    port: process.env.PORT ? Number(process.env.PORT) : undefined,
+  },
   plugins: [
     react(),
     nodePolyfills({ protocolImports: true }),

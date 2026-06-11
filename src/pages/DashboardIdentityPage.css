@@ -1,0 +1,508 @@
+/* ====================================================================
+   Citizen Passport · 公民护照 (完整身份层)
+   独立 idp- 前缀,自包含;沿用站点 Variant A 设计语言与 token。
+   ==================================================================== */
+
+.idp-page {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.idp-shell {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 32px 24px 88px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.idp-back {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  align-self: flex-start;
+}
+.idp-back:hover { color: #ff7096; }
+
+.idp-header {
+  margin-bottom: 4px;
+}
+.idp-h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+}
+.idp-sub {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  max-width: 640px;
+  line-height: 1.5;
+}
+
+/* ============ 公开名片分享栏 ============ */
+.idp-sharebar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 12px 18px;
+  border-radius: 14px;
+  background: rgba(69, 211, 255, 0.1);
+  border: 1px solid rgba(69, 211, 255, 0.35);
+}
+
+.idp-share-flag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #0a7ea4;
+}
+
+.idp-share-url {
+  font-family: monospace;
+  font-size: 0.84rem;
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.7);
+  padding: 5px 12px;
+  border-radius: 8px;
+}
+
+.idp-share-btn {
+  padding: 7px 16px;
+  border: none;
+  border-radius: 999px;
+  background: linear-gradient(120deg, #ffb347, #ff7096);
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+.idp-share-btn:hover { transform: translateY(-1px); }
+
+.idp-share-preview {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #c23a6b;
+  margin-left: auto;
+}
+.idp-share-preview:hover { color: #ff7096; }
+
+/* ============ 通用面板 ============ */
+.idp-panel {
+  padding: 26px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(12, 16, 30, 0.08);
+  box-shadow: 0 20px 70px rgba(120, 90, 60, 0.12);
+  backdrop-filter: blur(18px);
+}
+
+.idp-panel-title {
+  position: relative;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 18px;
+  padding-left: 14px;
+}
+.idp-panel-title::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 50%;
+  transform: translateY(-50%);
+  width: 5px; height: 17px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #ff8a3d, #ff7096);
+}
+
+/* ============ 1 · Hero ============ */
+.idp-hero {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 28px;
+  padding: 28px;
+  border-radius: 22px;
+  background: linear-gradient(120deg, rgba(255, 179, 71, 0.14), rgba(255, 112, 150, 0.14));
+  border: 1px solid rgba(255, 138, 61, 0.26);
+  box-shadow: 0 24px 80px rgba(255, 164, 90, 0.18);
+}
+
+.idp-hero-art {
+  border-radius: 18px;
+  align-self: start;
+  box-shadow: 0 18px 44px rgba(28, 31, 43, 0.16);
+}
+
+.idp-hero-facts {
+  display: flex;
+  flex-direction: column;
+}
+
+.idp-hero-idrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.idp-citizen {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+.idp-tier-chip {
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: #1c1f2b;
+  color: #deff44;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+.idp-handle {
+  font-family: monospace;
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  margin: 6px 0 16px;
+}
+
+.idp-facts {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+}
+.idp-fact {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.idp-fact dt {
+  width: 88px;
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+.idp-fact dd {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.idp-mono { font-family: monospace; }
+.idp-emblem {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+.idp-equal-note {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+/* ============ 2 · Persona ============ */
+.idp-persona {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+.idp-persona-col {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.idp-persona-cap {
+  display: block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-tertiary);
+  margin-bottom: 10px;
+}
+.idp-ladder-cap { margin-top: 6px; }
+.idp-persona-x {
+  font-size: 1.5rem;
+  color: var(--text-tertiary);
+  font-weight: 300;
+  margin-top: 18px;
+}
+.idp-chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.idp-chip {
+  padding: 7px 16px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(255, 138, 61, 0.4);
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+.idp-chip.off {
+  background: rgba(12, 16, 30, 0.04);
+  border: 1px dashed rgba(12, 16, 30, 0.2);
+  color: var(--text-tertiary);
+}
+
+.idp-ladder {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.idp-ladder-step {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 22px 12px 18px;
+  border-radius: 14px;
+  background: rgba(12, 16, 30, 0.04);
+  opacity: 0.5;
+}
+.idp-ladder-step.reached { opacity: 1; }
+.idp-ladder-step.reached:not(.current) {
+  background: rgba(255, 179, 71, 0.16);
+}
+.idp-ladder-step.current {
+  background: #1c1f2b;
+  box-shadow: 0 0 0 3px rgba(222, 255, 68, 0.55);
+}
+.idp-ladder-step.current .idp-ladder-name { color: #deff44; }
+.idp-ladder-step.current .idp-ladder-at { color: rgba(255,255,255,0.6); }
+.idp-ladder-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.idp-ladder-at {
+  font-size: 0.7rem;
+  font-family: monospace;
+  color: var(--text-tertiary);
+}
+.idp-ladder-arrow {
+  position: absolute;
+  right: -10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-tertiary);
+  font-size: 0.85rem;
+}
+
+/* ============ 3 · Reputation ============ */
+.idp-rep-top {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 24px;
+}
+.idp-rep-stat { display: flex; flex-direction: column; gap: 4px; }
+.idp-rep-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+  background: linear-gradient(120deg, #ff8a3d, #ff7096);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.idp-rep-label { font-size: 0.8rem; color: var(--text-secondary); }
+
+.idp-proof-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.idp-proof {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 16px 8px;
+  border-radius: 14px;
+  background: rgba(248, 243, 236, 0.7);
+  border: 1px solid rgba(12, 16, 30, 0.06);
+}
+.idp-proof-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: monospace;
+  color: var(--text-primary);
+}
+.idp-proof-label {
+  font-size: 0.72rem;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.idp-badges {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 12px;
+}
+.idp-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+.idp-badge-icon {
+  width: 100%;
+  border-radius: 50%;
+  box-shadow: 0 10px 24px rgba(28, 31, 43, 0.12);
+}
+.idp-badge.locked .idp-badge-icon {
+  opacity: 0.32;
+  filter: grayscale(1);
+}
+.idp-badge-name {
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: center;
+}
+.idp-badge.locked .idp-badge-name { color: var(--text-tertiary); }
+
+/* ============ 2 · 通行凭证 (主轴 B) ============ */
+.idp-access-lead {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+.idp-access-tier {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: linear-gradient(120deg, rgba(255, 179, 71, 0.16), rgba(255, 112, 150, 0.16));
+  border: 1px solid rgba(255, 138, 61, 0.3);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 18px;
+}
+.idp-access-count {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #b9701a;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.idp-visas {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+.idp-visa {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 13px 16px;
+  border-radius: 12px;
+  background: rgba(248, 243, 236, 0.6);
+  border: 1px solid rgba(12, 16, 30, 0.06);
+}
+.idp-visa.locked {
+  border-style: dashed;
+  border-color: rgba(12, 16, 30, 0.18);
+  background: rgba(12, 16, 30, 0.03);
+}
+.idp-visa-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.idp-visa-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.idp-visa.locked .idp-visa-name { color: var(--text-secondary); }
+.idp-visa-mark { font-size: 0.88rem; }
+.idp-visa.on .idp-visa-mark { color: #5a7a00; }
+.idp-visa-unlock {
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+.idp-visa-need {
+  align-self: flex-start;
+  margin-top: 2px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #b9701a;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 179, 71, 0.2);
+}
+
+.idp-tickets-cap { margin-top: 4px; }
+.idp-tickets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.idp-ticket {
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(212, 234, 60, 0.25);
+  border: 1px solid rgba(150, 180, 0, 0.3);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #5a7a00;
+}
+
+/* ============ 6 · Culture ============ */
+.idp-glyphs {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.idp-glyph {
+  width: 120px;
+  border-radius: 28px;
+  box-shadow: 0 14px 30px rgba(28, 31, 43, 0.12);
+}
+.idp-manifesto-art { border-radius: 14px; }
+.idp-manifesto {
+  margin: 14px 0 0;
+  font-size: 0.92rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  border-left: 3px solid #ff7096;
+  padding-left: 14px;
+}
+
+/* ============ 响应式 ============ */
+@media (max-width: 900px) {
+  .idp-hero { grid-template-columns: 1fr; }
+  .idp-hero-art { max-width: 280px; }
+  .idp-proof-grid { grid-template-columns: repeat(3, 1fr); }
+  .idp-badges { grid-template-columns: repeat(4, 1fr); }
+  .idp-rights { grid-template-columns: 1fr; }
+  .idp-grid-2 { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .idp-proof-grid { grid-template-columns: repeat(2, 1fr); }
+  .idp-badges { grid-template-columns: repeat(3, 1fr); }
+  .idp-access { grid-template-columns: 1fr; }
+  .idp-persona { flex-direction: column; align-items: flex-start; gap: 14px; }
+  .idp-persona-x { display: none; }
+}

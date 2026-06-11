@@ -1,12 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useDisconnect } from "wagmi";
 import { useLanguage } from "../context/useLanguage";
 import type { Language } from "../context/LanguageContext";
 import "./Header.css";
 
 function Header() {
   const location = useLocation();
+  const navigate = useNavigate();
+  const { disconnect } = useDisconnect();
   const {
     language,
     setLanguage,
@@ -15,7 +18,9 @@ function Header() {
   } = useLanguage();
   const navItems = translations.header.navItems;
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const accountRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -24,6 +29,12 @@ function Header() {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsDropdownOpen(false);
+      }
+      if (
+        accountRef.current &&
+        !accountRef.current.contains(event.target as Node)
+      ) {
+        setIsAccountMenuOpen(false);
       }
     };
 
@@ -152,13 +163,46 @@ function Header() {
                   {(() => {
                     if (!connected) {
                       return (
-                        <button
-                          type="button"
-                          onClick={openConnectModal}
-                          className="connect-button"
-                        >
-                          {language === "zh" ? "连接钱包" : "Connect"}
-                        </button>
+                        <div className="account-menu-wrap" ref={accountRef}>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setIsAccountMenuOpen((prev) => !prev)
+                            }
+                            className="connect-button"
+                          >
+                            {language === "zh" ? "连接钱包" : "Connect"}
+                            <span className="language-toggle-icon">
+                              {isAccountMenuOpen ? "▲" : "▼"}
+                            </span>
+                          </button>
+                          {isAccountMenuOpen && (
+                            <div className="account-popover">
+                              <button
+                                type="button"
+                                className="account-popover-item"
+                                onClick={() => {
+                                  setIsAccountMenuOpen(false);
+                                  openConnectModal();
+                                }}
+                              >
+                                {language === "zh" ? "连接钱包" : "Connect Wallet"}
+                              </button>
+                              <button
+                                type="button"
+                                className="account-popover-item primary"
+                                onClick={() => {
+                                  setIsAccountMenuOpen(false);
+                                  navigate("/dashboard");
+                                }}
+                              >
+                                {language === "zh"
+                                  ? "进入 Dashboard"
+                                  : "Enter Dashboard"}
+                              </button>
+                            </div>
+                          )}
+                        </div>
                       );
                     }
                     if (chain.unsupported) {
@@ -173,13 +217,78 @@ function Header() {
                       );
                     }
                     return (
-                      <button
-                        type="button"
-                        onClick={openAccountModal}
-                        className="connect-button"
-                      >
-                        {account.displayName}
-                      </button>
+                      <div className="account-menu-wrap" ref={accountRef}>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setIsAccountMenuOpen((prev) => !prev)
+                          }
+                          className="connect-button"
+                        >
+                          {account.displayName}
+                          <span className="language-toggle-icon">
+                            {isAccountMenuOpen ? "▲" : "▼"}
+                          </span>
+                        </button>
+                        {isAccountMenuOpen && (
+                          <div className="account-popover">
+                            <div className="account-popover-head">
+                              <div className="account-avatar">N1</div>
+                              <div className="account-popover-id">
+                                <div className="account-popover-citizen">
+                                  {language === "zh"
+                                    ? "公民 #1427"
+                                    : "Citizen #1427"}
+                                  <span className="account-tier-chip">
+                                    BUILDER
+                                  </span>
+                                </div>
+                                <span className="account-popover-series">
+                                  {language === "zh"
+                                    ? "创世忍者 · Origins"
+                                    : "Origins"}
+                                </span>
+                                <span className="account-popover-addr">
+                                  {account.displayName}
+                                </span>
+                              </div>
+                            </div>
+                            <div className="account-popover-divider" />
+                            <button
+                              type="button"
+                              className="account-popover-item primary"
+                              onClick={() => {
+                                setIsAccountMenuOpen(false);
+                                navigate("/dashboard");
+                              }}
+                            >
+                              {language === "zh"
+                                ? "进入 Dashboard"
+                                : "Enter Dashboard"}
+                            </button>
+                            <button
+                              type="button"
+                              className="account-popover-item"
+                              onClick={() => {
+                                setIsAccountMenuOpen(false);
+                                openAccountModal();
+                              }}
+                            >
+                              {language === "zh" ? "钱包详情" : "Wallet Details"}
+                            </button>
+                            <button
+                              type="button"
+                              className="account-popover-item danger"
+                              onClick={() => {
+                                setIsAccountMenuOpen(false);
+                                disconnect();
+                              }}
+                            >
+                              {language === "zh" ? "断开连接" : "Disconnect"}
+                            </button>
+                          </div>
+                        )}
+                      </div>
                     );
                   })()}
                 </div>

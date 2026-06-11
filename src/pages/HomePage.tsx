@@ -2,6 +2,7 @@ import { useCallback, useMemo } from "react";
 import { Link } from "react-router-dom";
 import NFTShowcase from "../components/HomePage/NFTShowcase";
 import FAQ from "../components/HomePage/FAQ";
+import NewsTicker from "../components/NewsTicker/NewsTicker";
 
 import { useLanguage } from "../context/useLanguage";
 import { useRevealObserver } from "../hooks/useRevealObserver";
@@ -110,7 +111,7 @@ function HomePage() {
               {translate("Cyber Ronin 发布", "Cyber Ronin Release")}
             </h3>
           </div>
-          <a href="#cyber-ronin" className="hero-floating-card-btn">MINT</a>
+          <a href="#cyber-ronin" className="hero-floating-card-btn">COMING SOON</a>
         </div>
       </section>
 
@@ -139,21 +140,29 @@ function HomePage() {
             <ul className="cyber-ronin-facts">
               <li>
                 <strong>Date</strong>
-                <span>{translate("TBD · 团队公布", "TBD · announced by team")}</span>
+                <span className="fact-encrypted">{translate("[ 已加密 ]", "[ ENCRYPTED ]")}</span>
               </li>
               <li>
                 <strong>Whitelist</strong>
-                <span>{translate("Origin 持有者优先 · 窗口期 TBD", "Origin holders first · window TBD")}</span>
+                <span className="fact-encrypted">{translate("[ 已加密 ]", "[ ENCRYPTED ]")}</span>
               </li>
               <li>
                 <strong>Public</strong>
-                <span>{translate("WL 后开放 · 限 N / wallet", "After WL · capped per wallet")}</span>
+                <span className="fact-encrypted">{translate("[ 已加密 ]", "[ ENCRYPTED ]")}</span>
               </li>
               <li>
                 <strong>Reveal</strong>
-                <span>{translate("mint 完后 X 小时统一", "X hours after mint completes")}</span>
+                <span className="fact-encrypted">{translate("[ 已加密 ]", "[ ENCRYPTED ]")}</span>
               </li>
             </ul>
+            <a
+              className="cyber-ronin-facts-note"
+              href="https://x.com/ninjalabscn"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {translate("情报即将解密 · 关注官方 X →", "Intel decrypts soon · follow on X →")}
+            </a>
           </article>
 
           <aside className="new-mint-card on-dark cyber-ronin-mint-card">
@@ -180,7 +189,7 @@ function HomePage() {
               </div>
             </div>
             <a href="#contract" className="new-mint-card-cta">
-              {translate("Mint Now", "Mint Now")} →
+              {translate("Coming Soon", "Coming Soon")} →
             </a>
           </aside>
         </div>
@@ -320,8 +329,18 @@ function HomePage() {
               {translate("三大支柱", "THREE PILLARS")}
             </p>
             <div className="city-zero-pillars-row">
-            <article className="city-zero-pillar">
-              <h4>Identity</h4>
+            <article className="city-zero-pillar pillar-identity">
+              <div className="pillar-head">
+                <span className="pillar-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="4.5" width="18" height="15" rx="3" />
+                    <circle cx="9" cy="11" r="2.3" />
+                    <path d="M5.8 16.2c.5-1.7 1.8-2.5 3.2-2.5s2.7.8 3.2 2.5" />
+                    <path d="M15 9.5h3.6M15 12.5h3.6M15 15.3h2.6" />
+                  </svg>
+                </span>
+                <h4>{translate("身份 · Identity", "Identity")}</h4>
+              </div>
               <p>
                 {translate(
                   "公民身份链上颁发，持 NFT 即自动获得；人类与 AI 同等公民，共享治理权与经济权益。",
@@ -329,8 +348,19 @@ function HomePage() {
                 )}
               </p>
             </article>
-            <article className="city-zero-pillar">
-              <h4>Habitat</h4>
+            <article className="city-zero-pillar pillar-habitat">
+              <div className="pillar-head">
+                <span className="pillar-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M2.5 20.5h19" />
+                    <rect x="4" y="11.5" width="5" height="9" rx="0.8" />
+                    <rect x="9.8" y="6" width="5" height="14.5" rx="0.8" />
+                    <rect x="15.6" y="14" width="4.4" height="6.5" rx="0.8" />
+                    <path d="M12.3 6V3.4M6.5 11.5V9.6" />
+                  </svg>
+                </span>
+                <h4>{translate("栖息地 · Habitat", "Habitat")}</h4>
+              </div>
               <p>
                 {translate(
                   "去中心化的生活与工作空间。Ninja Labs 通过 grants + incubation 支持 builders 启动项目，不要求交出股权——「撒种 · 让开 · 不抽成」。",
@@ -338,8 +368,18 @@ function HomePage() {
                 )}
               </p>
             </article>
-            <article className="city-zero-pillar">
-              <h4>Growth Sharing</h4>
+            <article className="city-zero-pillar pillar-growth">
+              <div className="pillar-head">
+                <span className="pillar-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="5.5" cy="18" r="2.2" />
+                    <circle cx="12" cy="5.5" r="2.2" />
+                    <circle cx="18.5" cy="13.5" r="2.2" />
+                    <path d="M7.4 16.8 10.6 7.4M13.9 6.8 17 11.3" />
+                  </svg>
+                </span>
+                <h4>{translate("增长共享 · Growth Sharing", "Growth Sharing")}</h4>
+              </div>
               <p>
                 {translate(
                   "所有贡献者按比例分享城市未来的增长；按公民身份 1:1 计权，不按 token 数量——反 whale，平等参与。",
@@ -433,56 +473,8 @@ function HomePage() {
       {/* 旧版 showcase-section · 已提到 Section 05 位置 (旧位置已移除) */}
       {/* CYBER RONIN section · 已提到 Section 02 之后 (旧位置已移除) */}
 
-      {/* SECTION 05B · STREET POSTER · 双卡海报 (来自 main poster slideshow 第 2、3 张) */}
-      <section className="section street-poster-section reveal">
-        <div className="container">
-          <header className="street-poster-header">
-            <p className="section-kicker">STREET POSTER</p>
-          </header>
-          <div className="street-poster-grid">
-            <article className="poster-card poster-card-event">
-              <div className="poster-card-media">
-                <img
-                  src="/Ninja Labs CN-banner-2-2.jpg"
-                  alt="Neon Street Dispatch"
-                  loading="lazy"
-                />
-              </div>
-              <div className="poster-card-body">
-                <div className="poster-card-head">
-                  <h4>{translate("霓虹街头快报", "Neon Street Dispatch")}</h4>
-                </div>
-                <p>
-                  {translate(
-                    "N1NJ4 小队已在城市边界建立据点。持有者社群任务与实战地图正在同步解锁。",
-                    "N1NJ4 squads have secured city outposts. Holder missions and tactical map sectors are unlocking in sync.",
-                  )}
-                </p>
-              </div>
-            </article>
-            <article className="poster-card poster-card-event">
-              <div className="poster-card-media">
-                <img
-                  src="/Ninja Labs CN-banner-2.png"
-                  alt="Origin Identity Feed"
-                  loading="lazy"
-                />
-              </div>
-              <div className="poster-card-body">
-                <div className="poster-card-head">
-                  <h4>{translate("起源身份信号", "Origin Identity Feed")}</h4>
-                </div>
-                <p>
-                  {translate(
-                    "每一枚 Origin 都是链上身份入口。500 个起点，持续扩展的城市叙事。",
-                    "Each Origin is an on-chain identity entry point: 500 starting points for an expanding city narrative.",
-                  )}
-                </p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </section>
+      {/* SECTION 05B · CITY DISPATCH · 城市快报 (2 卡轮播新闻 → 详情页) */}
+      <NewsTicker />
 
       {/* 旧版 city-entry-section · 已删除 */}
 

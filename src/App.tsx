@@ -10,6 +10,10 @@ import MetaloftDetailPage from "./pages/CityZeroTaskDetails/MetaloftDetailPage";
 import InjectivePassDetailPage from "./pages/CityZeroTaskDetails/InjectivePassDetailPage";
 import N1NJ4DetailPage from "./pages/CityZeroTaskDetails/N1NJ4DetailPage";
 import AiProjectDetailPage from "./pages/AiProjectDetails/AiProjectDetailPage";
+import DashboardPage from "./pages/DashboardPage";
+import DashboardIdentityPage from "./pages/DashboardIdentityPage";
+import NewsListPage from "./pages/NewsListPage";
+import NewsDetailPage from "./pages/NewsDetailPage";
 
 function App() {
   return (
@@ -27,6 +31,11 @@ function App() {
             <Route path="/city-zero/n1nj4" element={<N1NJ4DetailPage />} />
             <Route path="/ai-project/:owner/:repo" element={<AiProjectDetailPage />} />
             <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/dashboard" element={<DashboardPage />} />
+            <Route path="/dashboard/identity" element={<DashboardIdentityPage />} />
+            <Route path="/citizen/:id" element={<DashboardIdentityPage publicView />} />
+            <Route path="/news" element={<NewsListPage />} />
+            <Route path="/news/:id" element={<NewsDetailPage />} />
             <Route path="/nft/:id" element={<NFTDetailPage />} />
           </Routes>
         </main>

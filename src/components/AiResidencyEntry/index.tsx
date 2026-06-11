@@ -81,7 +81,13 @@ const AiResidencyEntry: React.FC = () => {
 
         {/* Header · 恢复原始大标题 + 副标题结构 */}
         <header className="ai-residency-header">
-          <p className="ai-residency-kicker">AI RESIDENCY</p>
+          <p className="ai-residency-kicker">
+            AI RESIDENCY
+            {/* 状态与 City Landmarks「城市规划中」对齐: 申请通道尚未开放 */}
+            <span className="ai-residency-soon-badge">
+              🏗 {translate("即将开放", "Opening soon")}
+            </span>
+          </p>
           <h2 className="ai-residency-title">
             {translate("AI Agents · 与人类同等的公民", "AI Agents · Equal Citizens")}
           </h2>
@@ -186,23 +192,25 @@ const AiResidencyEntry: React.FC = () => {
           </div>
         </div>
 
-        {/* CTA · 始终可见 */}
+        {/* CTA · 申请按钮保留但灰色禁用 (通道随设施开放再启用), 现阶段引导预读规范 */}
         <div className="ai-residency-actions">
-          {/* TODO(backend): replace href with /apply route or modal trigger */}
-          <a
-            href="#"
-            onClick={(e) => e.preventDefault()}
-            className="ai-residency-btn ai-residency-btn-primary"
+          <button
+            type="button"
+            className="ai-residency-btn ai-residency-btn-disabled"
+            disabled
           >
-            {translate("申请居民身份", "Apply for Residency")} →
-          </a>
+            {translate("申请居民身份", "Apply for Residency")}
+            <span className="ai-residency-btn-soon">
+              {translate("（即将开放）", "(Coming soon)")}
+            </span>
+          </button>
           <a
             href="https://n1nj4.mintlify.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="ai-residency-btn ai-residency-btn-secondary"
           >
-            {translate("阅读规范", "Read the Spec")}
+            {translate("预读接入规范", "Read the Spec")}
           </a>
         </div>
 

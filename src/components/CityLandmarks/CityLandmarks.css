@@ -1,0 +1,271 @@
+/* ====================================================================
+   CityLandmarks · 城市地标 (地图即界面)
+   改版:按开放状态分层 NOW OPEN / OPENING NEXT / CITY PLAN。
+   沿用站点 Variant A:暖奶白底、毛玻璃卡、Space Grotesk、token 配色。
+   ==================================================================== */
+
+.czl-section {
+  width: 100%;
+  padding: 76px 24px 64px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* 顶部柔和光晕 · 与城市天际线呼应 */
+.czl-section::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(255, 138, 61, 0.08), transparent 42%),
+    radial-gradient(circle at 88% 6%, rgba(69, 211, 255, 0.08), transparent 42%);
+  pointer-events: none;
+}
+
+.czl-container {
+  max-width: 980px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* ---- 头部 ---- */
+.czl-header {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.czl-header .section-kicker {
+  color: #f68535;
+  margin: 0 0 14px;
+}
+.czl-title {
+  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0 auto 12px;
+  letter-spacing: -0.01em;
+}
+.czl-lead {
+  font-size: 0.98rem;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  max-width: 620px;
+  margin: 0 auto;
+}
+
+/* ---- 分层 (now / next / plan) ---- */
+.czl-tier {
+  margin-bottom: 30px;
+}
+.czl-tier:last-child {
+  margin-bottom: 0;
+}
+.czl-tier-label {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--text-secondary);
+  padding-left: 16px;
+  margin-bottom: 14px;
+  position: relative;
+}
+.czl-tier-label::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 6px;
+  height: 16px;
+  border-radius: 999px;
+  background: var(--czl-accent, #f5933d);
+  box-shadow: 0 0 12px var(--czl-accent, #f5933d);
+}
+.czl-tier-open { --czl-accent: #7f9c1f; --czl-tint: rgba(212, 234, 60, 0.3); }
+.czl-tier-next { --czl-accent: #f5933d; --czl-tint: rgba(255, 179, 71, 0.18); }
+.czl-tier-plan { --czl-accent: #8b63d4; --czl-tint: rgba(150, 110, 230, 0.16); }
+
+/* ---- NOW OPEN · 横向入口卡 ---- */
+.czl-open-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 24px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(127, 156, 31, 0.35);
+  box-shadow: 0 16px 44px rgba(120, 90, 60, 0.1);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.28s ease, border-color 0.28s ease;
+}
+.czl-open-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--czl-accent);
+  box-shadow: 0 24px 60px rgba(120, 90, 60, 0.18);
+}
+.czl-open-body {
+  flex: 1;
+  min-width: 0;
+}
+.czl-open-cta {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--czl-accent);
+  white-space: nowrap;
+  transition: transform 0.2s ease;
+}
+.czl-open-card:hover .czl-open-cta {
+  transform: translateX(3px);
+}
+/* hover 时图标圆底填充强调色 */
+.czl-open-card:hover .czl-icon {
+  background: var(--czl-accent);
+  color: #fff;
+  transform: scale(1.06);
+}
+
+/* ---- 图标圆底 (open 卡与预告卡共用) ---- */
+.czl-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  border-radius: 15px;
+  background: var(--czl-tint);
+  color: var(--czl-accent);
+  transition: background 0.28s ease, color 0.28s ease, transform 0.28s ease;
+}
+.czl-icon svg {
+  width: 27px;
+  height: 27px;
+  display: block;
+}
+
+.czl-name {
+  margin: 0;
+  font-size: 1.04rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.01em;
+}
+.czl-fn {
+  margin: 5px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-secondary);
+}
+
+/* ---- OPENING NEXT · 预告卡 (不可点 · 施工质感) ---- */
+.czl-next-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+.czl-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 22px;
+  border-radius: 18px;
+}
+.czl-card.is-soon {
+  cursor: default;
+  border: 1px dashed rgba(12, 16, 30, 0.18);
+  background:
+    repeating-linear-gradient(45deg, rgba(12, 16, 30, 0.022) 0 9px, transparent 9px 18px),
+    rgba(255, 255, 255, 0.55);
+}
+.czl-card.is-soon .czl-icon {
+  filter: grayscale(0.45);
+  opacity: 0.85;
+}
+.czl-body {
+  min-width: 0;
+  flex: 1;
+}
+.czl-namerow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.czl-status {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.czl-status-soon {
+  background: rgba(255, 179, 71, 0.2);
+  color: #b9701a;
+}
+
+/* ---- CITY PLAN · chips ---- */
+.czl-plan {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+}
+.czl-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px 7px 9px;
+  border-radius: 999px;
+  border: 1px dashed rgba(12, 16, 30, 0.18);
+  background: rgba(255, 255, 255, 0.55);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  cursor: default;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+.czl-chip:hover {
+  border-color: var(--czl-accent);
+  color: var(--text-primary);
+}
+.czl-chip-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: var(--czl-tint);
+  color: var(--czl-accent);
+}
+.czl-chip-icon svg {
+  width: 15px;
+  height: 15px;
+  display: block;
+}
+
+.czl-plan-note {
+  margin: 14px 0 0;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+}
+
+/* ---- 响应式 ---- */
+@media (max-width: 700px) {
+  .czl-next-grid {
+    grid-template-columns: 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .czl-section {
+    padding: 52px 16px 40px;
+  }
+  .czl-open-card {
+    flex-wrap: wrap;
+  }
+}
