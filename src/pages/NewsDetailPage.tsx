@@ -53,16 +53,17 @@ function NewsDetailPage() {
 
         <p className="news-detail-summary">{t(item.summary.zh, item.summary.en)}</p>
 
-        <div className="news-detail-body-note">
-          {t(
-            "完整正文请见原文出处。接入真实内容时,在此替换为撰写好的摘要或要点。",
-            "Full text lives at the original source. Replace this with a written summary when wiring real content.",
-          )}
-        </div>
-
-        <a className="news-detail-source-btn" href={item.url} target="_blank" rel="noopener noreferrer">
-          {t("查看原文 →", "Read original →")}
-        </a>
+        {item.url ? (
+          <a className="news-detail-source-link" href={item.url} target="_blank" rel="noopener noreferrer">
+            <span className="news-detail-source-link-label">{t("来源网址", "Source URL")}</span>
+            <span className="news-detail-source-link-url">{item.url}</span>
+            <span className="news-detail-source-link-arrow" aria-hidden="true">↗</span>
+          </a>
+        ) : (
+          <span className="news-detail-source-btn news-detail-source-btn-disabled">
+            {t("查看来源", "View source")}
+          </span>
+        )}
 
         {related.length > 0 && (
           <div className="news-detail-related">

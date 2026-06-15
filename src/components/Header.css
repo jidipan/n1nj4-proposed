@@ -362,9 +362,9 @@
 }
 
 /* ====================================================================
-   Connected account popover · 连接后弹窗 (含 Dashboard 入口)
+   Connected account popover · 连接后弹窗
    RainbowKit 默认 account modal 不可定制,故用自定义 popover 承载
-   身份摘要 + Dashboard 按钮 + 钱包详情 + 断开连接。
+   身份摘要 + 钱包详情 + 断开连接。
    ==================================================================== */
 .account-menu-wrap {
   position: relative;

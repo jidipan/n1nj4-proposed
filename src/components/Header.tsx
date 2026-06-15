@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useDisconnect } from "wagmi";
 import { useLanguage } from "../context/useLanguage";
@@ -8,7 +8,6 @@ import "./Header.css";
 
 function Header() {
   const location = useLocation();
-  const navigate = useNavigate();
   const { disconnect } = useDisconnect();
   const {
     language,
@@ -188,18 +187,6 @@ function Header() {
                               >
                                 {language === "zh" ? "连接钱包" : "Connect Wallet"}
                               </button>
-                              <button
-                                type="button"
-                                className="account-popover-item primary"
-                                onClick={() => {
-                                  setIsAccountMenuOpen(false);
-                                  navigate("/dashboard");
-                                }}
-                              >
-                                {language === "zh"
-                                  ? "进入 Dashboard"
-                                  : "Enter Dashboard"}
-                              </button>
                             </div>
                           )}
                         </div>
@@ -254,18 +241,6 @@ function Header() {
                               </div>
                             </div>
                             <div className="account-popover-divider" />
-                            <button
-                              type="button"
-                              className="account-popover-item primary"
-                              onClick={() => {
-                                setIsAccountMenuOpen(false);
-                                navigate("/dashboard");
-                              }}
-                            >
-                              {language === "zh"
-                                ? "进入 Dashboard"
-                                : "Enter Dashboard"}
-                            </button>
                             <button
                               type="button"
                               className="account-popover-item"
