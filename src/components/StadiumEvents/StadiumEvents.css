@@ -52,11 +52,55 @@
   margin: 0 auto;
 }
 
-/* ---- 赛事卡 · 两列紧凑卡 (3:1 浅题图条 + 单行信息) ---- */
+/* ---- 赛事卡 · 按数量切换 1 / 2 / 3 列或横向滚动 ---- */
 .se-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
   gap: 24px;
+}
+
+.se-grid-single {
+  grid-template-columns: minmax(0, 588px);
+  justify-content: center;
+}
+
+.se-grid-double {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.se-grid-triple {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.se-grid-scroll {
+  display: flex;
+  overflow-x: auto;
+  padding: 4px 4px 18px;
+  margin: -4px;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 4px;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(246, 133, 53, 0.5) rgba(12, 16, 30, 0.06);
+}
+
+.se-grid-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.se-grid-scroll::-webkit-scrollbar-track {
+  border-radius: 999px;
+  background: rgba(12, 16, 30, 0.06);
+}
+
+.se-grid-scroll::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(246, 133, 53, 0.5);
+}
+
+.se-grid-scroll .se-card {
+  flex: 0 0 calc((100% - 24px) / 2);
+  scroll-snap-align: start;
 }
 
 .se-card {
@@ -276,9 +320,15 @@
   .se-section {
     padding: 56px 20px 48px;
   }
-  .se-grid {
+  .se-grid:not(.se-grid-scroll) {
     grid-template-columns: 1fr;
     gap: 18px;
+  }
+  .se-grid-scroll {
+    gap: 18px;
+  }
+  .se-grid-scroll .se-card {
+    flex-basis: min(86vw, 420px);
   }
   .se-card-body {
     padding: 16px 20px 16px;

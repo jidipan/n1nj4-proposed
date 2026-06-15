@@ -23,6 +23,15 @@ const STATUS_LABEL: Record<StadiumEventStatus, { zh: string; en: string }> = {
 const StadiumEvents: React.FC = () => {
   const { language } = useLanguage();
   const t = (zh: string, en: string) => (language === "zh" ? zh : en);
+  const eventCount = STADIUM_EVENTS.length;
+  const gridMode =
+    eventCount === 1
+      ? "single"
+      : eventCount === 2
+        ? "double"
+        : eventCount === 3
+          ? "triple"
+          : "scroll";
 
   return (
     <section id="stadium" className="se-section reveal">
@@ -40,7 +49,15 @@ const StadiumEvents: React.FC = () => {
           </p>
         </header>
 
-        <div className="se-grid">
+        <div
+          className={`se-grid se-grid-${gridMode}`}
+          tabIndex={gridMode === "scroll" ? 0 : undefined}
+          aria-label={
+            gridMode === "scroll"
+              ? t("横向滚动浏览赛事", "Scroll horizontally to browse events")
+              : undefined
+          }
+        >
           {STADIUM_EVENTS.map((ev) => (
             <article
               key={ev.id}

@@ -66,26 +66,4 @@ export const STADIUM_EVENTS: StadiumEvent[] = [
     accent: "#f68535",
     tint: "rgba(255, 179, 71, 0.14)",
   },
-  {
-    id: "0g-apac-hackathon",
-    title: { zh: "0G APAC Hackathon", en: "0G APAC Hackathon" },
-    organizer: { zh: "0G", en: "0G" },
-    status: "voting",
-    statusNote: { zh: "社区投票中 · 6/12 截止", en: "Community voting · ends Jun 12" },
-    prize: "$150,000",
-    participants: "1,145",
-    summary: {
-      zh: "面向 AI x Web3 的亚太旗舰黑客松:自主 Agent、可验证金融、AI 原生应用、隐私与消费级产品五大赛道。",
-      en: "A flagship APAC hackathon for AI x Web3 — autonomous agents, verifiable finance, AI-native apps, privacy, and consumer products on 0G.",
-    },
-    image: "https://assets.hackquest.io/hackathons/Ks0ghXz8wLc-a0DMsIesx.png",
-    timeline: [
-      { zh: "3/19 开赛", en: "Kickoff Mar 19" },
-      { zh: "5/16 提交截止", en: "Submission May 16" },
-      { zh: "投票后颁奖", en: "Awards after voting" },
-    ],
-    link: "https://www.hackquest.io/hackathons/0G-APAC-Hackathon",
-    accent: "#8b5cf6",
-    tint: "rgba(150, 110, 230, 0.14)",
-  },
 ];
