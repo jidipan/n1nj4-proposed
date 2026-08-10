@@ -23,7 +23,7 @@ const NewsCard: React.FC<TaskCardProps> = ({ category, imageSrc, title, descript
             {/* Top group · 图 + title + tag 整体一起 hover 时上移, 露出底部 desc */}
             <div className="city-news-card-top">
                 <div className="city-news-card-image-wrapper">
-                    <img src={imageSrc} alt={title} className="city-news-card-image" />
+                    <img src={imageSrc} alt={title} className="city-news-card-image" loading="lazy" decoding="async" />
                 </div>
                 <div className="city-news-card-meta-block">
                     <h3 className="city-news-card-title">{title}</h3>
@@ -59,7 +59,7 @@ const TaskCard: React.FC<TaskCardProps> = ({ category, categoryColor, imageSrc, 
                 <span className="task-category">{category}</span>
             </div>
             <div className="task-card-image-wrapper">
-                <img src={imageSrc} alt={title} className="task-card-image" />
+                <img src={imageSrc} alt={title} className="task-card-image" loading="lazy" decoding="async" />
             </div>
             <div className="task-card-content">
                 <h3 className="task-card-title">{title}</h3>
@@ -117,7 +117,7 @@ const CityZeroTasks: React.FC<CityZeroTasksProps> = ({
         {
             category: isZh ? "社区项目" : "Community Project",
             categoryColor: "#57a8d4",
-            imageSrc: "/CityZero/community_page1.png",
+            imageSrc: "/optimized/community/community-page1-900-v1.webp",
             title: "Metaloft",
             description: isZh
                 ? "MetaLoft 是一个沉浸式平台，用户可在其中通过创作与社交自然拥有、交易并治理自己的数字空间。我们正在构建一个可居住、可社交、可创作、可变现的数字公寓生态。"
@@ -129,7 +129,7 @@ const CityZeroTasks: React.FC<CityZeroTasksProps> = ({
         {
             category: isZh ? "社区项目" : "Community Project",
             categoryColor: "#57a8d4",
-            imageSrc: "/CityZero/inj_pass.png",
+            imageSrc: "/optimized/community/inj-pass-900-v1.webp",
             title: "Injective Pass",
             description: isZh
                 ? "Injective Pass 通过抽象 Web3 身份流程，搭建 Web2 与 Web3 之间更顺滑的连接路径。"
@@ -141,7 +141,7 @@ const CityZeroTasks: React.FC<CityZeroTasksProps> = ({
         {
             category: isZh ? "社区项目" : "Community Project",
             categoryColor: "#57a8d4",
-            imageSrc: "/Ninja Labs CN-banner-2-2.jpg",
+            imageSrc: "/optimized/community/ninja-labs-banner-900-v1.webp",
             title: "N1NJ4",
             description: isZh
                 ? "N1NJ4 NFT 旨在构建专属的开发者社区身份系统。这是一个大规模生成艺术计划，也是一种全新的数字所有权与社区贡献激励模式。"

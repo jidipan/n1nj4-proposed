@@ -64,7 +64,7 @@ const CityZeroInfoCarousel: React.FC = () => {
           </p>
         </>
       ),
-      imageSrc: "/CityZero/city_image2.png",
+      imageSrc: "/optimized/city-zero/city-dossier-2-1200-v1.webp",
       imageAlt: translate(
         "City Zero 介绍图 2",
         "City Zero Introduction City Image 2",
@@ -84,7 +84,7 @@ const CityZeroInfoCarousel: React.FC = () => {
           </p>
         </>
       ),
-      imageSrc: "/CityZero/city_image1.png",
+      imageSrc: "/optimized/city-zero/city-dossier-1-1200-v1.webp",
       imageAlt: translate(
         "City Zero 介绍图 1",
         "City Zero Introduction City Image 1",
@@ -110,7 +110,7 @@ const CityZeroInfoCarousel: React.FC = () => {
           </p>
         </>
       ),
-      imageSrc: "/CityZero/Stadium.png",
+      imageSrc: "/optimized/city-zero/stadium-card-1200-v1.webp",
       imageAlt: translate(
         "City Zero 体育场",
         "City Zero Stadium",
@@ -206,6 +206,8 @@ const CityZeroInfoCarousel: React.FC = () => {
                         src={item.imageSrc}
                         alt={item.imageAlt}
                         className="slide-image"
+                        loading="lazy"
+                        decoding="async"
                       />
                     </div>
                   </div>

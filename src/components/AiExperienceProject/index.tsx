@@ -24,9 +24,9 @@ interface AiExperienceProjectProps {
 }
 
 const AI_EXPERIENCE_IMAGE_POOL = [
-    "/AI EXPERIENCE PROJECT/Ninja Labs CN-banner-2-2.jpg",
-    "/AI EXPERIENCE PROJECT/Ninja Labs CN-banner-2-1.png",
-    "/AI EXPERIENCE PROJECT/Star-Office-UI-INJ.png",
+    "/optimized/community/ninja-labs-banner-900-v1.webp",
+    "/optimized/repos/ninja-labs-banner-1-960-v1.webp",
+    "/optimized/repos/star-office-960-v1.webp",
 ];
 
 /* 内置种子项目 · 与线上 n1nj4.fun/city-zero 展示一致。
@@ -37,7 +37,7 @@ const SEED_PROJECTS: ProjectItem[] = [
         description: "Production frontend for N1NJ4 and City Zero, bringing together on-chain identity, the NFT gallery, City Dispatch, events, and community project discovery.",
         descriptionZh: "N1NJ4 与 City Zero 的生产网站前端，整合链上身份、NFT Gallery、City Dispatch、活动与社区项目入口。",
         descriptionEn: "Production frontend for N1NJ4 and City Zero, bringing together on-chain identity, the NFT gallery, City Dispatch, events, and community project discovery.",
-        imageSrc: "/homepage.png",
+        imageSrc: "/optimized/repos/n1nj4-960-v1.webp",
         tags: ["React", "TypeScript", "Injective"],
         githubRepo: "Ninja-Labs-Devs/NinjaNFTFrontend-v2",
         status: "LIVE",
@@ -47,7 +47,7 @@ const SEED_PROJECTS: ProjectItem[] = [
         description: "A pixel office for OpenClaw and AI agents, turning work states into a real-time visual space with multi-agent support and Injective EVM wallet integration.",
         descriptionZh: "面向 OpenClaw 与 AI Agent 的像素办公室，将工作状态转化为实时可视化空间，并支持 Injective EVM 钱包与多 Agent 协作。",
         descriptionEn: "A pixel office for OpenClaw and AI agents, turning work states into a real-time visual space with multi-agent support and Injective EVM wallet integration.",
-        imageSrc: "/AI EXPERIENCE PROJECT/Star-Office-UI-INJ.png",
+        imageSrc: "/optimized/repos/star-office-960-v1.webp",
         tags: ["OpenClaw", "Python", "Injective"],
         githubRepo: "Ninja-Labs-Devs/Star-Office-UI-INJ",
         status: "DEMO",

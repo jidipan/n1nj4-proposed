@@ -75,7 +75,7 @@ const MORE_PROJECTS_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
 const AI_EXPERIENCE_IMAGE_POOL = [
     "/AI EXPERIENCE PROJECT/Ninja Labs CN-banner-2-2.jpg",
     "/AI EXPERIENCE PROJECT/Ninja Labs CN-banner-2-1.png",
-    "/AI EXPERIENCE PROJECT/Star-Office-UI-INJ.png",
+    "/optimized/repos/star-office-960-v1.webp",
 ];
 
 const LANGUAGE_COLOR_MAP: Record<string, string> = {

@@ -67,7 +67,7 @@ export const STADIUM_EVENTS: StadiumEvent[] = [
         { zh: "Omnis Router", en: "Omnis Router" },
       ],
     },
-    image: "/news/hackquest-dev.png",
+    image: "/optimized/news/hackquest-dev-1280-v1.webp",
     timeline: [
       { zh: "5/11 开赛", en: "Kickoff May 11" },
       { zh: "6/10 提交截止", en: "Submission Jun 10" },
@@ -108,7 +108,7 @@ export const STADIUM_EVENTS: StadiumEvent[] = [
         { zh: "GoalGate", en: "GoalGate" },
       ],
     },
-    image: "/news/injective-global-cup.webp",
+    image: "/optimized/news/injective-global-cup-1280-v1.webp",
     timeline: [
       { zh: "7/3 开赛", en: "Kickoff Jul 3" },
       { zh: "7/26 构建结束", en: "Build closed Jul 26" },
@@ -149,7 +149,7 @@ export const STADIUM_EVENTS: StadiumEvent[] = [
         { zh: "桌面 AI 工作伙伴", en: "Desk-Side AI Work Buddy" },
       ],
     },
-    image: "/stadium/injective-nova-official.jpg",
+    image: "/optimized/stadium/injective-nova-official-1280-v1.webp",
     imagePosition: "50% 45%",
     timeline: [
       { zh: "5/23 启动", en: "Kickoff May 23" },

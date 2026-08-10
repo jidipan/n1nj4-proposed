@@ -57,9 +57,11 @@ const CityZeroStadiumPage: React.FC = () => {
       <section className="stadium-hero-section">
         <div className="stadium-hero-image-container">
           <img
-            src="/CityZero/Stadium.png"
+            src="/optimized/city-zero/stadium-hero-2048-v1.webp"
             alt={translate("City Zero 体育场", "City Zero Stadium")}
             className="stadium-hero-image"
+            decoding="async"
+            fetchPriority="high"
           />
         </div>
       </section>
@@ -123,6 +125,8 @@ const CityZeroStadiumPage: React.FC = () => {
                       src={phase.image}
                       alt={translate(phase.titleZh, phase.titleEn)}
                       className="phase-image"
+                      loading="lazy"
+                      decoding="async"
                     />
                   </div>
                   <div className="phase-header">

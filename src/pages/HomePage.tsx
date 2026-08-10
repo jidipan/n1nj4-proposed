@@ -101,7 +101,7 @@ function HomePage() {
         {/* 悬浮卡 · hero 右下角 · 缩略图左侧凸出且倾斜 + 中间 kicker/title + 右侧 Mint 按钮 */}
         <div className="hero-floating-card">
           <div className="hero-floating-card-thumb">
-            <img src="/cyber-ronin-card.png" alt="Cyber Ronin card" />
+            <img src="/optimized/home/cyber-ronin-card-1200-v1.webp" alt="Cyber Ronin card" decoding="async" />
           </div>
           <div className="hero-floating-card-text">
             <p className="hero-floating-card-kicker">
@@ -167,10 +167,11 @@ function HomePage() {
 
           <aside className="new-mint-card on-dark cyber-ronin-mint-card">
             <img
-              src="/Ninja Labs CN-banner-2-3.png"
+              src="/optimized/home/cyber-ronin-banner-1200-v1.webp"
               alt="City Zero Broadcast"
               className="cyber-ronin-mint-poster"
               loading="lazy"
+              decoding="async"
             />
             <div className="new-mint-card-tag">NEXT DROP</div>
             <h4 className="new-mint-card-title">Cyber Ronin</h4>

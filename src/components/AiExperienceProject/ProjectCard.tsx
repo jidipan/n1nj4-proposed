@@ -96,7 +96,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, imageSrc,
         >
             <div className="ai-project-card-top">
                 <div className="ai-project-image-container">
-                    <img src={imageSrc} alt={title} className="ai-project-image" />
+                    <img src={imageSrc} alt={title} className="ai-project-image" loading="lazy" decoding="async" />
                     {status && <span className={`ai-project-status status-${status.toLowerCase()}`}>{status}</span>}
                 </div>
                 <div className="ai-project-meta-block">

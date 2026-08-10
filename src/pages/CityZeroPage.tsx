@@ -59,7 +59,13 @@ const CityZeroPage: React.FC = () => {
                     </div>
                 </div>
                 <div className="hero-image-container">
-                    <img src="/CityZero/city.png" alt="City Zero" className="hero-image" />
+                    <img
+                        src="/optimized/city-zero/city-hero-2048-v1.webp"
+                        alt="City Zero"
+                        className="hero-image"
+                        decoding="async"
+                        fetchPriority="high"
+                    />
                     {/* Stadium Action Button · 锚点滚到页内赛事看板 (旧 /city-zero/stadium 页仍是占位内容) */}
                     <a href="#stadium" className="stadium-action-btn" title={translate("进入体育场", "Enter Stadium")}>
                         <span className="btn-text">{translate("进入体育场", "ENTER STADIUM")}</span>

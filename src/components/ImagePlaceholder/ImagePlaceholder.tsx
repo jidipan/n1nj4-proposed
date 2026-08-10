@@ -47,6 +47,7 @@ function ImagePlaceholder({
           alt={label}
           style={{ objectPosition }}
           loading={loading}
+          decoding="async"
         />
       </div>
     );
