@@ -60,7 +60,9 @@ const CityZeroPage: React.FC = () => {
                 </div>
                 <div className="hero-image-container">
                     <img
-                        src="/optimized/city-zero/city-hero-2048-v1.webp"
+                        src="/optimized/city-zero/city-hero-1920-v2.webp"
+                        srcSet="/optimized/city-zero/city-hero-1280-v2.webp 1280w, /optimized/city-zero/city-hero-1920-v2.webp 1920w"
+                        sizes="100vw"
                         alt="City Zero"
                         className="hero-image"
                         decoding="async"
