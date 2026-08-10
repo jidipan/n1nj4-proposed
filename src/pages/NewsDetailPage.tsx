@@ -1,15 +1,15 @@
 import { Link, useParams } from "react-router-dom";
-import { useLanguage } from "../context/useLanguage";
 import ImagePlaceholder from "../components/ImagePlaceholder/ImagePlaceholder";
-import { getNewsById, NEWS } from "../data/news";
+import { useLanguage } from "../context/useLanguage";
+import { getNewsById, NEWS, type NewsStatus } from "../data/news";
 import "./NewsDetailPage.css";
 
-/* ====================================================================
- * News Detail · 新闻详情页
- * --------------------------------------------------------------------
- * 框定单条新闻:海报 + 分类 + 来源 + 标题 + 摘要 + 「查看原文」外链。
- * 正文不逐字转载(版权 + 来源为登录墙);以摘要 + 原文出处呈现。
- * ==================================================================== */
+const statusLabels: Record<NewsStatus, { zh: string; en: string }> = {
+  active: { zh: "进行中", en: "Active" },
+  ended: { zh: "已结束", en: "Ended" },
+  recap: { zh: "回顾", en: "Recap" },
+  evergreen: { zh: "长期阅读", en: "Evergreen" },
+};
 
 function NewsDetailPage() {
   const { id } = useParams();
@@ -28,58 +28,85 @@ function NewsDetailPage() {
     );
   }
 
-  const related = NEWS.filter((n) => n.id !== item.id && n.catKey === item.catKey).slice(0, 3);
+  const related = NEWS.filter(
+    (news) => news.id !== item.id && news.sections.some((section) => item.sections.includes(section)),
+  )
+    .sort((a, b) => b.publishedAt.localeCompare(a.publishedAt))
+    .slice(0, 3);
 
   return (
     <div className="news-detail-page">
-      <div className="news-detail-shell">
+      <article className="news-detail-shell">
         <Link to="/news" className="news-detail-back">← {t("返回城市快报", "Back to Dispatch")}</Link>
 
+        <div className="news-detail-brandline">
+          <span>N1NJ4 // {t("城市快报", "CITY DISPATCH")}</span>
+          <span className="news-detail-online"><i /> {t("在线", "ONLINE")}</span>
+        </div>
+
         <div className="news-detail-tagrow">
-          <span className={`news-tk-tag news-tk-tag-${item.catKey}`}>{t(item.category.zh, item.category.en)}</span>
-          <span className="news-detail-source">
-            {item.source}{item.date ? ` · ${item.date}` : ""}
+          <span className={`news-detail-status status-${item.status}`}>
+            {t(statusLabels[item.status].zh, statusLabels[item.status].en)}
           </span>
+          <span>{t(item.category.zh, item.category.en)}</span>
+          <time dateTime={item.publishedAt}>{item.date}</time>
         </div>
 
         <h1 className="news-detail-title">{t(item.title.zh, item.title.en)}</h1>
+        <p className="news-detail-byline">
+          {t(item.source.zh, item.source.en)}
+          {item.originalAuthor && t(item.originalAuthor.zh, item.originalAuthor.en) !== t(item.source.zh, item.source.en)
+            ? ` · ${t("原作者", "Original author")}: ${t(item.originalAuthor.zh, item.originalAuthor.en)}`
+            : ""}
+        </p>
 
-        <ImagePlaceholder
-          className="news-detail-hero"
-          src={item.image}
-          ratio="16 / 9"
-          label={t(`${item.imageLabel.zh} · 16:9`, `${item.imageLabel.en} · 16:9`)}
-        />
+        {item.image ? (
+          <ImagePlaceholder
+            className="news-detail-hero"
+            src={item.image}
+            ratio="16 / 9"
+            label={t(item.imageLabel.zh, item.imageLabel.en)}
+          />
+        ) : (
+          <div className={`news-detail-hero news-detail-abstract detail-${item.catKey}`} role="img" aria-label={t(item.imageLabel.zh, item.imageLabel.en)}>
+            <span>N1NJ4 // {t("城市快报", "CITY DISPATCH")}</span>
+            <i aria-hidden="true" />
+          </div>
+        )}
 
-        <p className="news-detail-summary">{t(item.summary.zh, item.summary.en)}</p>
+        <div className="news-detail-copy">
+          <p className="news-detail-summary">{t(item.summary.zh, item.summary.en)}</p>
+          <p className="news-detail-note">
+            {t(
+              "这是 CITY DISPATCH 的编辑导读。活动状态、产品参数和监管信息可能变化，请以原始发布方的最新说明为准。",
+              "This is a CITY DISPATCH editorial briefing. Event status, product details, and regulatory information may change; consult the original publisher for the latest information.",
+            )}
+          </p>
+        </div>
 
-        {item.url ? (
+        {item.url && (
           <a className="news-detail-source-link" href={item.url} target="_blank" rel="noopener noreferrer">
-            <span className="news-detail-source-link-label">{t("来源网址", "Source URL")}</span>
+            <span className="news-detail-source-link-label">{t("查看原文", "Read original")}</span>
             <span className="news-detail-source-link-url">{item.url}</span>
             <span className="news-detail-source-link-arrow" aria-hidden="true">↗</span>
           </a>
-        ) : (
-          <span className="news-detail-source-btn news-detail-source-btn-disabled">
-            {t("查看来源", "View source")}
-          </span>
         )}
 
         {related.length > 0 && (
-          <div className="news-detail-related">
-            <h2 className="news-detail-related-title">{t("相关快报", "Related")}</h2>
+          <section className="news-detail-related">
+            <h2>{t("继续阅读", "Continue reading")}</h2>
             <div className="news-detail-related-grid">
-              {related.map((r) => (
-                <Link key={r.id} to={`/news/${r.id}`} className="news-detail-related-card">
-                  <ImagePlaceholder src={r.image} ratio="16 / 9" label={t(r.imageLabel.zh, r.imageLabel.en)} />
-                  <span className="news-detail-related-cat">{t(r.category.zh, r.category.en)} · {r.source}</span>
-                  <span className="news-detail-related-name">{t(r.title.zh, r.title.en)}</span>
+              {related.map((relatedItem) => (
+                <Link key={relatedItem.id} to={`/news/${relatedItem.id}`} className="news-detail-related-card">
+                  <span>{relatedItem.date} · {t(relatedItem.category.zh, relatedItem.category.en)}</span>
+                  <strong>{t(relatedItem.title.zh, relatedItem.title.en)}</strong>
+                  <em>{t("阅读", "Read")} ↗</em>
                 </Link>
               ))}
             </div>
-          </div>
+          </section>
         )}
-      </div>
+      </article>
     </div>
   );
 }

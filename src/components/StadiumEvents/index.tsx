@@ -17,6 +17,7 @@ const STATUS_LABEL: Record<StadiumEventStatus, { zh: string; en: string }> = {
   live: { zh: "进行中", en: "Live" },
   voting: { zh: "投票中", en: "Voting" },
   reviewing: { zh: "评审中", en: "Reviewing" },
+  done: { zh: "已完成", en: "Done" },
   ended: { zh: "已结束", en: "Ended" },
 };
 
@@ -43,8 +44,8 @@ const StadiumEvents: React.FC = () => {
           </h2>
           <p className="se-lead">
             {t(
-              "City Zero 的赛事场馆——与 HackQuest 合作,每月两场活动在此同步。",
-              "City Zero's events arena — in partnership with HackQuest, two events land here every month.",
+              "City Zero 的赛事场馆——重点建设者计划、合作赛事与最终赛绩都在这里汇集。",
+              "City Zero's events arena — flagship builder programs, partner competitions, and final results all meet here.",
             )}
           </p>
         </header>
@@ -72,8 +73,9 @@ const StadiumEvents: React.FC = () => {
               <div className="se-card-media">
                 <ImagePlaceholder
                   src={ev.image}
-                  ratio="3 / 1"
+                  ratio="5 / 2"
                   label={t(ev.title.zh, ev.title.en)}
+                  objectPosition={ev.imagePosition}
                   loading="lazy"
                 />
               </div>
@@ -104,11 +106,30 @@ const StadiumEvents: React.FC = () => {
                   )}
                 </p>
 
+                <p className="se-card-summary">
+                  {t(ev.summary.zh, ev.summary.en)}
+                </p>
+
                 <ul className="se-timeline">
                   {ev.timeline.map((step, i) => (
                     <li key={i}>{t(step.zh, step.en)}</li>
                   ))}
                 </ul>
+
+                {ev.results && (
+                  <div className="se-results">
+                    <span className="se-results-label">
+                      {t(ev.results.label.zh, ev.results.label.en)}
+                    </span>
+                    <div className="se-results-list">
+                      {ev.results.items.map((item) => (
+                        <span key={item.en} className="se-result-chip">
+                          {t(item.zh, item.en)}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+                )}
 
                 <div className="se-card-bottomrow">
                   {ev.holderPerk ? (
@@ -124,7 +145,9 @@ const StadiumEvents: React.FC = () => {
                     rel="noopener noreferrer"
                     className="se-card-cta"
                   >
-                    {t("在 HackQuest 查看", "View on HackQuest")} ↗
+                    {ev.linkLabel
+                      ? t(ev.linkLabel.zh, ev.linkLabel.en)
+                      : t("查看活动", "View event")} ↗
                   </a>
                 </div>
               </div>

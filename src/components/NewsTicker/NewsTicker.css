@@ -1,40 +1,64 @@
-/* ====================================================================
-   NewsTicker · 城市快报
-   3 卡传送带轮播 (每 3s 整排左移一格: 新卡右侧滑入, 最左卡滑出)
-   + 借鉴 COMMUNITY GALLERY 的 hover 上滑揭示。沿用站点 Variant A 设计语言。
-   ==================================================================== */
-
-/* 间距对齐站内标准: 顶部 50px (同 cyber-ronin/about/showcase), 底部 60px (同相邻 NINJA INDEX) */
+/* CITY DISPATCH · Variant A / Miami golden hour · UI Guidelines v2 */
 .news-ticker-section {
-  padding: 50px 20px 60px;
+  scroll-margin-top: 82px;
+  padding: 72px 20px 78px;
+  background:
+    radial-gradient(circle at 10% 12%, rgba(255, 179, 71, 0.13), transparent 30%),
+    radial-gradient(circle at 88% 4%, rgba(69, 211, 255, 0.1), transparent 26%),
+    linear-gradient(180deg, rgba(255, 253, 248, 0.9), rgba(248, 243, 236, 0.94));
+  color: var(--text-primary);
+  overflow: hidden;
 }
 
-/* 标题居中,对齐站内其他 section (COMMUNITY GALLERY / NINJA INDEX) */
-.news-ticker-header {
-  text-align: center;
-}
-.news-ticker-header .section-kicker {
-  margin: 0 0 30px;
-  color: #f68535;
+.news-ticker-section::after {
+  background: linear-gradient(90deg, rgba(255, 138, 61, 0.05), transparent 42%, rgba(69, 211, 255, 0.05));
 }
 
-/* 「查看全部」移到栏底居中 */
-.news-ticker-footer {
+.dispatch-home-shell { position: relative; z-index: 1; max-width: 1200px; }
+
+.dispatch-home-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
-  margin-top: 36px;
+  margin-bottom: 30px;
 }
-.news-ticker-all {
-  font-size: 0.85rem;
+
+.dispatch-home-header .dispatch-eyebrow {
+  margin: 0;
+  color: var(--accent-orange);
+  font-size: 0.88rem;
+  font-weight: 400;
+  letter-spacing: 0.4em;
+  text-transform: uppercase;
+}
+
+.dispatch-home-intro {
+  max-width: 720px;
+  margin: 24px 0 0;
+  color: var(--text-secondary);
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.dispatch-view-all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  margin-top: 24px;
+  padding: 0 24px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--brand-gradient);
+  color: #fff;
+  box-shadow: 0 12px 30px rgba(255, 140, 120, 0.3);
+  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  color: #c23a6b;
-  white-space: nowrap;
+  letter-spacing: 0.04em;
 }
-.news-ticker-all:hover { color: #ff7096; }
+.dispatch-view-all:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 18px 40px rgba(255, 140, 120, 0.42); }
 
-/* ---- 传送带结构 ----
-   viewport 只裁横向 (overflow-x: clip), 纵向保持可见 → 不剪卡片 hover 上浮与投影;
-   track 平时无 transition, 轮换时加 .is-shifting 左移正好一格 (卡宽 + gap)。 */
 .news-ticker-viewport {
   max-width: 1200px;
   margin: 0 auto;
@@ -50,41 +74,36 @@
 }
 
 .news-ticker-track.is-shifting {
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-  /* 一格 = 卡宽 + gap = (容器宽 - (n-1)*gap)/n + gap = (容器宽 + gap)/n */
   transform: translateX(calc(-1 * (100% + var(--tk-gap)) / var(--tk-visible)));
+  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ---- 卡片 (借鉴 city-news-card 的 hover 上滑揭示) ---- */
 .news-tk-card {
   position: relative;
   flex: 0 0 calc((100% - (var(--tk-visible) - 1) * var(--tk-gap)) / var(--tk-visible));
   height: 360px;
-  background: #ffffff;
-  border-radius: 20px;
   overflow: hidden;
   border: 1px solid rgba(12, 16, 30, 0.06);
-  text-decoration: none;
-  color: inherit;
+  border-radius: 20px;
+  background: #fff;
   box-shadow: 0 20px 60px rgba(120, 90, 60, 0.1);
+  color: inherit;
+  text-decoration: none;
   transition: box-shadow 0.25s ease-out, transform 0.25s ease-out;
 }
 
 .news-tk-card:hover {
-  box-shadow: 0 26px 70px rgba(255, 164, 90, 0.28);
   transform: translateY(-4px);
+  box-shadow: 0 26px 70px rgba(255, 164, 90, 0.28);
 }
 
-/* top group · 图 + meta, hover 整体上移露出底部 desc */
 .news-tk-top {
-  height: 100%;
   display: flex;
+  height: 100%;
   flex-direction: column;
   transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.news-tk-card:hover .news-tk-top {
-  transform: translateY(-128px);
-}
+.news-tk-card:hover .news-tk-top { transform: translateY(-128px); }
 
 .news-tk-media {
   width: 100%;
@@ -93,17 +112,21 @@
   background: #f4f3f1;
 }
 .news-tk-media .imgph,
-.news-tk-media .imgph-real { border-radius: 0; }
-.news-tk-card:hover .news-tk-media .imgph-real img {
-  transform: scale(1.04);
+.news-tk-media .imgph-real {
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 16 / 9 !important;
+  border: 0;
+  border-radius: 0;
 }
+.news-tk-card:hover .news-tk-media .imgph-real img { transform: scale(1.04); }
 
 .news-tk-meta {
-  padding: 18px 26px 12px;
   display: flex;
+  flex: 1;
   flex-direction: column;
   gap: 12px;
-  flex: 1;
+  padding: 18px 26px 12px;
 }
 
 .news-tk-tagrow {
@@ -114,6 +137,7 @@
 
 .news-tk-tag {
   display: inline-block;
+  flex-shrink: 0;
   padding: 4px 10px;
   border-radius: 6px;
   font-size: 0.72rem;
@@ -125,46 +149,74 @@
 .news-tk-tag-content { background: rgba(255, 112, 150, 0.18); color: #c23a6b; }
 .news-tk-tag-media { background: rgba(150, 110, 230, 0.18); color: #6b46c1; }
 .news-tk-tag-news { background: rgba(255, 179, 71, 0.22); color: #b9701a; }
+.news-tk-tag-event { background: rgba(255, 112, 150, 0.16); color: #c23a6b; }
+.news-tk-tag-research { background: rgba(69, 211, 255, 0.16); color: #0a7ea4; }
+.news-tk-tag-story { background: rgba(255, 179, 71, 0.2); color: #9d5c0a; }
+
+.news-tk-state {
+  display: inline-block;
+  flex-shrink: 0;
+  padding: 4px 9px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+.news-tk-state-active { background: var(--tk-growth-tint); color: var(--tk-growth-ink); }
+.news-tk-state-ended { background: rgba(12, 16, 30, 0.06); color: var(--text-tertiary); }
+.news-tk-state-recap { background: var(--tk-culture-tint); color: var(--tk-culture-ink); }
+.news-tk-state-evergreen { background: var(--tk-identity-tint); color: var(--tk-identity-ink); }
 
 .news-tk-source {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-tertiary);
   font-family: monospace;
   font-size: 0.76rem;
-  color: var(--text-tertiary);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .news-tk-title {
   margin: 0;
+  color: #0f131d;
   font-size: clamp(1.15rem, 1.6vw, 1.5rem);
   font-weight: 800;
-  color: #0f131d;
   line-height: 1.25;
   letter-spacing: -0.01em;
 }
 
-/* desc · 绝对底部, 默认隐藏, hover 淡入 */
 .news-tk-desc {
   position: absolute;
-  left: 26px;
   right: 26px;
   bottom: 24px;
+  left: 26px;
+  display: -webkit-box;
+  overflow: hidden;
   margin: 0;
+  color: rgba(12, 16, 30, 0.62);
   font-size: 0.92rem;
   line-height: 1.55;
-  color: rgba(12, 16, 30, 0.62);
   opacity: 0;
   transition: opacity 0.25s ease-out 0.1s;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
-  overflow: hidden;
+  -webkit-line-clamp: 4;
 }
 .news-tk-card:hover .news-tk-desc { opacity: 1; }
 
-/* 窄屏减少可见卡数, 轮换逻辑不变 (track 上多余的卡被 viewport 裁掉) */
-@media (max-width: 1024px) {
+.dispatch-home-footer { display: flex; justify-content: space-between; gap: 18px; align-items: center; margin-top: 30px; color: var(--text-tertiary); font-size: 0.72rem; font-weight: 600; }
+.dispatch-online { color: var(--tk-growth-ink); }
+.dispatch-online i { display: inline-block; width: 7px; height: 7px; margin-right: 7px; border-radius: 50%; background: var(--tk-growth); }
+
+@media (max-width: 900px) {
   .news-ticker-track { --tk-visible: 2; }
 }
-@media (max-width: 768px) {
+
+@media (max-width: 640px) {
+  .news-ticker-section { padding: 50px 0 58px; }
+  .dispatch-home-header .dispatch-eyebrow { font-size: 0.76rem; letter-spacing: 0.24em; }
+  .dispatch-home-intro { margin-top: 14px; font-size: 0.92rem; }
   .news-ticker-track { --tk-visible: 1; --tk-gap: 18px; }
   .news-tk-card { height: 340px; }
+  .dispatch-home-footer { align-items: flex-start; flex-direction: column; }
 }

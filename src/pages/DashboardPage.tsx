@@ -1,348 +1,426 @@
-import { Link } from "react-router-dom";
-import { useAccount } from "wagmi";
+import { useMemo, useState } from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 import { useLanguage } from "../context/useLanguage";
-import ImagePlaceholder from "../components/ImagePlaceholder/ImagePlaceholder";
-import { STADIUM_EVENTS, type StadiumEventStatus } from "../data/stadiumEvents";
 import "./DashboardPage.css";
 
-/* ====================================================================
- * Builder Dashboard · 建设者仪表盘 (V6)
- * --------------------------------------------------------------------
- * 按 V6「被记录 · 被看见 · 被资助」三价值组织,四个面板:
- *   1) 身份条     — 被记录 · 我是谁 (贡献值 / Rank / 等级进度 + 分享名片)
- *   2) 我的建设   — 被记录 · 六步闭环状态 (发布→招募→申请→资助→交付→结算)
- *      任务来源   — 接 STADIUM_EVENTS 真实活动 (HackQuest · 运营先行)
- *   3) 资助通道   — 被资助 · 门槛 + 四步流程 + 提交入口 (右栏)
- *   4) 贡献榜     — 被看见 · Top 建设者 + 我的排名 (数据源 GitHub, 接入位已留)
- * V5 遗留的治理投票 / QF 资助轮 / 城市设施宫格 / 重复名片已移除。
- *
- * ⚠️ 数字仍为硬编码占位 — 结构对应 V6 闭环,接真数据时无需改布局。
- * ==================================================================== */
+type DashboardMode = "builder" | "admin";
+type SourceKey = "github" | "contract" | "manual";
+type SourceFilter = "all" | SourceKey;
 
-const CITIZEN = {
-  id: "#1427",
-  series: { zh: "创世忍者 · Origins", en: "Origins" },
-  tier: "BUILDER",
-  contribution: 1248,
-  rankNum: 32,
-  rankPct: { zh: "前 7%", en: "Top 7%" },
-  nextTierAt: 2000,
-  nextTier: { zh: "创始者", en: "Founder" },
+type ContributionEvent = {
+  id: string;
+  source: SourceKey;
+  title: string;
+  evidence: string;
+  points: number;
+  status: "Verified" | "Admin reviewed";
+  happenedAt: string;
 };
 
-/* V6 六步闭环: 发布 → 招募 → 申请资金 → 获得资助 → 完成项目 → 结算贡献 */
-const LOOP_STEPS = [
-  { zh: "发布", en: "Post" },
-  { zh: "招募", en: "Recruit" },
-  { zh: "申请资金", en: "Apply" },
-  { zh: "已资助", en: "Funded" },
-  { zh: "交付", en: "Ship" },
-  { zh: "结算", en: "Settle" },
-];
-
-/* 我的建设 · step = 当前所在闭环步 (0-5) */
-const MY_WORK = [
-  { title: { zh: "城市日志看板 v1", en: "City Log dashboard v1" }, step: 3 },
-  { title: { zh: "贡献榜可视化", en: "Leaderboard visualizer" }, step: 2 },
-  { title: { zh: "HackQuest 活动协作", en: "HackQuest event ops" }, step: 4 },
-];
-
-/* 活动状态 → 复用的状态胶囊配色 */
-const EVENT_STATUS_LABEL: Record<StadiumEventStatus, { zh: string; en: string; cls: string }> = {
-  upcoming: { zh: "即将开始", en: "Upcoming", cls: "submitted" },
-  live: { zh: "进行中", en: "Live", cls: "funded" },
-  voting: { zh: "投票中", en: "Voting", cls: "voting" },
-  reviewing: { zh: "评审中", en: "Reviewing", cls: "inprogress" },
-  ended: { zh: "已结束", en: "Ended", cls: "ended" },
+type AdminUser = {
+  handle: string;
+  wallet: string;
+  github: string;
+  pullRequests: number;
+  deployments: number;
+  manual: number;
 };
 
-/* 护照露出卡 · 与护照页 (DashboardIdentityPage) 同源的真实子集:
-   身份 + 贡献证明 (GitHub) + 已获徽章。V5 的签证/准入体系不恢复。 */
-const PASSPORT_PROOF = [
-  { zh: "合并 12 PR", en: "12 PRs merged" },
-  { zh: "部署 2 Agent", en: "2 Agents deployed" },
-  { zh: "修复 5 Bug", en: "5 bugs fixed" },
-];
-const PASSPORT_BADGES = [
-  { zh: "前端", en: "Frontend" },
-  { zh: "架构", en: "Architect" },
-  { zh: "协作者", en: "Collaborator" },
-  { zh: "创世", en: "Genesis" },
+const contributionEvents: ContributionEvent[] = [
+  {
+    id: "evt-105",
+    source: "github",
+    title: "Improve wallet session recovery",
+    evidence: "Ninja-Labs-Devs/NinjaNFTFrontend-v2 · PR #105",
+    points: 120,
+    status: "Verified",
+    happenedAt: "18 min ago",
+  },
+  {
+    id: "evt-104",
+    source: "contract",
+    title: "Deploy ContributionRegistry v0.3",
+    evidence: "Injective EVM · 0x71c…9a42",
+    points: 300,
+    status: "Verified",
+    happenedAt: "2 days ago",
+  },
+  {
+    id: "evt-103",
+    source: "manual",
+    title: "Solo AI Builder Sprint mentor session",
+    evidence: "Added by city-ops · Event participation",
+    points: 100,
+    status: "Admin reviewed",
+    happenedAt: "4 days ago",
+  },
+  {
+    id: "evt-102",
+    source: "github",
+    title: "Add contribution event indexing",
+    evidence: "Ninja-Labs-Devs/city-zero-indexer · PR #84",
+    points: 120,
+    status: "Verified",
+    happenedAt: "6 days ago",
+  },
+  {
+    id: "evt-101",
+    source: "manual",
+    title: "English documentation review",
+    evidence: "Added by content-ops · Documentation",
+    points: 60,
+    status: "Admin reviewed",
+    happenedAt: "8 days ago",
+  },
 ];
 
-/* 资助通道 · 四步 (V6: 提交 → 评审拨付 → 交付 → 回写声誉) */
-const GRANT_STEPS = [
-  { zh: "提交", en: "Apply" },
-  { zh: "评审拨付", en: "Fund" },
-  { zh: "交付", en: "Ship" },
-  { zh: "回写声誉", en: "Record" },
+const adminUsers: AdminUser[] = [
+  {
+    handle: "kaze.n1nj4",
+    wallet: "0x71C8…4F3A",
+    github: "kaze-builds",
+    pullRequests: 240,
+    deployments: 300,
+    manual: 160,
+  },
+  {
+    handle: "ada.injective",
+    wallet: "0x8A10…19BC",
+    github: "ada-onchain",
+    pullRequests: 120,
+    deployments: 600,
+    manual: 0,
+  },
+  {
+    handle: "rei.cityzero",
+    wallet: "0x44E1…CD90",
+    github: "rei-labs",
+    pullRequests: 480,
+    deployments: 0,
+    manual: 80,
+  },
 ];
-const GRANT_BAR = 500; // 申请门槛 (贡献值)
 
-/* 贡献榜 · Top 8 + 我 (mock; 数据源 = GitHub PR/部署/修复, 可选链上) */
-const LEADERBOARD = [
-  { rank: 1, no: "0007", handle: "sora.n1nj4", series: { zh: "创世忍者", en: "Origins" }, tier: "FOUNDER", contribution: 4820 },
-  { rank: 2, no: "0214", handle: "rin.n1nj4", series: { zh: "创世忍者", en: "Origins" }, tier: "FOUNDER", contribution: 3964 },
-  { rank: 3, no: "0892", handle: "kuro.n1nj4", series: { zh: "赛博浪人", en: "Cyber Ronin" }, tier: "BUILDER", contribution: 3110 },
-  { rank: 4, no: "0455", handle: "hana.n1nj4", series: { zh: "创世忍者", en: "Origins" }, tier: "BUILDER", contribution: 2877 },
-  { rank: 5, no: "0961", handle: "RONIN-07", series: { zh: "AI 居民", en: "AI Resident" }, tier: "BUILDER", contribution: 2402 },
-  { rank: 6, no: "0333", handle: "geno.n1nj4", series: { zh: "赛博浪人", en: "Cyber Ronin" }, tier: "BUILDER", contribution: 2104 },
-  { rank: 7, no: "0618", handle: "yuki.n1nj4", series: { zh: "创世忍者", en: "Origins" }, tier: "BUILDER", contribution: 1830 },
-  { rank: 8, no: "1102", handle: "tora.n1nj4", series: { zh: "赛博浪人", en: "Cyber Ronin" }, tier: "BUILDER", contribution: 1655 },
-];
+const sourceMeta: Record<SourceKey, { label: string; short: string }> = {
+  github: { label: "Merged pull request", short: "PR" },
+  contract: { label: "Contract deployment", short: "SC" },
+  manual: { label: "Admin adjustment", short: "AD" },
+};
 
 function DashboardPage() {
   const { language } = useLanguage();
-  const { isConnected, address } = useAccount();
+  const { address, isConnected } = useAccount();
   const t = (zh: string, en: string) => (language === "zh" ? zh : en);
-  const citizenNo = CITIZEN.id.replace("#", "");
-  const shortAddr = address ? `${address.slice(0, 6)}…${address.slice(-4)}` : "0x71C…4f3A";
-  const progressPct = Math.min(100, Math.round((CITIZEN.contribution / CITIZEN.nextTierAt) * 100));
-  const toNext = CITIZEN.nextTierAt - CITIZEN.contribution;
+  const [mode, setMode] = useState<DashboardMode>("builder");
+  const [sourceFilter, setSourceFilter] = useState<SourceFilter>("all");
+  const [githubConnected, setGithubConnected] = useState(true);
+  const [lastSync, setLastSync] = useState("16:00 UTC");
+  const [syncing, setSyncing] = useState(false);
+  const [adminNotice, setAdminNotice] = useState("");
+
+  const filteredEvents = useMemo(
+    () =>
+      sourceFilter === "all"
+        ? contributionEvents
+        : contributionEvents.filter((event) => event.source === sourceFilter),
+    [sourceFilter],
+  );
+
+  const sourceTotals = useMemo(
+    () =>
+      contributionEvents.reduce(
+        (totals, event) => {
+          totals[event.source] += event.points;
+          return totals;
+        },
+        { github: 0, contract: 0, manual: 0 } as Record<SourceKey, number>,
+      ),
+    [],
+  );
+
+  const totalScore = sourceTotals.github + sourceTotals.contract + sourceTotals.manual;
+  const shortAddress = address ? `${address.slice(0, 6)}…${address.slice(-4)}` : "Not connected";
+
+  const runSync = () => {
+    setSyncing(true);
+    window.setTimeout(() => {
+      setLastSync("just now");
+      setSyncing(false);
+    }, 650);
+  };
+
+  const exportCsv = () => {
+    const rows = [
+      ["event_id", "source", "title", "evidence", "points", "status", "happened_at"],
+      ...contributionEvents.map((event) => [
+        event.id,
+        event.source,
+        event.title,
+        event.evidence,
+        String(event.points),
+        event.status,
+        event.happenedAt,
+      ]),
+    ];
+    const csv = rows
+      .map((row) => row.map((cell) => `"${cell.replaceAll('"', '""')}"`).join(","))
+      .join("\n");
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = "dashboard-contribution-demo.csv";
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const applyDemoAdjustment = (delta: number) => {
+    const prefix = delta > 0 ? "+" : "";
+    setAdminNotice(
+      t(
+        `演示操作已记录：${prefix}${delta} 分。正式版本会要求原因并写入审计日志。`,
+        `Demo action recorded: ${prefix}${delta} points. Production will require a reason and audit log.`,
+      ),
+    );
+  };
 
   return (
-    <div className="dash-page">
-      <div className="dash-shell">
-        {!isConnected && (
-          <div className="dash-preview-banner">
-            <span>
-              {t("预览模式 — 连接钱包后显示你的真实链上身份与贡献。", "Preview mode — connect your wallet to see your real on-chain data.")}
-            </span>
-            <ConnectButton.Custom>
-              {({ openConnectModal }) => (
-                <button className="dash-btn dash-btn-ghost dash-btn-sm" onClick={openConnectModal}>
-                  {t("连接钱包", "Connect")}
-                </button>
+    <div className="d2-page">
+      <section className="d2-hero">
+        <div className="d2-grid-lines" aria-hidden="true" />
+        <div className="d2-shell d2-hero-inner">
+          <div className="d2-hero-copy">
+            <div className="d2-eyebrow-row">
+              <span className="d2-eyebrow">CITY ZERO · CONTRIBUTION LEDGER</span>
+              <span className="d2-demo-badge">MVP UI · DEMO DATA</span>
+            </div>
+            <h1>{t("建设，有据可查。", "Builds, verified.")}</h1>
+            <p>
+              {t(
+                "把钱包、GitHub 和真实交付连接起来。每一分都能回到来源。",
+                "A lightweight record of what you shipped, where it happened, and how every point was earned.",
               )}
-            </ConnectButton.Custom>
+            </p>
           </div>
-        )}
 
-        {/* ============ 1 · 身份条 (被记录 · 我是谁) ============ */}
-        <section className="dash-idbar">
-          <Link to="/dashboard/identity" className="dash-idbar-left">
-            <ImagePlaceholder
-              className="dash-avatar"
-              ratio="1"
-              iconOnly
-              src="/dashboard/citizen-kaze.png"
-              objectPosition="50% 19%"
-              label={t("公民 NFT 头像 · 1:1", "Citizen NFT avatar · 1:1")}
-            />
-            <div className="dash-idbar-who">
-              <div className="dash-idbar-name">
-                {t("公民", "Citizen")} {CITIZEN.id}
-                <span className="dash-tier-chip">{CITIZEN.tier}</span>
-              </div>
-              <span className="dash-idbar-series">{t(CITIZEN.series.zh, CITIZEN.series.en)} · {shortAddr}</span>
-              <span className="dash-idbar-link">{t("查看完整护照 →", "View full passport →")}</span>
-            </div>
-          </Link>
-          <div className="dash-idbar-metrics">
-            <div className="dash-metric">
-              <span className="dash-metric-value">{CITIZEN.contribution.toLocaleString()}</span>
-              <span className="dash-metric-label">{t("贡献值", "Contribution")}</span>
-            </div>
-            <div className="dash-metric">
-              <span className="dash-metric-value">#{CITIZEN.rankNum}</span>
-              <span className="dash-metric-label">{t(CITIZEN.rankPct.zh, CITIZEN.rankPct.en)}</span>
-            </div>
-            <div className="dash-metric dash-metric-progress">
-              <div className="dash-progress">
-                <div className="dash-progress-bar" style={{ width: `${progressPct}%` }} />
-              </div>
-              <span className="dash-metric-label">
-                {t(`距「${CITIZEN.nextTier.zh}」还差 ${toNext}`, `${toNext} to ${CITIZEN.nextTier.en}`)}
-              </span>
-            </div>
+          <div className="d2-mode-switch" aria-label={t("页面视图", "Dashboard view")}>
+            <button
+              type="button"
+              className={mode === "builder" ? "active" : ""}
+              onClick={() => setMode("builder")}
+            >
+              {t("建设者视图", "Builder view")}
+            </button>
+            <button
+              type="button"
+              className={mode === "admin" ? "active" : ""}
+              onClick={() => setMode("admin")}
+            >
+              {t("管理视图", "Admin view")}
+            </button>
           </div>
-        </section>
-
-        {/* ============ 2 · 我的建设 + 任务来源 (主) / 资助通道 (右栏) ============ */}
-        <div className="dash-layout">
-          <section className="dash-main">
-            {/* —— 我的建设 · 六步闭环状态 —— */}
-            <div className="dash-panel">
-              <header className="dash-panel-head">
-                <h2 className="dash-panel-title">{t("我的建设", "My builds")}</h2>
-                <span className="dash-panel-hint">
-                  {t("发布 → 招募 → 申请 → 资助 → 交付 → 结算", "Post → Recruit → Apply → Fund → Ship → Settle")}
-                </span>
-              </header>
-              <div className="dash-work-row">
-                {MY_WORK.map((w) => (
-                  <div className="dash-work-card" key={w.title.en}>
-                    <div className="dash-loop-dots" aria-hidden="true">
-                      {LOOP_STEPS.map((_, i) => (
-                        <span
-                          key={i}
-                          className={`dash-loop-dot${i <= w.step ? " is-done" : ""}${i === w.step ? " is-current" : ""}`}
-                        />
-                      ))}
-                    </div>
-                    <p className="dash-work-title">{t(w.title.zh, w.title.en)}</p>
-                    <span className="dash-loop-label">
-                      {w.step + 1}/6 · {t(LOOP_STEPS[w.step].zh, LOOP_STEPS[w.step].en)}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* —— 任务来源 · 本月真实活动 (运营先行) —— */}
-            <div className="dash-panel">
-              <header className="dash-panel-head">
-                <h2 className="dash-panel-title">{t("任务来源 · 本月活动", "Mission source · this month")}</h2>
-                <span className="dash-panel-hint">
-                  {t("运营先行 — 接任务 = 参加活动 · HackQuest 同步", "Ops-first — missions come from real events · synced with HackQuest")}
-                </span>
-              </header>
-              <ul className="dash-list">
-                {STADIUM_EVENTS.map((ev) => {
-                  const st = EVENT_STATUS_LABEL[ev.status];
-                  return (
-                    <li className="dash-event" key={ev.id}>
-                      <div className="dash-event-info">
-                        <div className="dash-event-top">
-                          <span className={`dash-status dash-status-${st.cls}`}>{t(st.zh, st.en)}</span>
-                          <span className="dash-event-note">{t(ev.statusNote.zh, ev.statusNote.en)}</span>
-                        </div>
-                        <p className="dash-event-title">{t(ev.title.zh, ev.title.en)}</p>
-                        <span className="dash-event-meta">
-                          {t(ev.organizer.zh, ev.organizer.en)} · {ev.prize} {t("奖池", "prize pool")}
-                        </span>
-                      </div>
-                      <a className="dash-btn dash-btn-sm" href={ev.link} target="_blank" rel="noopener noreferrer">
-                        {t("查看 ↗", "View ↗")}
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-              <Link className="dash-inline-link" to="/city-zero#stadium">
-                {t("前往竞技场查看详情 →", "See details in the Stadium →")}
-              </Link>
-            </div>
-          </section>
-
-          {/* —— 右栏 · 护照露出卡 + 资助通道 —— */}
-          <aside className="dash-rail">
-            {/* 护照卡 · 对外可分享的身份摘要 (完整护照见 /dashboard/identity) */}
-            <div className="dash-panel dash-namecard">
-              <span className="dash-namecard-flag">🌐 {t("护照 · 可分享", "Passport · shareable")}</span>
-              <div className="dash-namecard-head">
-                <ImagePlaceholder
-                  className="dash-namecard-avatar"
-                  ratio="1"
-                  iconOnly
-                  src="/dashboard/citizen-kaze.png"
-                  objectPosition="50% 19%"
-                  label={t("公民 NFT 头像 · 1:1", "Citizen NFT avatar · 1:1")}
-                />
-                <div className="dash-namecard-id">
-                  <div className="dash-namecard-name">
-                    {t("公民", "Citizen")} {CITIZEN.id}
-                    <span className="dash-tier-chip">{CITIZEN.tier}</span>
-                  </div>
-                  <span className="dash-namecard-sub">
-                    {t(CITIZEN.series.zh, CITIZEN.series.en)} · kaze.n1nj4
-                  </span>
-                </div>
-              </div>
-              <div className="dash-namecard-proof">
-                <span className="dash-namecard-proof-label">{t("贡献证明 · GitHub", "Proof of Build · GitHub")}</span>
-                <span className="dash-namecard-proof-line">
-                  {PASSPORT_PROOF.map((p) => t(p.zh, p.en)).join(" · ")}
-                </span>
-              </div>
-              <div className="dash-namecard-badges">
-                {PASSPORT_BADGES.map((b) => (
-                  <span className="dash-namecard-badge" key={b.en}>{t(b.zh, b.en)}</span>
-                ))}
-              </div>
-              <div className="dash-namecard-actions">
-                <Link to="/dashboard/identity" className="dash-btn dash-btn-sm">{t("查看护照", "View passport")}</Link>
-                <Link to={`/citizen/${citizenNo}`} className="dash-btn dash-btn-sm dash-btn-ghost">{t("分享名片", "Share card")}</Link>
-              </div>
-            </div>
-
-            <div className="dash-panel dash-grant-card">
-              <span className="dash-grant-kicker">{t("资助通道", "Grant Path")}</span>
-              <p className="dash-grant-bar">
-                {t(`门槛 · 贡献值 ≥ ${GRANT_BAR}`, `Bar · contribution ≥ ${GRANT_BAR}`)}
-              </p>
-              <p className="dash-grant-sub">
-                {CITIZEN.contribution >= GRANT_BAR
-                  ? t(`你已达标 (${CITIZEN.contribution.toLocaleString()}) — 可提交项目`, `You qualify (${CITIZEN.contribution.toLocaleString()}) — submit a project`)
-                  : t(`还差 ${GRANT_BAR - CITIZEN.contribution} 贡献值达标`, `${GRANT_BAR - CITIZEN.contribution} more to qualify`)}
-              </p>
-              <ol className="dash-grant-steps">
-                {GRANT_STEPS.map((s, i) => (
-                  <li key={s.en}>
-                    <span className="dash-grant-step-num">{i + 1}</span>
-                    {t(s.zh, s.en)}
-                  </li>
-                ))}
-              </ol>
-              <Link to="/city-zero#submit" className="dash-btn dash-btn-block">
-                {t("提交项目", "Submit a project")}
-              </Link>
-            </div>
-          </aside>
         </div>
+      </section>
 
-        {/* ============ 3 · 贡献榜 (被看见) ============ */}
-        <section className="dash-panel">
-          <header className="dash-panel-head">
-            <h2 className="dash-panel-title">{t("贡献榜", "Leaderboard")}</h2>
-            <span className="dash-panel-hint">
-              {t("数据源 · GitHub 贡献 (PR / 部署 / 修复) · 链上可选", "Data · GitHub (PRs / deploys / fixes) · on-chain optional")}
-            </span>
-          </header>
-          <ol className="dash-board">
-            {LEADERBOARD.map((b) => (
-              <li key={b.no}>
-                <Link to={`/citizen/${b.no}`} className="dash-board-row">
-                  <span className={`dash-board-rank${b.rank <= 3 ? " is-top" : ""}`}>#{b.rank}</span>
-                  <ImagePlaceholder
-                    className="dash-board-avatar"
-                    ratio="1"
-                    iconOnly
-                    label={t("公民头像", "Citizen avatar")}
-                  />
-                  <span className="dash-board-who">
-                    <span className="dash-board-handle">{b.handle}</span>
-                    <span className="dash-board-series">{t(b.series.zh, b.series.en)} · #{b.no}</span>
-                  </span>
-                  <span className="dash-tier-chip">{b.tier}</span>
-                  <span className="dash-board-score">{b.contribution.toLocaleString()}</span>
-                </Link>
-              </li>
-            ))}
-            <li className="dash-board-gap" aria-hidden="true">⋯</li>
-            <li>
-              <Link to={`/citizen/${citizenNo}`} className="dash-board-row dash-board-me">
-                <span className="dash-board-rank">#{CITIZEN.rankNum}</span>
-                <ImagePlaceholder
-                  className="dash-board-avatar"
-                  ratio="1"
-                  iconOnly
-                  src="/dashboard/citizen-kaze.png"
-                  objectPosition="50% 19%"
-                  label={t("我的头像", "My avatar")}
-                />
-                <span className="dash-board-who">
-                  <span className="dash-board-handle">kaze.n1nj4 {t("(我)", "(you)")}</span>
-                  <span className="dash-board-series">{t(CITIZEN.series.zh, CITIZEN.series.en)} · {CITIZEN.id}</span>
+      <main className="d2-shell d2-main">
+        {mode === "builder" ? (
+          <>
+            <section className="d2-identity-strip">
+              <div className="d2-avatar" aria-hidden="true">K</div>
+              <div className="d2-identity-copy">
+                <span className="d2-overline">BUILDER IDENTITY</span>
+                <h2>{isConnected ? "kaze.n1nj4" : t("连接你的建设者身份", "Connect your builder identity")}</h2>
+                <p>{shortAddress} · Injective EVM</p>
+              </div>
+              <div className="d2-identity-actions">
+                <span className={`d2-status-dot ${isConnected ? "is-live" : ""}`}>
+                  {isConnected ? t("钱包已连接", "Wallet connected") : t("钱包未连接", "Wallet offline")}
                 </span>
-                <span className="dash-tier-chip">{CITIZEN.tier}</span>
-                <span className="dash-board-score">{CITIZEN.contribution.toLocaleString()}</span>
-              </Link>
-            </li>
-          </ol>
-        </section>
-      </div>
+                {!isConnected && (
+                  <ConnectButton.Custom>
+                    {({ openConnectModal }) => (
+                      <button type="button" className="d2-btn d2-btn-dark" onClick={openConnectModal}>
+                        {t("连接钱包", "Connect wallet")}
+                      </button>
+                    )}
+                  </ConnectButton.Custom>
+                )}
+              </div>
+            </section>
+
+            <section className="d2-score-grid" aria-label={t("贡献概览", "Contribution overview")}>
+              <article className="d2-score-card d2-score-card-total">
+                <span className="d2-overline">WEIGHTED TOTAL</span>
+                <strong>{totalScore.toLocaleString()}</strong>
+                <p>{t("来自 5 条已确认记录", "from 5 verified records")}</p>
+              </article>
+              <article className="d2-score-card">
+                <span className="d2-source-mark is-github">PR</span>
+                <div><strong>{sourceTotals.github}</strong><p>{t("合并 PR", "Merged PRs")}</p></div>
+                <small>2 × 120 pts</small>
+              </article>
+              <article className="d2-score-card">
+                <span className="d2-source-mark is-contract">SC</span>
+                <div><strong>{sourceTotals.contract}</strong><p>{t("合约部署", "Deployments")}</p></div>
+                <small>1 verified event</small>
+              </article>
+              <article className="d2-score-card">
+                <span className="d2-source-mark is-manual">AD</span>
+                <div><strong>{sourceTotals.manual}</strong><p>{t("人工调整", "Admin score")}</p></div>
+                <small>2 reviewed events</small>
+              </article>
+            </section>
+
+            <div className="d2-content-grid">
+              <section className="d2-panel d2-ledger-panel">
+                <header className="d2-panel-header">
+                  <div>
+                    <span className="d2-overline">AUDITABLE HISTORY</span>
+                    <h2>{t("贡献记录", "Contribution ledger")}</h2>
+                  </div>
+                  <button type="button" className="d2-btn d2-btn-line" onClick={exportCsv}>
+                    {t("导出 CSV", "Export CSV")} ↓
+                  </button>
+                </header>
+
+                <div className="d2-filter-row" aria-label={t("贡献来源筛选", "Filter by source")}>
+                  {(["all", "github", "contract", "manual"] as SourceFilter[]).map((filter) => (
+                    <button
+                      type="button"
+                      key={filter}
+                      className={sourceFilter === filter ? "active" : ""}
+                      onClick={() => setSourceFilter(filter)}
+                    >
+                      {filter === "all" ? t("全部", "All events") : sourceMeta[filter].short}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="d2-event-list">
+                  {filteredEvents.map((event) => (
+                    <article className="d2-event" key={event.id}>
+                      <span className={`d2-source-mark is-${event.source}`}>{sourceMeta[event.source].short}</span>
+                      <div className="d2-event-copy">
+                        <div className="d2-event-title-row">
+                          <h3>{event.title}</h3>
+                          <strong>+{event.points}</strong>
+                        </div>
+                        <p>{event.evidence}</p>
+                        <div className="d2-event-meta">
+                          <span>{sourceMeta[event.source].label}</span>
+                          <span>{event.status}</span>
+                          <time>{event.happenedAt}</time>
+                        </div>
+                      </div>
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              <aside className="d2-sidebar">
+                <section className="d2-panel d2-integration-card">
+                  <span className="d2-overline">CONNECTIONS</span>
+                  <h2>{t("数据来源", "Data connections")}</h2>
+                  <div className="d2-connection">
+                    <span className="d2-connection-icon">GH</span>
+                    <div><strong>GitHub</strong><p>{githubConnected ? "@kaze-builds" : t("未连接", "Not connected")}</p></div>
+                    <button type="button" onClick={() => setGithubConnected((value) => !value)}>
+                      {githubConnected ? t("断开", "Disconnect") : t("连接", "Connect")}
+                    </button>
+                  </div>
+                  <div className="d2-connection">
+                    <span className="d2-connection-icon">INJ</span>
+                    <div><strong>Injective EVM</strong><p>{t("合约索引器", "Contract indexer")}</p></div>
+                    <span className="d2-mini-status">ONLINE</span>
+                  </div>
+                  <div className="d2-sync-row">
+                    <span>{t("上次同步", "Last sync")} · {lastSync}</span>
+                    <button type="button" onClick={runSync} disabled={syncing}>
+                      {syncing ? t("同步中…", "Syncing…") : t("立即同步", "Run sync")}
+                    </button>
+                  </div>
+                </section>
+
+                <section className="d2-panel d2-rules-card">
+                  <span className="d2-overline">SCORING RULES · V1</span>
+                  <h2>{t("分数如何产生", "How points are issued")}</h2>
+                  <ol>
+                    <li><span>01</span><div><strong>Merged PR</strong><p>+120 fixed points in selected repos</p></div></li>
+                    <li><span>02</span><div><strong>Contract deployment</strong><p>+300 after indexer verification</p></div></li>
+                    <li><span>03</span><div><strong>Admin adjustment</strong><p>Variable, reason and reviewer required</p></div></li>
+                  </ol>
+                </section>
+
+                <section className="d2-scope-note">
+                  <strong>{t("V1 范围边界", "V1 scope boundary")}</strong>
+                  <p>{t("不包含 NFT 验证、INJ 奖励、X 连接或公开排行榜。", "No NFT verification, INJ rewards, X connection, or public leaderboard.")}</p>
+                </section>
+              </aside>
+            </div>
+          </>
+        ) : (
+          <section className="d2-admin-view">
+            <div className="d2-admin-metrics">
+              <article><span>REGISTERED BUILDERS</span><strong>128</strong><small>+12 this month</small></article>
+              <article><span>EVENTS THIS CYCLE</span><strong>364</strong><small>98.6% verified</small></article>
+              <article><span>SYNC HEALTH</span><strong>99.8%</strong><small>2 events queued</small></article>
+              <article><span>MANUAL REVIEWS</span><strong>7</strong><small>oldest · 3h</small></article>
+            </div>
+
+            <div className="d2-admin-grid">
+              <section className="d2-panel d2-user-panel">
+                <header className="d2-panel-header">
+                  <div><span className="d2-overline">USER MANAGEMENT</span><h2>{t("建设者与分数", "Builders & scores")}</h2></div>
+                  <button type="button" className="d2-btn d2-btn-line" onClick={exportCsv}>Export CSV ↓</button>
+                </header>
+                <div className="d2-user-table-wrap">
+                  <table className="d2-user-table">
+                    <thead><tr><th>Builder</th><th>Wallet</th><th>GitHub PR</th><th>Deploy</th><th>Admin</th><th>Total</th></tr></thead>
+                    <tbody>
+                      {adminUsers.map((user) => {
+                        const total = user.pullRequests + user.deployments + user.manual;
+                        return (
+                          <tr key={user.wallet}>
+                            <td><strong>{user.handle}</strong><span>@{user.github}</span></td>
+                            <td><code>{user.wallet}</code></td>
+                            <td>{user.pullRequests}</td>
+                            <td>{user.deployments}</td>
+                            <td>{user.manual}</td>
+                            <td><strong>{total}</strong></td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+
+              <aside className="d2-panel d2-adjustment-panel">
+                <span className="d2-overline">MANUAL ADJUSTMENT</span>
+                <h2>{t("记录人工分数", "Record admin score")}</h2>
+                <label>{t("建设者", "Builder")}<select defaultValue="kaze"><option value="kaze">kaze.n1nj4</option><option value="ada">ada.injective</option><option value="rei">rei.cityzero</option></select></label>
+                <label>{t("原因", "Reason")}<select defaultValue="community"><option value="community">Community activity</option><option value="operations">Operations support</option><option value="special">Special task</option><option value="correction">Score correction</option></select></label>
+                <label>{t("审计备注", "Audit note")}<textarea defaultValue="Contribution verified by city operations." /></label>
+                <div className="d2-adjust-buttons">
+                  <button type="button" onClick={() => applyDemoAdjustment(25)}>+25</button>
+                  <button type="button" className="negative" onClick={() => applyDemoAdjustment(-10)}>−10</button>
+                </div>
+                {adminNotice && <p className="d2-admin-notice" role="status">{adminNotice}</p>}
+              </aside>
+            </div>
+
+            <section className="d2-panel d2-pipeline-panel">
+              <header className="d2-panel-header"><div><span className="d2-overline">HOURLY POLLING</span><h2>{t("同步管道", "Sync pipeline")}</h2></div><button type="button" className="d2-btn d2-btn-dark" onClick={runSync}>{syncing ? "Running…" : "Run all syncs"}</button></header>
+              <div className="d2-pipeline-grid">
+                <article><span className="d2-pipeline-light" /><div><strong>GitHub merged PRs</strong><p>24 repositories · last run {lastSync}</p></div><b>HEALTHY</b></article>
+                <article><span className="d2-pipeline-light" /><div><strong>Contract deployments</strong><p>Injective EVM · last run {lastSync}</p></div><b>HEALTHY</b></article>
+                <article><span className="d2-pipeline-light is-warn" /><div><strong>Manual review queue</strong><p>7 events awaiting an operator</p></div><b className="is-warn">ACTION</b></article>
+              </div>
+            </section>
+          </section>
+        )}
+      </main>
     </div>
   );
 }

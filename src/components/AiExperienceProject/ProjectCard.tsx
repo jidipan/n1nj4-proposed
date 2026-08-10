@@ -8,12 +8,13 @@ interface ProjectCardProps {
     imageSrc: string;
     tags: string[];
     githubRepo: string; // e.g., "Ninja-Labs-Devs/Star-Office-UI-INJ"
+    status?: "LIVE" | "DEMO" | "STARTER" | "TUTORIAL";
 }
 
 const REPO_STATS_CACHE_PREFIX = 'ai_repo_stats_cache_v1:';
 const REPO_STATS_CACHE_TTL_MS = 30 * 60 * 1000; // 30 minutes
 
-const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, imageSrc, tags, githubRepo }) => {
+const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, imageSrc, tags, githubRepo, status }) => {
     const [stars, setStars] = useState<number | string>('...');
     const [forks, setForks] = useState<number | string>('...');
 
@@ -96,6 +97,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ title, description, imageSrc,
             <div className="ai-project-card-top">
                 <div className="ai-project-image-container">
                     <img src={imageSrc} alt={title} className="ai-project-image" />
+                    {status && <span className={`ai-project-status status-${status.toLowerCase()}`}>{status}</span>}
                 </div>
                 <div className="ai-project-meta-block">
                     <h3 className="ai-project-card-title">{title}</h3>

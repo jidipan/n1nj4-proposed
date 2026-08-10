@@ -7,9 +7,12 @@ import { useLanguage } from "../../context/useLanguage";
 interface ProjectItem {
     title: string;
     description: string;
+    descriptionZh?: string;
+    descriptionEn?: string;
     imageSrc: string;
     tags: string[];
     githubRepo: string;
+    status?: "LIVE" | "DEMO" | "STARTER" | "TUTORIAL";
     starCount?: number;
 }
 
@@ -30,21 +33,107 @@ const AI_EXPERIENCE_IMAGE_POOL = [
    Google Sheet 未配置或拉取失败时直接展示;配置后与 Sheet 数据按 repo 去重合并。 */
 const SEED_PROJECTS: ProjectItem[] = [
     {
-        title: "NinjaNFTFrontend",
-        description: "500 unique cyberpunk ninjas are descending upon the N1NJ4 City Zero. City Zero is initiated by Ninja Labs and co-built by the community.",
-        imageSrc: "/AI EXPERIENCE PROJECT/Ninja Labs CN-banner-2-1.png",
-        tags: ["React", "TypeScript"],
-        githubRepo: "Ninja-Labs-Devs/NinjaNFTFrontend",
+        title: "N1NJ4 Website",
+        description: "Production frontend for N1NJ4 and City Zero, bringing together on-chain identity, the NFT gallery, City Dispatch, events, and community project discovery.",
+        descriptionZh: "N1NJ4 与 City Zero 的生产网站前端，整合链上身份、NFT Gallery、City Dispatch、活动与社区项目入口。",
+        descriptionEn: "Production frontend for N1NJ4 and City Zero, bringing together on-chain identity, the NFT gallery, City Dispatch, events, and community project discovery.",
+        imageSrc: "/homepage.png",
+        tags: ["React", "TypeScript", "Injective"],
+        githubRepo: "Ninja-Labs-Devs/NinjaNFTFrontend-v2",
+        status: "LIVE",
     },
     {
-        title: "Star-Office-UI-INJ",
-        description: "A pixel-art styled office dashboard for visualizing AI agent work status in real-time, with Injective EVM wallet integration via MetaMask.",
+        title: "Star Office UI",
+        description: "A pixel office for OpenClaw and AI agents, turning work states into a real-time visual space with multi-agent support and Injective EVM wallet integration.",
+        descriptionZh: "面向 OpenClaw 与 AI Agent 的像素办公室，将工作状态转化为实时可视化空间，并支持 Injective EVM 钱包与多 Agent 协作。",
+        descriptionEn: "A pixel office for OpenClaw and AI agents, turning work states into a real-time visual space with multi-agent support and Injective EVM wallet integration.",
         imageSrc: "/AI EXPERIENCE PROJECT/Star-Office-UI-INJ.png",
-        tags: ["Python", "React"],
+        tags: ["OpenClaw", "Python", "Injective"],
         githubRepo: "Ninja-Labs-Devs/Star-Office-UI-INJ",
+        status: "DEMO",
+    },
+    {
+        title: "USDC CCTP Demo",
+        description: "A developer education dApp demonstrating native two-way USDC transfers between Injective EVM Testnet and Ethereum Sepolia using Circle CCTP.",
+        descriptionZh: "面向开发者的 CCTP 教育型 dApp，演示 USDC 在 Injective EVM Testnet 与 Ethereum Sepolia 之间的双向原生跨链转移。",
+        descriptionEn: "A developer education dApp demonstrating native two-way USDC transfers between Injective EVM Testnet and Ethereum Sepolia using Circle CCTP.",
+        imageSrc: "/repo-covers/usdc-cctp.svg",
+        tags: ["React", "CCTP", "EVM"],
+        githubRepo: "Ninja-Labs-Devs/usdc-cctp-injective-demo",
+        status: "DEMO",
+    },
+    {
+        title: "React Injective Starter",
+        description: "A React starter for Injective EVM dApps with wallet connectivity, USDC vault interactions, wagmi, viem, and an MCP integration path.",
+        descriptionZh: "面向 Injective EVM dApp 的 React 启动模板，包含钱包连接、USDC Vault 交互、wagmi、viem 与 MCP 接入路径。",
+        descriptionEn: "A React starter for Injective EVM dApps with wallet connectivity, USDC vault interactions, wagmi, viem, and an MCP integration path.",
+        imageSrc: "/repo-covers/react-starter.svg",
+        tags: ["React", "Wagmi", "USDC"],
+        githubRepo: "Ninja-Labs-Devs/react-injective-template",
+        status: "STARTER",
+    },
+    {
+        title: "Vue Injective Starter",
+        description: "A Vue 3 starter for Injective EVM dApps with wallet connection, network switching, and reusable USDC vault flows.",
+        descriptionZh: "面向 Injective EVM dApp 的 Vue 3 启动模板，提供钱包连接、网络切换和可复用的 USDC Vault 交互流程。",
+        descriptionEn: "A Vue 3 starter for Injective EVM dApps with wallet connection, network switching, and reusable USDC vault flows.",
+        imageSrc: "/repo-covers/vue-starter.svg",
+        tags: ["Vue", "Viem", "USDC"],
+        githubRepo: "Ninja-Labs-Devs/vue-injective-template",
+        status: "STARTER",
+    },
+    {
+        title: "Vibe Code Starter",
+        description: "An AI-assisted coding workspace configured for building Injective projects with Roo Code, project context, and reusable development instructions.",
+        descriptionZh: "为 Injective 项目配置的 AI 辅助开发工作区，整合 Roo Code、项目上下文与可复用的开发指令。",
+        descriptionEn: "An AI-assisted coding workspace configured for building Injective projects with Roo Code, project context, and reusable development instructions.",
+        imageSrc: "/repo-covers/vibe-code.svg",
+        tags: ["AI", "Roo Code", "Injective"],
+        githubRepo: "Ninja-Labs-Devs/vibe-code-inj-starter",
+        status: "STARTER",
+    },
+    {
+        title: "AdventureX NFT Demo",
+        description: "A cyberpunk NFT demo prepared for AdventureX, pairing an interactive minting frontend with an Injective EVM contract project.",
+        descriptionZh: "为 AdventureX 制作的赛博朋克 NFT 演示项目，将交互式铸造前端与 Injective EVM 合约工程组合在一起。",
+        descriptionEn: "A cyberpunk NFT demo prepared for AdventureX, pairing an interactive minting frontend with an Injective EVM contract project.",
+        imageSrc: "/repo-covers/adventurex-nft.svg",
+        tags: ["Next.js", "NFT", "EVM"],
+        githubRepo: "Ninja-Labs-Devs/advx-nft-demo",
+        status: "DEMO",
+    },
+    {
+        title: "EVM Hello World",
+        description: "A guided first project for EVM developers covering funding, compilation, testing, deployment, verification, and contract interaction on Injective.",
+        descriptionZh: "面向 EVM 开发者的 Injective 入门项目，覆盖账户准备、编译、测试、部署、验证与合约交互。",
+        descriptionEn: "A guided first project for EVM developers covering funding, compilation, testing, deployment, verification, and contract interaction on Injective.",
+        imageSrc: "/repo-covers/evm-hello-world.svg",
+        tags: ["Hardhat", "Solidity", "EVM"],
+        githubRepo: "Ninja-Labs-Devs/evm-hello-world-inj",
+        status: "TUTORIAL",
+    },
+    {
+        title: "Hardhat Injective Starter",
+        description: "A lean Hardhat scaffold for compiling, testing, deploying, verifying, and interacting with Solidity contracts on Injective EVM Testnet.",
+        descriptionZh: "面向 Injective EVM Testnet 的轻量 Hardhat 脚手架，覆盖 Solidity 合约的编译、测试、部署、验证与交互。",
+        descriptionEn: "A lean Hardhat scaffold for compiling, testing, deploying, verifying, and interacting with Solidity contracts on Injective EVM Testnet.",
+        imageSrc: "/repo-covers/hardhat-starter.svg",
+        tags: ["Hardhat", "Solidity", "EVM"],
+        githubRepo: "Ninja-Labs-Devs/hardhat-injective-template",
+        status: "STARTER",
+    },
+    {
+        title: "Foundry Injective Starter",
+        description: "A minimal Foundry workflow for building, testing, deploying, verifying, and interacting with smart contracts on Injective EVM.",
+        descriptionZh: "面向 Injective EVM 的精简 Foundry 工作流，支持智能合约构建、测试、部署、验证与交互。",
+        descriptionEn: "A minimal Foundry workflow for building, testing, deploying, verifying, and interacting with smart contracts on Injective EVM.",
+        imageSrc: "/repo-covers/foundry-starter.svg",
+        tags: ["Foundry", "Solidity", "EVM"],
+        githubRepo: "Ninja-Labs-Devs/foundry-injective-template",
+        status: "STARTER",
     },
 ];
-const PROJECTS_CACHE_KEY = 'ai_experience_projects_cache_v1';
+const PROJECTS_CACHE_KEY = 'ai_experience_projects_cache_v2';
 const PROJECTS_CACHE_TTL_MS = 15 * 60 * 1000; // 15 minutes
 
 const AiExperienceProject: React.FC<AiExperienceProjectProps> = ({ mode = "full" }) => {
@@ -256,12 +345,12 @@ const AiExperienceProject: React.FC<AiExperienceProjectProps> = ({ mode = "full"
                 const rows = extractRows(payload);
                 const parsedProjects = rows.map(toProjectItem).filter(Boolean) as ProjectItem[];
 
-                // 合并内置种子项目 (按 repo 去重, Sheet 数据优先)
-                for (const seed of SEED_PROJECTS) {
-                    if (!parsedProjects.some(p => p.githubRepo === seed.githubRepo)) {
-                        parsedProjects.push(seed);
-                    }
-                }
+                // Ninja Labs 官方仓库由本地精选数据维护，确保双语文案与项目封面稳定。
+                // Sheet 继续负责非官方的社区投稿；旧的官方 Sheet 行不再覆盖精选卡片。
+                const communityProjects = parsedProjects.filter(
+                    project => !project.githubRepo.toLowerCase().startsWith('ninja-labs-devs/')
+                );
+                const mergedProjects = [...communityProjects, ...SEED_PROJECTS];
 
                 const githubToken = import.meta.env.VITE_GITHUB_API_KEY;
                 const headers: HeadersInit = { Accept: 'application/vnd.github+json' };
@@ -270,7 +359,7 @@ const AiExperienceProject: React.FC<AiExperienceProjectProps> = ({ mode = "full"
                 }
 
                 const projectsWithStars = await Promise.all(
-                    parsedProjects.map(async (project) => {
+                    mergedProjects.map(async (project) => {
                         try {
                             const statRes = await fetch(`https://api.github.com/repos/${project.githubRepo}`, { headers });
                             if (!statRes.ok) {
@@ -292,7 +381,7 @@ const AiExperienceProject: React.FC<AiExperienceProjectProps> = ({ mode = "full"
 
                 setProjects(projectsWithStars);
                 writeProjectsCache(projectsWithStars);
-                if (!parsedProjects.length) {
+                if (!mergedProjects.length) {
                     setProjectsMessage(translate('Google Sheet 暂无已审核通过的项目。', 'No approved projects found in Google Sheet yet.'));
                 }
             } catch (error) {
@@ -374,7 +463,11 @@ const AiExperienceProject: React.FC<AiExperienceProjectProps> = ({ mode = "full"
                                 <div className="project-group">
                                     <div className="project-grid">
                                         {communityProjects.map((project) => (
-                                            <ProjectCard key={project.githubRepo} {...project} />
+                                            <ProjectCard
+                                                key={project.githubRepo}
+                                                {...project}
+                                                description={translate(project.descriptionZh || project.description, project.descriptionEn || project.description)}
+                                            />
                                         ))}
                                     </div>
                                 </div>
@@ -385,7 +478,11 @@ const AiExperienceProject: React.FC<AiExperienceProjectProps> = ({ mode = "full"
                                     <p className="section-kicker project-group-kicker">{translate("官方仓库", "REPOS")}</p>
                                     <div className="project-grid">
                                         {officialRepos.map((project) => (
-                                            <ProjectCard key={project.githubRepo} {...project} />
+                                            <ProjectCard
+                                                key={project.githubRepo}
+                                                {...project}
+                                                description={translate(project.descriptionZh || project.description, project.descriptionEn || project.description)}
+                                            />
                                         ))}
                                     </div>
                                 </div>
@@ -403,7 +500,11 @@ const AiExperienceProject: React.FC<AiExperienceProjectProps> = ({ mode = "full"
                 {mode === "full" && (
                 <div className="project-grid">
                     {projects.map((project, idx) => (
-                        <ProjectCard key={idx} {...project} />
+                        <ProjectCard
+                            key={idx}
+                            {...project}
+                            description={translate(project.descriptionZh || project.description, project.descriptionEn || project.description)}
+                        />
                     ))}
 
                     {!isLoadingProjects && projects.length === 0 && (

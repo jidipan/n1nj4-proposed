@@ -3,7 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import { useLanguage } from "../context/useLanguage";
 import ImagePlaceholder from "../components/ImagePlaceholder/ImagePlaceholder";
-import "./DashboardIdentityPage.css";
+import "./DashboardLegacyIdentityPage.css";
 
 /* ====================================================================
  * Citizen Passport · 公民护照 (完整身份层)
@@ -92,7 +92,7 @@ const TICKETS = [
   { zh: "黑客松", en: "Hackathon", note: { zh: "报名资格", en: "Eligible" } },
 ];
 
-function DashboardIdentityPage({ publicView = false }: { publicView?: boolean }) {
+function DashboardLegacyIdentityPage({ publicView = false }: { publicView?: boolean }) {
   const { language } = useLanguage();
   const { address } = useAccount();
   const params = useParams();
@@ -112,8 +112,8 @@ function DashboardIdentityPage({ publicView = false }: { publicView?: boolean })
     <div className="idp-page">
       <div className="idp-shell">
         {/* 返回 */}
-        <Link to={publicView ? "/" : "/dashboard"} className="idp-back">
-          ← {publicView ? t("前往 N1NJ4", "Go to N1NJ4") : t("返回 Dashboard", "Back to Dashboard")}
+        <Link to={publicView ? "/" : "/dashboard-legacy"} className="idp-back">
+          ← {publicView ? t("前往 N1NJ4", "Go to N1NJ4") : t("返回 Dashboard Legacy", "Back to Dashboard Legacy")}
         </Link>
 
         <header className="idp-header">
@@ -338,4 +338,4 @@ function DashboardIdentityPage({ publicView = false }: { publicView?: boolean })
   );
 }
 
-export default DashboardIdentityPage;
+export default DashboardLegacyIdentityPage;

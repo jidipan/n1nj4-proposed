@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#0b0c16"/><stop offset="1" stop-color="#20184a"/></linearGradient>
+    <radialGradient id="glow"><stop stop-color="#7667ff" stop-opacity=".7"/><stop offset="1" stop-color="#7667ff" stop-opacity="0"/></radialGradient>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0 0l12 6-12 6z" fill="#a99fff"/></marker>
+  </defs>
+  <rect width="1200" height="780" fill="url(#bg)"/>
+  <circle cx="600" cy="390" r="360" fill="url(#glow)" opacity=".35"/>
+  <g opacity=".16" stroke="#c8c3ff"><path d="M0 130h1200M0 260h1200M0 390h1200M0 520h1200M0 650h1200"/><path d="M150 0v780M300 0v780M450 0v780M600 0v780M750 0v780M900 0v780M1050 0v780"/></g>
+  <text x="70" y="90" fill="#aaa3e9" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="6">CROSS-CHAIN TRANSFER PROTOCOL</text>
+  <g transform="translate(210 235)"><circle cx="120" cy="150" r="112" fill="#13162a" stroke="#786cff" stroke-width="5"/><path d="M120 72c-43 0-78 35-78 78s35 78 78 78 78-35 78-78" fill="none" stroke="#fff" stroke-width="15" stroke-linecap="round"/><path d="M98 117h38c22 0 34 12 34 31s-12 31-34 31H98m22-83v108" fill="none" stroke="#fff" stroke-width="12" stroke-linecap="round"/><text x="120" y="300" text-anchor="middle" fill="#fff" font-family="Arial" font-size="24" font-weight="700">USDC</text></g>
+  <path d="M455 335h280" stroke="#a99fff" stroke-width="9" stroke-linecap="round" marker-end="url(#arrow)"/><path d="M745 445H465" stroke="#f18ab3" stroke-width="9" stroke-linecap="round" marker-end="url(#arrow)"/>
+  <g transform="translate(770 235)"><rect x="8" y="38" width="224" height="224" rx="48" fill="#fff" opacity=".06" stroke="#f18ab3" stroke-width="5"/><path d="M120 74l70 77-70 77-70-77z" fill="none" stroke="#fff" stroke-width="12"/><text x="120" y="300" text-anchor="middle" fill="#fff" font-family="Arial" font-size="24" font-weight="700">INJECTIVE EVM</text></g>
+  <text x="70" y="705" fill="#fff" font-family="Arial, sans-serif" font-size="74" font-weight="800">USDC CCTP DEMO</text>
+</svg>

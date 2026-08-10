@@ -27,8 +27,9 @@ const translationMap: Record<Language, TranslationDictionary> = {
       navItems: [
         { path: "/", label: "Home" },
         { path: "/city-zero", label: "City Zero" },
+        { path: "/dashboard", label: "Dashboard" },
+        { path: "/dashboard-legacy", label: "Dashboard Legacy" },
         { path: "/gallery", label: "Gallery" },
-
       ],
       languageSwitcherLabel: "Language",
     },
@@ -38,8 +39,9 @@ const translationMap: Record<Language, TranslationDictionary> = {
       navItems: [
         { path: "/", label: "首页" },
         { path: "/city-zero", label: "零号城市" },
+        { path: "/dashboard", label: "Dashboard" },
+        { path: "/dashboard-legacy", label: "公民面板 Legacy" },
         { path: "/gallery", label: "画廊" },
-
       ],
       languageSwitcherLabel: "语言切换",
     },

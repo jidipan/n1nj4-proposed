@@ -116,7 +116,7 @@
     box-shadow 0.28s ease, border-color 0.28s ease;
 }
 
-/* 题图 (热链 HackQuest banner) · 3:1 浅横条, 不抢版面 */
+/* 题图 · 5:2 横幅，在三列卡片中保留更多人物与活动信息 */
 .se-card-media {
   position: relative;
   overflow: hidden;
@@ -184,7 +184,8 @@
   background: currentColor;
   animation: se-pulse 1.8s ease-in-out infinite;
 }
-.se-status-ended .se-status-dot {
+.se-status-ended .se-status-dot,
+.se-status-done .se-status-dot {
   animation: none;
   opacity: 0.5;
 }
@@ -228,6 +229,17 @@
   font-weight: 800;
 }
 
+.se-card-summary {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
 /* 日期线 · 横向里程碑 */
 .se-timeline {
   list-style: none;
@@ -251,6 +263,39 @@
   content: "→";
   color: var(--se-accent, #b9701a);
   opacity: 0.6;
+}
+
+.se-results {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(12, 16, 30, 0.07);
+}
+
+.se-results-label {
+  color: var(--se-accent, #b9701a);
+  font-family: monospace;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+}
+
+.se-results-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.se-result-chip {
+  padding: 5px 9px;
+  border: 1px solid color-mix(in srgb, var(--se-accent, #f68535) 22%, transparent);
+  border-radius: 999px;
+  background: var(--se-tint, rgba(255, 179, 71, 0.14));
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1.2;
 }
 
 /* 底行: 持有者权益 (左) + CTA (右) · 窄卡内允许换行 */

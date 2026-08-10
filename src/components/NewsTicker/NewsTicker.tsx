@@ -1,86 +1,108 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/useLanguage";
+import { FEATURED_NEWS, NEWS } from "../../data/news";
 import ImagePlaceholder from "../ImagePlaceholder/ImagePlaceholder";
-import { NEWS } from "../../data/news";
 import "./NewsTicker.css";
 
-/* ====================================================================
- * NewsTicker · 城市快报
- * --------------------------------------------------------------------
- * 始终展示 3 条新闻 (标题 + 海报);每 3 秒传送带式轮换一格:
- * 新新闻从右侧滑入, 整排左移一格, 最左侧那条滑出。
- * 实现: track 尾部追加第 4 条 → translateX 左移一格 → 动画结束后
- * 移除头部并瞬时复位 (视觉无跳变)。
- * 卡片 hover 揭示效果借鉴 City Zero 的 COMMUNITY GALLERY。
- * ==================================================================== */
-
-const KICKER = { zh: "城市快报", en: "CITY DISPATCH" };
 const ROTATE_MS = 3000;
 const SLOT_COUNT = 3;
+const RECENT_WINDOW_DAYS = 60;
+
+const statusText = {
+  active: { zh: "进行中", en: "Active" },
+  ended: { zh: "已结束", en: "Ended" },
+  recap: { zh: "回顾", en: "Recap" },
+  evergreen: { zh: "长期阅读", en: "Evergreen" },
+} as const;
+
+const recentCutoff = Date.now() - RECENT_WINDOW_DAYS * 24 * 60 * 60 * 1000;
+const recentNews = NEWS.filter((item) => new Date(`${item.publishedAt}T00:00:00`).getTime() >= recentCutoff);
+const tickerPool = recentNews.length >= SLOT_COUNT ? recentNews : NEWS.slice(0, SLOT_COUNT);
+
+// Keep eligible editorial picks first, then continue through recent dispatches.
+const TICKER_NEWS = [
+  ...FEATURED_NEWS.filter((featured) => tickerPool.some((item) => item.id === featured.id)),
+  ...tickerPool.filter((item) => !FEATURED_NEWS.some((featured) => featured.id === item.id)),
+];
 
 function NewsTicker() {
   const { language } = useLanguage();
   const t = (zh: string, en: string) => (language === "zh" ? zh : en);
-
-  // track: 可见 3 条; 轮换期间尾部多挂 1 条 (共 4 条)
   const [track, setTrack] = useState<number[]>(() =>
-    Array.from({ length: SLOT_COUNT }, (_, i) => i % NEWS.length)
+    Array.from({ length: Math.min(SLOT_COUNT, TICKER_NEWS.length) }, (_, index) => index),
   );
   const [shifting, setShifting] = useState(false);
-  const nextRef = useRef(SLOT_COUNT % NEWS.length); // 下一个要滑入的新闻
+  const nextRef = useRef(SLOT_COUNT % TICKER_NEWS.length);
+  const trackEl = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (NEWS.length <= SLOT_COUNT) return;
-    const timer = setInterval(() => {
-      setTrack((prev) => {
-        if (prev.length > SLOT_COUNT) return prev; // 上一轮动画未结束, 跳过
-        let n = nextRef.current % NEWS.length;
-        let guard = 0;
-        while (prev.includes(n) && guard < NEWS.length) {
-          n = (n + 1) % NEWS.length; // 避免与在场卡片重复
-          guard++;
-        }
-        nextRef.current = (n + 1) % NEWS.length;
-        return [...prev, n];
-      });
-    }, ROTATE_MS);
-    return () => clearInterval(timer);
+    if (window.location.hash !== "#city-dispatch") return;
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById("city-dispatch")?.scrollIntoView({ block: "start" });
+    });
+    return () => window.cancelAnimationFrame(frame);
   }, []);
 
-  // 第 4 条挂载后: 强制 reflow 让其以 translateX(0) 入位, 再同步加 is-shifting
-  // 触发过渡 (FLIP; 不用 rAF — 页面不在前台时 rAF 不触发, 会卡死轮换)
-  const trackEl = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (TICKER_NEWS.length <= SLOT_COUNT) return;
+
+    const timer = window.setInterval(() => {
+      setTrack((previous) => {
+        if (previous.length > SLOT_COUNT) return previous;
+
+        let next = nextRef.current % TICKER_NEWS.length;
+        let guard = 0;
+        while (previous.includes(next) && guard < TICKER_NEWS.length) {
+          next = (next + 1) % TICKER_NEWS.length;
+          guard += 1;
+        }
+        nextRef.current = (next + 1) % TICKER_NEWS.length;
+        return [...previous, next];
+      });
+    }, ROTATE_MS);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
   useLayoutEffect(() => {
     if (track.length <= SLOT_COUNT) return;
     void trackEl.current?.offsetWidth;
     setShifting(true);
   }, [track.length]);
 
-  // 完成位移: 移除头部卡片 + 瞬时复位 (幂等, transitionend 与兜底定时器共用)
   const finishShift = useCallback(() => {
-    setTrack((prev) => (prev.length > SLOT_COUNT ? prev.slice(1) : prev));
+    setTrack((previous) => (previous.length > SLOT_COUNT ? previous.slice(1) : previous));
     setShifting(false);
   }, []);
 
-  // 兜底: 后台标签页等场景 transitionend 可能不来, 超时强制收尾
   useEffect(() => {
     if (!shifting) return;
-    const fallback = setTimeout(finishShift, 700);
-    return () => clearTimeout(fallback);
-  }, [shifting, finishShift]);
+    const fallback = window.setTimeout(finishShift, 700);
+    return () => window.clearTimeout(fallback);
+  }, [finishShift, shifting]);
 
-  // 过渡结束 (卡片 hover 的 transitionend 会冒泡, 需过滤)
-  const handleShiftEnd = (e: React.TransitionEvent<HTMLDivElement>) => {
-    if (e.target !== e.currentTarget || e.propertyName !== "transform") return;
+  const handleShiftEnd = (event: React.TransitionEvent<HTMLDivElement>) => {
+    if (event.target !== event.currentTarget || event.propertyName !== "transform") return;
     finishShift();
   };
 
   return (
-    <section className="section news-ticker-section reveal">
-      <div className="container">
-        <header className="news-ticker-header">
-          <p className="section-kicker">{t(KICKER.zh, KICKER.en)}</p>
+    <section id="city-dispatch" className="section news-ticker-section reveal">
+      <div className="container dispatch-home-shell">
+        <header className="dispatch-home-header">
+          <div>
+            <p className="section-kicker dispatch-eyebrow">{t("城市快报", "CITY DISPATCH")}</p>
+            <p className="dispatch-home-intro">
+              {t(
+                "捕捉最新信号，追踪持续展开的事件脉络，也保留经得起时间检验的观点。",
+                "Fresh signals, unfolding storylines, and ideas that outlast the news cycle.",
+              )}
+            </p>
+          </div>
+          <Link to="/news" className="dispatch-view-all">
+            {t("查看新闻库", "Open news library")} →
+          </Link>
         </header>
 
         <div className="news-ticker-viewport">
@@ -89,48 +111,55 @@ function NewsTicker() {
             className={`news-ticker-track${shifting ? " is-shifting" : ""}`}
             onTransitionEnd={handleShiftEnd}
           >
-          {track.map((newsIdx) => {
-            const item = NEWS[newsIdx];
-            // key 用 newsIdx: 轮换时 React 复用前 3 张 DOM, 只挂载新卡
-            return (
-              <Link
-                key={newsIdx}
-                to={`/news/${item.id}`}
-                className="news-tk-card"
-              >
-                <div className="news-tk-top">
-                  <div className="news-tk-media">
-                    <ImagePlaceholder
-                      src={item.image}
-                      ratio="16 / 9"
-                      label={t(item.imageLabel.zh, item.imageLabel.en)}
-                    />
-                  </div>
-                  <div className="news-tk-meta">
-                    <div className="news-tk-tagrow">
-                      <span className={`news-tk-tag news-tk-tag-${item.catKey}`}>
-                        {t(item.category.zh, item.category.en)}
-                      </span>
-                      <span className="news-tk-source">
-                        {item.source}
-                        {item.date ? ` · ${item.date}` : ""}
-                      </span>
+            {track.map((newsIndex) => {
+              const item = TICKER_NEWS[newsIndex];
+              return (
+                <Link
+                  key={item.id}
+                  to={`/news/${item.id}`}
+                  className="news-tk-card"
+                  data-news-id={item.id}
+                >
+                  <div className="news-tk-top">
+                    <div className="news-tk-media">
+                      <ImagePlaceholder
+                        src={item.image}
+                        ratio="16 / 9"
+                        label={t(item.imageLabel.zh, item.imageLabel.en)}
+                        loading="lazy"
+                      />
                     </div>
-                    <h3 className="news-tk-title">{t(item.title.zh, item.title.en)}</h3>
+                    <div className="news-tk-meta">
+                      <div className="news-tk-tagrow">
+                        <span className={`news-tk-tag news-tk-tag-${item.catKey}`}>
+                          {t(item.category.zh, item.category.en)}
+                        </span>
+                        <span className={`news-tk-state news-tk-state-${item.status}`}>
+                          {t(statusText[item.status].zh, statusText[item.status].en)}
+                        </span>
+                        <span className="news-tk-source">
+                          {t(item.source.zh, item.source.en)} · {item.date}
+                        </span>
+                      </div>
+                      <h3 className="news-tk-title">{t(item.title.zh, item.title.en)}</h3>
+                    </div>
                   </div>
-                </div>
-                <p className="news-tk-desc">{t(item.summary.zh, item.summary.en)}</p>
-              </Link>
-            );
-          })}
+                  <p className="news-tk-desc">{t(item.summary.zh, item.summary.en)}</p>
+                </Link>
+              );
+            })}
           </div>
         </div>
 
-        <div className="news-ticker-footer">
-          <Link to="/news" className="news-ticker-all">
-            {t("查看全部 →", "View all →")}
-          </Link>
-        </div>
+        <footer className="dispatch-home-footer">
+          <span>
+            {t(
+              `近 ${RECENT_WINDOW_DAYS} 天 · ${TICKER_NEWS.length} 条动态参与轮播`,
+              `Past ${RECENT_WINDOW_DAYS} days · ${TICKER_NEWS.length} dispatches in rotation`,
+            )}
+          </span>
+          <span className="dispatch-online"><i /> {t("快报在线", "DISPATCH ONLINE")}</span>
+        </footer>
       </div>
     </section>
   );
