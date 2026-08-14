@@ -179,6 +179,11 @@
   transform: translateY(-4px);
 }
 
+.city-news-card:focus-visible {
+  outline: 3px solid rgba(246, 133, 53, 0.6);
+  outline-offset: 4px;
+}
+
 /* Top group · 图 + meta-block, hover 时整体上移 */
 .city-news-card-top {
   height: 100%;
@@ -187,7 +192,8 @@
   transition: transform 0.35s ease-out;
 }
 
-.city-news-card:hover .city-news-card-top {
+.city-news-card:hover .city-news-card-top,
+.city-news-card:focus-visible .city-news-card-top {
   /* 上滑 152px: 让图片从 247px 可见缩到 95px 可见 (65% → 25%) */
   transform: translateY(-152px);
 }
@@ -210,10 +216,10 @@
 
 /* Meta block · title + tag, 填满 image 下方剩余空间 */
 .city-news-card-meta-block {
-  padding: 20px 28px 12px;
+  padding: 18px 28px 12px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 8px;
   flex: 1;
 }
 
@@ -245,14 +251,30 @@
   overflow: hidden;
 }
 
-.city-news-card:hover .city-news-card-desc {
+.city-news-card:hover .city-news-card-desc,
+.city-news-card:focus-visible .city-news-card-desc {
   opacity: 1;
 }
 
-/* tag · 类似 outline pill, 底部 align-self start */
+/* 项目来源与状态 · 保持资讯卡原有的克制标签语言 */
+.city-news-card-source {
+  font-family: "Consolas", "Courier New", monospace;
+  font-size: 0.68rem;
+  line-height: 1.2;
+  color: rgba(12, 16, 30, 0.48);
+  letter-spacing: 0.035em;
+  text-transform: uppercase;
+}
+
+.city-news-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: auto;
+}
+
 .city-news-card-tag {
   display: inline-block;
-  align-self: flex-start;
   padding: 4px 10px;
   border: 1px solid rgba(12, 16, 30, 0.2);
   border-radius: 5px;
@@ -261,6 +283,12 @@
   font-weight: 600;
   color: #0f131d;
   letter-spacing: 0.03em;
+}
+
+.city-news-card-status {
+  color: #8c441d;
+  border-color: rgba(246, 133, 53, 0.34);
+  background: rgba(246, 133, 53, 0.08);
 }
 
 /* Static grid · 移动端单列 */

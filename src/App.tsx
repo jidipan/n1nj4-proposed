@@ -15,6 +15,7 @@ import DashboardLegacyPage from "./pages/DashboardLegacyPage";
 import DashboardLegacyIdentityPage from "./pages/DashboardLegacyIdentityPage";
 import NewsListPage from "./pages/NewsListPage";
 import NewsDetailPage from "./pages/NewsDetailPage";
+import CityLabPage from "./pages/CityLabPage";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/city-zero" element={<CityZeroPage />} />
+            <Route path="/city-zero/lab" element={<CityLabPage />} />
             <Route path="/city-zero/stadium" element={<CityZeroStadiumPage />} />
             <Route path="/city-zero/metaloft" element={<MetaloftDetailPage />} />
             <Route path="/city-zero/injective-pass" element={<InjectivePassDetailPage />} />

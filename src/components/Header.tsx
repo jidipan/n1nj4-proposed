@@ -4,6 +4,7 @@ import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useDisconnect } from "wagmi";
 import { useLanguage } from "../context/useLanguage";
 import type { Language } from "../context/LanguageContext";
+import PreviewNavMenu from "./PreviewNavMenu";
 import "./Header.css";
 
 function Header() {
@@ -51,7 +52,11 @@ function Header() {
   };
 
   return (
-    <header className="header">
+    <header
+      className={`header ${
+        location.pathname === "/city-zero/lab" ? "header--city-lab" : ""
+      }`}
+    >
       {/* SVG filter for Liquid Glass refraction · 必须随 .header 一起渲染 */}
       <svg
         style={{ position: "absolute", width: 0, height: 0, pointerEvents: "none" }}
@@ -99,6 +104,11 @@ function Header() {
         </nav>
 
         <div className="header-right">
+          <PreviewNavMenu
+            items={translations.header.previewNavItems}
+            label={translations.header.previewNavLabel}
+            pathname={location.pathname}
+          />
           <div className="language-switcher" ref={dropdownRef}>
             <button
               type="button"

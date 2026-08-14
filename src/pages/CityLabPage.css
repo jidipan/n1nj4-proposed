@@ -1,0 +1,409 @@
+.city-lab-page {
+  --lab-ink: #171923;
+  --lab-panel: rgba(255, 250, 243, 0.9);
+  --lab-line: rgba(63, 41, 34, 0.14);
+  min-height: calc(100vh - 64px);
+  padding: 0;
+  color: var(--lab-ink);
+  background:
+    radial-gradient(circle at 14% 8%, rgba(255, 236, 187, 0.88), transparent 30%),
+    radial-gradient(circle at 86% 4%, rgba(235, 127, 125, 0.3), transparent 28%),
+    linear-gradient(180deg, #f8d2ab 0%, #efb293 28%, #f8eee2 70%, #f7f1e9 100%);
+}
+
+.city-lab-stage-meta,
+.city-lab-panel-eyebrow {
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.city-lab-workspace {
+  width: 100%;
+  height: calc(100vh - 64px);
+  min-height: 620px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 244, 232, 0.62);
+}
+
+.city-lab-stage-shell {
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255, 244, 203, 0.9), transparent 31%),
+    linear-gradient(180deg, #efaa87 0%, #d77d72 34%, #635472 100%);
+}
+
+.city-lab-stage-meta {
+  position: absolute;
+  z-index: 5;
+  top: 18px;
+  left: 20px;
+  right: 390px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.city-lab-stage-meta span {
+  padding: 6px 9px;
+  color: rgba(255, 251, 238, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 999px;
+  background: rgba(31, 27, 40, 0.28);
+  backdrop-filter: blur(12px);
+}
+
+.city-lab-canvas {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+}
+
+.city-lab-canvas canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.city-lab-zoom-control {
+  width: 190px;
+  position: absolute;
+  z-index: 5;
+  top: 102px;
+  left: 20px;
+  padding: 10px 12px 11px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 12px;
+  color: rgba(255, 251, 238, 0.9);
+  background: rgba(31, 27, 40, 0.3);
+  backdrop-filter: blur(12px);
+}
+
+.city-lab-zoom-control > span {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.city-lab-zoom-control b,
+.city-lab-zoom-control output { font: inherit; }
+
+.city-lab-zoom-control input {
+  width: 100%;
+  height: 4px;
+  margin-top: 9px;
+  display: block;
+  accent-color: #fff4cf;
+  cursor: pointer;
+}
+
+.city-lab-canvas--3d {
+  background:
+    radial-gradient(circle at 88% 9%, rgba(255, 246, 209, 0.92), transparent 28%),
+    linear-gradient(180deg, #efaa87 0%, #d97e72 40%, #73586d 100%);
+}
+
+.city-lab-loading {
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  color: rgba(255, 249, 232, 0.88);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.city-lab-loading span {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: city-lab-spin 0.7s linear infinite;
+}
+
+@keyframes city-lab-spin {
+  to { transform: rotate(360deg); }
+}
+
+.city-lab-builder-panel {
+  width: 330px;
+  max-height: calc(100% - 48px);
+  position: absolute;
+  z-index: 6;
+  top: 24px;
+  right: 24px;
+  padding: 24px;
+  overflow: auto;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 22px;
+  background: var(--lab-panel);
+  backdrop-filter: blur(24px);
+  box-shadow: 0 20px 60px rgba(66, 42, 46, 0.18);
+}
+
+.city-lab-panel-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.city-lab-panel-eyebrow {
+  color: rgba(23, 25, 35, 0.44);
+}
+
+.city-lab-panel-heading h2 {
+  margin-top: 7px;
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.city-lab-panel-heading p {
+  margin-top: 7px;
+  color: rgba(23, 25, 35, 0.5);
+  font-size: 0.82rem;
+}
+
+.city-lab-status {
+  align-self: flex-start;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.city-lab-status--active { color: #245f45; background: #d7eadb; }
+.city-lab-status--dormant { color: #6f5d5b; background: #e8dfdc; }
+
+.city-lab-score-card {
+  margin-top: 24px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid var(--lab-line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.54);
+}
+
+.city-lab-score-card > div {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.city-lab-score-card > div + div { border-left: 1px solid var(--lab-line); }
+.city-lab-score-card span,
+.city-lab-progress-block span,
+.city-lab-specialty span {
+  color: rgba(23, 25, 35, 0.48);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.city-lab-score-card strong { font-size: 1.6rem; }
+
+.city-lab-progress-block { margin-top: 18px; }
+.city-lab-progress-block > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+.city-lab-progress-track {
+  height: 8px;
+  margin-top: 9px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(23, 25, 35, 0.09);
+}
+.city-lab-progress-track span {
+  height: 100%;
+  display: block;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #f47e58, #e6ad4e);
+  transition: width 0.45s ease;
+}
+
+.city-lab-specialty {
+  margin-top: 18px;
+  padding: 14px 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-radius: 14px;
+  background: rgba(231, 104, 72, 0.08);
+}
+.city-lab-specialty strong { font-size: 0.8rem; }
+
+.city-lab-builder-list { margin-top: 24px; }
+.city-lab-builder-list > div {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+.city-lab-builder-list button {
+  width: 100%;
+  padding: 8px 9px;
+  display: grid;
+  grid-template-columns: 9px 1fr auto;
+  align-items: center;
+  gap: 9px;
+  border: 0;
+  border-radius: 9px;
+  color: var(--lab-ink);
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+.city-lab-builder-list button:hover,
+.city-lab-builder-list button.active { background: rgba(23, 25, 35, 0.07); }
+.city-lab-builder-list i { width: 8px; height: 8px; border-radius: 2px; }
+.city-lab-builder-list span { font-size: 0.78rem; font-weight: 650; }
+.city-lab-builder-list b { color: rgba(23, 25, 35, 0.44); font-size: 0.68rem; }
+
+.city-lab-event-console {
+  width: min(calc(100% - 48px), 1520px);
+  margin: 32px auto 64px;
+  display: grid;
+  grid-template-columns: 1.15fr 0.9fr 0.8fr;
+  border: 1px solid var(--lab-line);
+  border-radius: 26px;
+  overflow: hidden;
+  background: rgba(255, 249, 240, 0.78);
+  box-shadow: 0 25px 80px rgba(103, 60, 42, 0.12);
+}
+
+.city-lab-event-console > div { min-height: 245px; padding: 24px; }
+.city-lab-event-console > div + div { border-left: 1px solid var(--lab-line); }
+.city-lab-event-intro h2 { margin-top: 10px; font-size: 1.45rem; }
+.city-lab-event-intro p,
+.city-lab-active-event p {
+  margin-top: 10px;
+  color: rgba(23, 25, 35, 0.58);
+  font-size: 0.84rem;
+}
+.city-lab-event-intro button {
+  margin-top: 19px;
+  padding: 11px 17px;
+  border: 0;
+  border-radius: 999px;
+  color: #fff8e9;
+  background: #1b1d25;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+}
+.city-lab-event-intro button:disabled { opacity: 0.45; cursor: wait; }
+
+.city-lab-active-event { background: rgba(239, 172, 128, 0.13); }
+.city-lab-active-event > span {
+  color: rgba(23, 25, 35, 0.42);
+  font-size: 0.67rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.city-lab-active-event.is-live > span { color: #bb4b34; }
+.city-lab-active-event h3 { margin-top: 18px; font-size: 1.5rem; }
+.city-lab-active-event > div {
+  margin-top: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.city-lab-active-event strong { font-size: 1.3rem; color: #c64d35; }
+.city-lab-active-event div span { font-size: 0.65rem; font-weight: 800; }
+
+.city-lab-event-log { display: flex; flex-direction: column; gap: 7px; }
+.city-lab-event-log > button {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px 10px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(23, 25, 35, 0.05);
+  color: var(--lab-ink);
+  text-align: left;
+  cursor: pointer;
+}
+.city-lab-event-log > button span { font-size: 0.75rem; font-weight: 700; }
+.city-lab-event-log > button strong { color: #c64d35; }
+.city-lab-event-log > button small { color: rgba(23, 25, 35, 0.42); font-size: 0.62rem; }
+.city-lab-event-empty {
+  margin-top: 30px;
+  color: rgba(23, 25, 35, 0.32);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+@media (max-width: 1160px) {
+  .city-lab-stage-meta { right: 370px; }
+  .city-lab-event-console { grid-template-columns: 1fr 1fr; }
+  .city-lab-event-log {
+    grid-column: 1 / -1;
+    border-left: 0 !important;
+    border-top: 1px solid var(--lab-line);
+  }
+}
+
+@media (max-width: 860px) {
+  .city-lab-workspace { height: auto; overflow: visible; }
+  .city-lab-workspace,
+  .city-lab-stage-shell,
+  .city-lab-canvas,
+  .city-lab-loading { min-height: 620px; }
+  .city-lab-stage-meta { right: 20px; }
+  .city-lab-builder-panel {
+    width: auto;
+    max-height: none;
+    position: relative;
+    top: auto;
+    right: auto;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
+}
+
+@media (max-width: 720px) {
+  .city-lab-stage-shell,
+  .city-lab-canvas,
+  .city-lab-loading { min-height: 540px; }
+  .city-lab-stage-meta span:nth-child(2),
+  .city-lab-stage-meta span:nth-child(3) { display: none; }
+  .city-lab-zoom-control { top: 66px; }
+  .city-lab-event-console {
+    width: calc(100% - 24px);
+    grid-template-columns: 1fr;
+  }
+  .city-lab-event-console > div + div { border-left: 0; border-top: 1px solid var(--lab-line); }
+  .city-lab-event-log { grid-column: auto; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .city-lab-loading span { animation: none; }
+  .city-lab-progress-track span { transition: none; }
+}
