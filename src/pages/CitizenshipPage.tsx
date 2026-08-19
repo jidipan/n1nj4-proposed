@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   ArrowIcon,
-  NumberMark,
   SectionHeading,
   StatusBadge,
 } from "../components/PublicPage/PublicPage";
@@ -39,7 +38,7 @@ function CitizenshipPage() {
     },
     {
       q: t("如何获得 Origins？", "How can I acquire Origins?"),
-      a: t("Origins 的初始发行已经结束。只有当现有持有者在 Rarible 等二级市场挂单时才可能购买；供应与价格均不由本网站保证。", "The original Origins release has ended. Acquisition is possible only when an existing holder lists a token on a secondary marketplace such as Rarible; availability and price are not guaranteed by this site."),
+      a: t("Origins 的首期铸造已经结束。如果希望购买，可以查看 Rarible 等二级市场上的当前挂单；供应和价格由市场及现有持有者决定。", "The initial Origins mint has ended. If you would like to purchase one, you can view current listings on secondary marketplaces such as Rarible; availability and pricing are determined by the market and existing holders."),
     },
   ];
 
@@ -122,40 +121,27 @@ function CitizenshipPage() {
           />
           <div className="citizenship-origins-index__header">
             <div className="citizenship-origins-index__copy">
-              <p className="public-section-lead">{t("Origins 由 500 位独一无二的忍者组成，每一位都拥有不同的特征组合，并同时承载艺术、所有权与链上身份。", "Origins brings together 500 unique ninjas, each with a distinct combination of traits and an identity that connects art with on-chain ownership.")}</p>
-              <StatusBadge status="live" language={language} label={t("Origins 已上线", "Origins live")} />
+              <p className="public-section-lead">{t("Origins 是 N1NJ4 最初的 500 份链上身份，每一位忍者都拥有独特的特征组合，并同时承载艺术、所有权与可独立核验的链上记录。首期 500 枚已经全部完成铸造。", "Origins is N1NJ4's original collection of 500 on-chain identities. Each ninja combines distinct traits, artwork, ownership, and an independently verifiable on-chain record. The initial mint of all 500 Origins is complete.")}</p>
+              <StatusBadge status="live" language={language} label={t("首期铸造已结束 · 500 / 500", "Initial mint complete · 500 / 500")} />
             </div>
             <div className="citizenship-origins-index__meta">
-              <p>{t("创世批次 · 500 · Injective EVM", "Founding cohort · 500 · Injective EVM")}</p>
+              <p>{t("创世系列 · 500 · Injective EVM", "Founding collection · 500 · Injective EVM")}</p>
               <a href={ORIGINS_CONTRACT} target="_blank" rel="noreferrer" className="public-button public-button--ghost">
-                {t("核验 Origins 合约", "Verify Origins contract")} <ArrowIcon />
+                {t("核验合约", "Verify contract")} <ArrowIcon />
               </a>
             </div>
           </div>
           <NFTShowcase
             count={18}
-            buyLabel={t("在 Rarible 获取", "Buy on Rarible")}
-            viewAllLabel={t("查看全部 500 位忍者", "View all 500 ninjas")}
+            buyLabel={t("查看 Rarible 在售项目", "View listings on Rarible")}
+            viewAllLabel={t("浏览全部 500 枚 Origins", "Explore all 500 Origins")}
           />
-        </div>
-      </section>
-
-      <section className="public-section public-section--white citizenship-origins-today">
-        <div className="public-shell">
-          <SectionHeading
-            eyebrow={t("Origins 现状", "ORIGINS TODAY")}
-            title={t("目前可以完成什么", "What you can do today")}
-            description={t("浏览完整系列，了解如何获取 Origins，并在链上独立核验合约、身份与所有权。", "Explore the collection, discover how Origins can be acquired, and independently verify its contract, identities, and ownership on-chain.")}
-          />
-          <div className="public-card-grid public-card-grid--3">
-            <article className="public-card"><NumberMark>01</NumberMark><h3>{t("浏览", "Browse")}</h3><p>{t("通过 NINJA INDEX、Gallery 与单个 NFT 页面查看 Origins 系列及公开元数据。", "Explore the Origins collection and its public metadata through the NINJA INDEX, Gallery, and individual NFT pages.")}</p></article>
-            <article className="public-card"><NumberMark>02</NumberMark><h3>{t("获取", "Acquire")}</h3><p>{t("初始发行已经结束；只有现有持有者在二级市场挂单时，Origins 才可能被购买。", "The original release has ended; an Origins token can be acquired only when an existing holder lists it on a secondary marketplace.")}</p></article>
-            <article className="public-card"><NumberMark>03</NumberMark><h3>{t("核验", "Verify")}</h3><p>{t("使用区块浏览器独立检查合约、持有关系与 tokenURI，而不依赖站内声明。", "Use the block explorer to independently inspect the contract, ownership, and tokenURI rather than relying on claims made by this site.")}</p></article>
-          </div>
-          <div className="citizenship-origins-today__boundary">
-            <StatusBadge status="planned" language={language} label={t("尚未开放", "Not live")} />
-            <p>{t("正式 Citizenship 身份验证、治理、Grants 与 Growth Sharing 尚未开放，不构成 Origins 当前已有的权益。", "Formal Citizenship verification, governance, Grants, and Growth Sharing are not live and do not constitute current Origins utility.")}</p>
-          </div>
+          <p className="citizenship-origins-index__market-note">
+            {t(
+              "初始铸造已经结束。当前购买机会取决于现有持有者在 Rarible 上的挂单，供应与价格由市场决定。",
+              "The initial mint has ended. Current purchase opportunities depend on listings from existing holders on Rarible; availability and pricing are determined by the market.",
+            )}
+          </p>
         </div>
       </section>
 
