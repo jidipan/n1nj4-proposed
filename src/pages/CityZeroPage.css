@@ -1,279 +1,863 @@
-.city-zero-page {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-top: -64px;
-  /* Pull up by exactly the header height (64px) so hero fills viewport */
+.city-reframed__hero {
+  min-height: calc(100vh - 64px);
+  min-height: calc(100dvh - 64px);
 }
 
-/* ============ 章节 (01 展示 / 02 接入) ============ */
-.cz-chapter {
-  width: 100%;
-}
-/* 章头 · 对齐站内标准 section 头 (橙 kicker + h2 + 居中 lead · 同 the Stadium / City Landmarks) */
-.cz-chapter-head {
-  max-width: 1200px;
-  margin: 56px auto 4px;
-  padding: 0 24px;
-  text-align: center;
-}
-.cz-chapter-head .section-kicker {
-  color: #f68535;
-  margin: 0 0 14px;
-}
-.cz-chapter-title {
-  font-size: clamp(1.7rem, 3.2vw, 2.4rem);
-  font-weight: 800;
-  color: var(--text-primary);
-  margin: 0 auto;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-}
-/* 章头引导语 (原共创社区 intro 并入 01 章头) */
-.cz-chapter-lead {
-  margin: 12px auto 0;
-  font-size: 0.98rem;
-  line-height: 1.7;
-  color: var(--text-secondary);
-  max-width: 620px;
+
+.city-reframed__hero .public-hero__media img {
+  object-position: center;
 }
 
-/* 展示章 · 加深一档的暖底色带, 与上下奶白底区分 */
-.cz-chapter-community {
-  background: var(--bg-secondary);
-  border-top: 1px solid rgba(12, 16, 30, 0.06);
-  border-bottom: 1px solid rgba(12, 16, 30, 0.06);
-  padding: 20px 0 56px;
-}
-/* 分栏标题 (COMMUNITY PROJECTS / REPOS) · 靠左 + 墨色, 与章级橙 kicker 区分层级 */
-.cz-chapter-community .city-tasks-kicker,
-.cz-chapter-community .project-group-kicker {
-  text-align: left;
-  color: var(--text-primary);
-  margin-top: 16px;
-  margin-bottom: 38px;
-}
-/* tasks 容器 (1520px) 比卡片网格 (1200px) 宽, kicker 约束到与网格同宽以对齐卡片左缘 */
-.cz-chapter-community .city-tasks-kicker {
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+.city-reframed__hero .public-hero__media::after {
+  background:
+    linear-gradient(90deg, rgba(12, 12, 23, 0.64) 0%, rgba(12, 12, 23, 0.24) 52%, rgba(12, 12, 23, 0.03) 100%),
+    linear-gradient(0deg, rgba(12, 12, 23, 0.5) 0%, rgba(12, 12, 23, 0.08) 58%, transparent 78%);
 }
 
-/* 收紧章节内组件多余上间距 + 去掉硬白块,融入章节框架 */
-.cz-chapter .ai-experience-section {
-  padding-top: 16px;
-  background-color: transparent;
-}
-
-/* 精选共建画廊 · 去掉黑底,统一成浅色;白卡补柔和阴影以在奶白底上立体 */
-.cz-chapter .city-tasks-section {
-  background: transparent;
-  padding-top: 8px;
-  padding-bottom: 24px; /* 收紧与下方 REPOS 栏的间距 (原 80px) */
-}
-.cz-chapter .city-news-card {
-  box-shadow: 0 16px 44px rgba(120, 90, 60, 0.1);
-}
-
-/* 接入章 · banner 升级:暖渐变 + 强调描边 */
-.cz-chapter .contribution-banner {
-  background: linear-gradient(120deg, rgba(255, 179, 71, 0.14), rgba(255, 112, 150, 0.14));
-  border: 1px solid rgba(255, 138, 61, 0.28);
-  box-shadow: 0 18px 50px rgba(255, 164, 90, 0.16);
-}
-.cz-chapter .banner-btn.primary-btn {
-  background: linear-gradient(120deg, #ffb347, #ff7096);
-  color: #fff;
-  border: none;
-  box-shadow: 0 12px 30px rgba(255, 140, 120, 0.3);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-.cz-chapter .banner-btn.primary-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 18px 40px rgba(255, 140, 120, 0.42);
-}
-
-/* steps · 卡片化 + 序号渐变,呼应地标卡 */
-.cz-chapter .steps-navigation {
-  background: rgba(255, 255, 255, 0.85);
-  border: 1px solid rgba(12, 16, 30, 0.08);
-  box-shadow: 0 16px 44px rgba(120, 90, 60, 0.1);
-}
-.cz-chapter .step-number {
-  background: linear-gradient(120deg, #ffb347, #ff7096);
-  box-shadow: 0 8px 20px rgba(255, 140, 120, 0.3);
-}
-
-@media (max-width: 768px) {
-  .cz-community-intro { padding: 48px 16px 4px; }
-  .cz-chapter-head { margin-top: 40px; }
-  .cz-chapter-community { padding: 12px 0 44px; }
-}
-
-/* Hero Section */
-.hero-section {
-  width: 100%;
-  position: relative;
-  background-color: #f7f9fc;
-}
-
-.scrolling-announcements {
-  width: 100%;
+.city-hero-marquee {
   position: absolute;
-  top: 64px;
-  /* Flush against header bottom (header height = 64px) */
-  z-index: 10;
-
-  /* 同 Header 同款液态玻璃效果 (引用 Header.tsx 内全局 SVG filter #liquid-glass) */
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: url(#liquid-glass) blur(3px) saturate(150%) brightness(1.03);
-  -webkit-backdrop-filter: blur(4px) saturate(140%) brightness(1.02);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
-
-  padding: 6px 0;
+  inset: 0 0 auto;
+  z-index: 2;
   overflow: hidden;
+  padding: 7px 0 8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(12, 13, 25, 0.08);
+  backdrop-filter: blur(3px) saturate(135%);
   white-space: nowrap;
+}
+
+.city-hero-marquee__track {
   display: flex;
+  width: max-content;
+  animation: cityHeroMarquee 24s linear infinite;
+  will-change: transform;
+}
+
+.city-hero-marquee__group {
+  display: flex;
+  flex: none;
   align-items: center;
 }
 
-.scrolling-text {
-  display: inline-block;
-  padding-left: 100%;
-  animation: scrollText 20s linear infinite;
+.city-hero-marquee__group span {
+  padding: 0 40px;
   font-family: "Impact", "Arial Black", sans-serif;
+  font-size: 1.2rem;
   font-style: italic;
   font-weight: 900;
-  font-size: 1.25rem;
   letter-spacing: 0.05em;
   text-transform: uppercase;
+  -webkit-text-stroke: 1.8px #111827;
+  text-shadow: 3px 3px 0 #111827;
 }
 
-.scrolling-announcements:hover .scrolling-text,
-.scrolling-announcements:focus-within .scrolling-text {
+.city-hero-marquee__group .is-light {
+  color: #fff;
+}
+
+.city-hero-marquee__group .is-lime {
+  color: var(--public-lime);
+}
+
+.city-hero-marquee:hover .city-hero-marquee__track {
   animation-play-state: paused;
 }
 
-.scrolling-text-zh {
-  font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  font-style: normal;
-  font-weight: 900;
-  letter-spacing: 0.18em;
-  text-transform: none;
-}
-
-.scrolling-text span {
-  padding: 0 40px;
-}
-
-.text-color-1 {
-  color: #ffffff;
-  -webkit-text-stroke: 2px #111827;
-  text-shadow: 3px 3px 0 #111827;
-}
-
-.text-color-2 {
-  color: #bfff00;
-  -webkit-text-stroke: 2px #111827;
-  text-shadow: 3px 3px 0 #111827;
-}
-
-.scrolling-text-zh .text-color-1,
-.scrolling-text-zh .text-color-2 {
-  -webkit-text-stroke: 1.6px #111827;
-  text-shadow:
-    2px 2px 0 #111827,
-    0 0 14px rgba(17, 24, 39, 0.22);
-}
-
-@keyframes scrollText {
-  0% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  100% {
-    transform: translate3d(-100%, 0, 0);
+@keyframes cityHeroMarquee {
+  to {
+    transform: translateX(-50%);
   }
 }
 
-.hero-image-container {
+.city-reframed__hero .public-hero__content {
+  width: min(920px, calc(100% - clamp(48px, 10vw, 160px)));
+  max-width: 920px;
+  margin-left: clamp(24px, 5vw, 80px);
+  margin-right: 0;
+}
+
+.city-reframed__hero .public-section-kicker {
+  margin-bottom: 30px;
+  color: var(--public-orange);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.4em;
+}
+
+.city-reframed__hero h1 {
+  text-shadow: 0 4px 28px rgba(8, 9, 18, 0.42);
+}
+
+.city-reframed__hero .public-hero__lead {
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 2px 14px rgba(8, 9, 18, 0.52);
+}
+
+.city-about {
+  padding-top: 60px;
+}
+
+.city-about__kicker-heading {
   width: 100%;
-  height: 100vh;
-  height: 100dvh;       /* dynamic viewport · 移动端 address bar 自适应 */
-  min-height: 100vh;
-  display: flex;
-  overflow: hidden;
-  position: relative;
+  max-width: 1120px;
+  margin: 0 auto 48px;
+  text-align: center;
 }
 
-.hero-image {
+.city-about__kicker-heading .public-section-kicker {
+  margin-bottom: 0;
+  color: var(--public-orange);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.4em;
+}
+
+.city-about__copy h2 {
+  max-width: 560px;
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.city-about__intro {
+  display: grid;
+  grid-template-columns: minmax(0, 0.95fr) minmax(420px, 1.05fr);
+  gap: clamp(44px, 6vw, 76px);
+  align-items: stretch;
+  margin-bottom: 48px;
+}
+
+.city-about__copy {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.city-about__copy .public-section-lead {
+  margin: 22px 0 0;
+  text-align: left;
+}
+
+.city-about__media {
+  width: 100%;
+  max-width: 520px;
+  justify-self: end;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--public-line);
+  border-radius: 24px;
+  background: #e7d5bd;
+  box-shadow: 0 22px 50px rgba(41, 34, 28, 0.12);
+}
+
+.city-about__media img {
   width: 100%;
   height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.city-principle__topline span {
+  color: var(--public-muted);
+  font: 700 0.68rem/1.3 "Consolas", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.city-principles__grid {
+  counter-reset: principle;
+}
+
+.city-principle {
+  min-height: 310px;
+  display: flex;
+  flex-direction: column;
+  background: var(--public-paper);
+}
+
+.city-principle:nth-child(2) {
+  background: #f7f1e8;
+}
+
+.city-principle:nth-child(3) {
+  background: #f2f7de;
+}
+
+.city-principle:nth-child(1) .public-number {
+  background: var(--public-pink);
+  color: #fff;
+}
+
+.city-principle:nth-child(2) .public-number {
+  background: var(--public-orange);
+  color: #fff;
+}
+
+.city-principle:nth-child(3) .public-number {
+  background: var(--public-lime);
+  color: var(--public-ink);
+}
+
+.city-principle__topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.city-principle h3 {
+  margin-top: 38px;
+  font-size: var(--public-feature-title-size);
+}
+
+.city-principle .public-card__link {
+  margin-top: auto;
+  padding-top: 22px;
+}
+
+.city-stadium {
+  padding-block: 68px;
+}
+
+.city-stadium__banner {
+  min-height: 390px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 26px;
+  isolation: isolate;
+  background: var(--public-ink);
+  color: #fff;
+}
+
+.city-stadium__banner::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background:
+    linear-gradient(90deg, rgba(10, 12, 24, 0.9) 0%, rgba(10, 12, 24, 0.67) 45%, rgba(10, 12, 24, 0.1) 78%),
+    linear-gradient(0deg, rgba(10, 12, 24, 0.52), transparent 64%);
+}
+
+.city-stadium__banner > img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  z-index: -2;
+  inset: 0;
   object-fit: cover;
   object-position: center;
-  display: block;
 }
 
-/* Stadium Action Button */
-.stadium-action-btn {
-  position: absolute;
-  /* Approximate positions based on layout - bottom right */
-  top: 72%;
-  left: 77%;
-  transform: translate(-50%, -50%);
+.city-stadium__content {
+  max-width: 650px;
+  padding: clamp(42px, 6vw, 72px);
+}
+
+.city-stadium__content .public-section-kicker {
+  margin-bottom: 30px;
+  color: var(--public-orange);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.4em;
+}
+
+.city-stadium__content h2 {
+  max-width: 620px;
+  margin: 0;
+  font-size: var(--public-section-title-size);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+.city-stadium__content > p:not(.public-eyebrow) {
+  max-width: 570px;
+  margin: 22px 0 0;
+  color: rgba(255, 255, 255, 0.76);
+  line-height: 1.7;
+}
+
+.city-stadium__content .public-button {
+  margin-top: 30px;
+}
+
+.city-repos {
+  padding-top: 60px;
+}
+
+.city-repos__kicker-heading {
+  width: 100%;
+  margin: 0 0 30px;
+  text-align: center;
+}
+
+.city-repos__kicker-heading .public-section-kicker {
+  margin: 0;
+  color: var(--public-orange);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.4em;
+}
+
+.city-repos__showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(500px, 0.94fr);
+  gap: clamp(44px, 6vw, 76px);
+  align-items: start;
+  padding-bottom: 58px;
+  border-bottom: 1px solid var(--public-line);
+}
+
+.city-repos__heading {
+  min-width: 0;
   display: flex;
+  align-self: stretch;
+  flex-direction: column;
+}
+
+.city-repos__heading .public-section-heading {
+  margin-bottom: 0;
+}
+
+.city-repos__github {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #bfff00;
-  color: #000;
-  padding: 12px 24px;
-  border-radius: 50px;
-  font-family: "Impact", "Arial Black", sans-serif;
-  font-size: 1.1rem;
-  font-style: italic;
-  font-weight: 900;
-  text-transform: uppercase;
+  width: fit-content;
+  margin-top: auto;
+  margin-bottom: 11px;
+  color: var(--public-ink);
+  font-weight: 700;
   text-decoration: none;
-  cursor: pointer;
-  z-index: 20;
-  box-shadow:
-    0 10px 30px rgba(191, 255, 0, 0.4),
-    inset 0 -4px 0 rgba(0, 0, 0, 0.2);
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-  border: 4px solid #000;
 }
 
-.stadium-action-btn:hover {
-  transform: translate(-50%, -54%) scale(1.05);
-  box-shadow:
-    0 15px 40px rgba(191, 255, 0, 0.6),
-    inset 0 -4px 0 rgba(0, 0, 0, 0.2);
-  background: #cfff33;
+.city-repos__github:hover {
+  color: var(--public-pink);
 }
 
-.stadium-action-btn:active {
-  transform: translate(-50%, -50%) scale(0.98);
-  box-shadow:
-    0 5px 15px rgba(191, 255, 0, 0.4),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+.city-repos__featured {
+  width: 100%;
+  max-width: 600px;
+  min-width: 0;
+  justify-self: end;
+  margin-top: 0;
 }
 
-.btn-icon {
+.city-repo-feature {
+  min-height: 320px;
+  display: grid;
+  grid-template-columns: minmax(210px, 0.92fr) minmax(0, 1.08fr);
+  overflow: hidden;
+  border: 1px solid var(--public-line);
+  border-radius: 24px;
+  background: var(--public-paper);
+  color: inherit;
+  text-decoration: none;
+  animation: cityRepoSwap 280ms ease-out;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.city-repo-feature:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 18px 42px rgba(17, 19, 33, 0.1);
+}
+
+.city-repo-feature__media {
+  min-height: 320px;
+  overflow: hidden;
+  background: #e9e4dc;
+}
+
+.city-repo-feature__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 260ms ease;
+}
+
+.city-repo-feature:hover .city-repo-feature__media img {
+  transform: scale(1.025);
+}
+
+.city-repo-feature__body {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  padding: 28px;
+}
+
+.city-repo-feature__topline {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: #000;
-  color: #bfff00;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.city-repo-feature__arrow,
+.city-repo-card__arrow {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: inline-grid;
+  place-items: center;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  transition: transform 0.3s ease;
+  background: var(--public-lime);
+  color: var(--public-ink);
+  transition: transform 180ms ease;
 }
 
-.stadium-action-btn:hover .btn-icon {
-  transform: translateX(5px);
+.city-repo-feature:hover .city-repo-feature__arrow,
+.city-repo-card:hover .city-repo-card__arrow {
+  transform: translate(2px, -2px);
 }
 
-/* (旧版 .info-text 和 .read-more-btn 样式已删除 — 实际使用的样式
-   在 CityZeroInfoCarousel.css 内, 此处保留位置作为标记) */
+.city-repo-feature__body h3 {
+  margin: 30px 0 12px;
+  font-size: var(--public-feature-title-size);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+
+.city-repo-feature__body > p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 0;
+  color: var(--public-muted);
+  font-size: 0.88rem;
+  line-height: 1.6;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.city-repo-feature__tags,
+.city-repo-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: auto;
+  padding-top: 24px;
+  color: var(--public-muted);
+  font: 700 0.68rem/1.2 "Consolas", monospace;
+  letter-spacing: 0.04em;
+}
+
+.city-repos__featured-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 14px;
+  color: var(--public-muted);
+  font: 700 0.7rem/1 "Consolas", monospace;
+  letter-spacing: 0.12em;
+}
+
+.city-repos__featured-controls > div {
+  display: flex;
+  gap: 8px;
+}
+
+.city-repos__featured-controls button {
+  width: 42px;
+  height: 42px;
+  display: inline-grid;
+  place-items: center;
+  border: 1px solid var(--public-line);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--public-ink);
+  font: inherit;
+  cursor: pointer;
+  transition: background 180ms ease, transform 180ms ease;
+}
+
+.city-repos__featured-controls button:hover {
+  background: var(--public-lime);
+  transform: translateY(-2px);
+}
+
+.city-repos__index {
+  margin-top: 52px;
+}
+
+.city-repos__card-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 18px;
+  margin-top: 0;
+}
+
+.city-repo-card {
+  min-height: 380px;
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  border: 1px solid var(--public-line);
+  border-radius: 20px;
+  background: var(--public-paper);
+  color: inherit;
+  text-decoration: none;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.city-repo-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 34px rgba(17, 19, 33, 0.09);
+}
+
+.city-repo-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  flex: none;
+  background: #e9e4dc;
+}
+
+.city-repo-card__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 240ms ease;
+}
+
+.city-repo-card:hover .city-repo-card__media img {
+  transform: scale(1.035);
+}
+
+.city-repo-card__media > span {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 7px 9px;
+  border-radius: 999px;
+  background: rgba(17, 19, 33, 0.82);
+  color: #fff;
+  font: 700 0.62rem/1 "Consolas", monospace;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  backdrop-filter: blur(8px);
+}
+
+.city-repo-card__body {
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  padding: 22px;
+}
+
+.city-repo-card__topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.city-repo-card__topline h3 {
+  margin: 0;
+  font-size: var(--public-card-title-size);
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+}
+
+.city-repo-card__arrow {
+  width: 32px;
+  height: 32px;
+}
+
+.city-repo-card__body > p {
+  display: -webkit-box;
+  overflow: hidden;
+  margin: 14px 0 0;
+  color: var(--public-muted);
+  font-size: 0.82rem;
+  line-height: 1.55;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.city-repo-card__tags {
+  padding-top: 18px;
+}
+
+.city-repos__view-all {
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
+  padding-top: 32px;
+  border-top: 1px solid var(--public-line);
+}
+
+@keyframes cityRepoSwap {
+  from {
+    opacity: 0.55;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.city-build {
+  min-height: 100vh;
+  padding-top: 60px;
+}
+
+.city-build__heading {
+  width: 100%;
+}
+
+.city-build__heading .public-section-heading {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.city-build__heading .public-section-kicker {
+  margin-bottom: 30px;
+  color: var(--public-orange);
+  font-family: inherit;
+  font-size: 0.88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: 0.4em;
+}
+
+.city-build__heading .public-section-heading h2 {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.city-build__heading .public-section-lead {
+  margin-inline: auto;
+}
+
+.city-build__meta {
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin: -18px 0 30px;
+}
+
+.city-build__steps {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.city-build__steps li {
+  padding: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 18px;
+}
+
+.city-build__steps .public-number {
+  background: var(--public-lime);
+  color: var(--public-ink);
+}
+
+.city-build__steps h3 {
+  margin: 38px 0 10px;
+  font-size: var(--public-card-title-size);
+}
+
+.city-build__steps p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.6;
+}
+
+.city-build__actions {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.city-build__actions button {
+  font: inherit;
+  cursor: pointer;
+}
+
+.city-build__action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.city-build__actions > span {
+  max-width: 390px;
+  color: rgba(255, 255, 255, 0.54);
+  font-size: 0.82rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 980px) {
+  .city-about__intro {
+    grid-template-columns: 1fr;
+  }
+
+  .city-about__media {
+    justify-self: center;
+    max-height: 520px;
+  }
+
+  .city-repos__showcase {
+    grid-template-columns: 1fr;
+  }
+
+  .city-repos__featured {
+    max-width: none;
+    justify-self: stretch;
+    margin-top: 0;
+  }
+
+  .city-repos__card-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .city-repos__github {
+    width: fit-content;
+    margin-top: 30px;
+    margin-bottom: 0;
+  }
+
+  .city-build__steps {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 680px) {
+  .city-reframed__hero .public-section-kicker {
+    font-size: 0.76rem;
+    letter-spacing: 0.24em;
+  }
+
+  .city-about__kicker-heading .public-section-kicker {
+    font-size: 0.76rem;
+    letter-spacing: 0.24em;
+  }
+
+  .city-stadium__content .public-section-kicker {
+    font-size: 0.76rem;
+    letter-spacing: 0.24em;
+  }
+
+  .city-repos__kicker-heading .public-section-kicker {
+    font-size: 0.76rem;
+    letter-spacing: 0.24em;
+  }
+
+  .city-build__heading .public-section-kicker {
+    font-size: 0.76rem;
+    letter-spacing: 0.24em;
+  }
+
+  .city-hero-marquee__group span {
+    padding-inline: 26px;
+    font-size: 0.92rem;
+    -webkit-text-stroke-width: 1.3px;
+    text-shadow: 2px 2px 0 #111827;
+  }
+
+  .city-reframed__hero .public-hero__content {
+    width: calc(100% - 32px);
+    margin-inline: 16px;
+  }
+
+  .city-principle {
+    min-height: 290px;
+  }
+
+  .city-stadium {
+    padding-block: 48px;
+  }
+
+  .city-stadium__banner {
+    min-height: 470px;
+  }
+
+  .city-stadium__banner::after {
+    background: linear-gradient(0deg, rgba(10, 12, 24, 0.94) 0%, rgba(10, 12, 24, 0.42) 78%, rgba(10, 12, 24, 0.12) 100%);
+  }
+
+  .city-stadium__content {
+    max-width: none;
+    position: absolute;
+    inset: auto 0 0;
+    padding: 34px 28px;
+  }
+
+  .city-repo-feature {
+    grid-template-columns: 1fr;
+  }
+
+  .city-repo-feature__media {
+    min-height: 210px;
+    aspect-ratio: 16 / 9;
+  }
+
+  .city-repo-feature__body {
+    min-height: 270px;
+    padding: 24px;
+  }
+
+  .city-repos__card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .city-repo-card {
+    min-height: 0;
+  }
+
+  .city-build__steps {
+    grid-template-columns: 1fr;
+  }
+
+  .city-build__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .city-build__action-buttons {
+    display: grid;
+  }
+
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .city-hero-marquee__track {
+    animation: none;
+  }
+
+  .city-repo-feature {
+    animation: none;
+  }
+
+}

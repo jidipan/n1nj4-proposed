@@ -37,6 +37,15 @@ const socialLinks = [
 const footerColumnsMap: Record<"zh" | "en", FooterColumn[]> = {
   zh: [
     {
+      title: "探索",
+      links: [
+        { label: "首页", href: "/" },
+        { label: "公民身份", href: "/citizenship" },
+        { label: "零号城市", href: "/city-zero" },
+        { label: "画廊", href: "/gallery" },
+      ],
+    },
+    {
       title: "资源",
       links: [
         { label: "白皮书", href: "https://n1nj4.mintlify.app/" },
@@ -60,6 +69,15 @@ const footerColumnsMap: Record<"zh" | "en", FooterColumn[]> = {
     },
   ],
   en: [
+    {
+      title: "Explore",
+      links: [
+        { label: "Home", href: "/" },
+        { label: "Citizenship", href: "/citizenship" },
+        { label: "City Zero", href: "/city-zero" },
+        { label: "Gallery", href: "/gallery" },
+      ],
+    },
     {
       title: "Resources",
       links: [

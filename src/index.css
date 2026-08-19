@@ -112,6 +112,14 @@ body::after {
   padding-top: 64px; /* offset for fixed header — overridden by .home-page for hero behind header */
 }
 
+.legacy-route-loading {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  color: var(--text-secondary);
+  font-weight: 700;
+}
+
 .main-content::before {
   content: "";
   position: absolute;
@@ -165,4 +173,3 @@ input[type="number"] {
   background: rgba(255, 138, 61, 0.3);
   color: #1c1f2b;
 }
-

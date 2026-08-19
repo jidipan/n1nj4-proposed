@@ -73,7 +73,7 @@
 
 .ai-residency-title {
   margin: 0 0 10px;
-  font-size: clamp(2rem, 5vw, 4rem);
+  font-size: var(--public-section-title-size);
   line-height: 1.1;
   color: #0f131d;
   font-weight: 800;

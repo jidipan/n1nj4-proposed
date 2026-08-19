@@ -20,6 +20,8 @@ interface NFT {
 
 interface NFTShowcaseProps {
   count?: number;
+  buyLabel?: string;
+  viewAllLabel?: string;
 }
 
 const resolveImageUrl = (image: string) =>
@@ -27,7 +29,11 @@ const resolveImageUrl = (image: string) =>
     ? `https://ipfs.io/ipfs/${image.slice(7)}`
     : image;
 
-function NFTShowcase({ count = 18 }: NFTShowcaseProps) {
+function NFTShowcase({
+  count = 18,
+  buyLabel = "Buy on Rarible",
+  viewAllLabel = "View All 500 Ninjas",
+}: NFTShowcaseProps) {
   const rareSet = useMemo(() => {
     const rareList =
       (filterMap as Record<string, Record<string, number[]>>)?.["Tier"]?.[
@@ -73,7 +79,12 @@ function NFTShowcase({ count = 18 }: NFTShowcaseProps) {
         {showcaseNFTs.map((nft) => {
           const content = (
             <>
-              <img src={nft.image} alt={nft.name} loading="lazy" />
+              <img
+                src={nft.image}
+                alt={nft.name}
+                loading="lazy"
+                onLoad={(event) => event.currentTarget.closest(".nft-showcase-item")?.classList.add("is-loaded")}
+              />
               <span className="nft-showcase-id">#{nft.visualId}</span>
             </>
           );
@@ -97,10 +108,10 @@ function NFTShowcase({ count = 18 }: NFTShowcaseProps) {
           rel="noopener noreferrer"
           className="btn btn-sm btn-rarible"
         >
-          Buy on Rarible →
+          {buyLabel} →
         </a>
         <Link to="/gallery" className="btn btn-outline btn-sm">
-          View All 500 Ninjas →
+          {viewAllLabel} →
         </Link>
       </div>
     </div>

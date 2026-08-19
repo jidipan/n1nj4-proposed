@@ -134,8 +134,8 @@ const SubmitProjectModal: React.FC<SubmitProjectModalProps> = ({
             <div className="modal-rocket-icon">🚀</div>
             <h2 className="modal-title">
               {translate(
-                "AI 体验项目 · City Zero",
-                "AI Experience Project · City Zero",
+                "提交项目 · City Zero",
+                "Submit a project · City Zero",
               )}
             </h2>
           </div>
@@ -202,8 +202,8 @@ const SubmitProjectModal: React.FC<SubmitProjectModalProps> = ({
                 </h3>
                 <div className="form-section-subtitle">
                   {translate(
-                    "你的 AI 项目做什么？这段会显示在项目卡片上。",
-                    "What does your AI agent do? Shown on the project card.",
+                    "你的项目解决什么问题？这段可能显示在项目卡片上。",
+                    "What problem does your project solve? This may appear on its project card.",
                   )}
                 </div>
               </div>
@@ -394,8 +394,8 @@ const SubmitProjectModal: React.FC<SubmitProjectModalProps> = ({
             <div className="info-icon">i</div>
             <div className="info-text">
               {translate(
-                "提交后项目会经过 Ninja Labs 团队的简要审核。通过审核的项目会展示在 City Zero 的 AI Experience Project 区域，通常需要 3-5 个工作日。",
-                "Submitted projects go through a brief review by the Ninja Labs team. Approved projects are featured on the City Zero AI Experience Project section — usually within 3-5 working days.",
+                "提交后项目会进入 Ninja Labs 的审核队列。通过审核的项目可能进入 Home 的 Community Projects；提交不代表保证收录。",
+                "Submissions enter the Ninja Labs review queue. Approved projects may appear in Home's Community Projects; submission does not guarantee listing.",
               )}
             </div>
           </div>

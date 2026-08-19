@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { lazy, Suspense } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -16,6 +17,12 @@ import DashboardLegacyIdentityPage from "./pages/DashboardLegacyIdentityPage";
 import NewsListPage from "./pages/NewsListPage";
 import NewsDetailPage from "./pages/NewsDetailPage";
 import CityLabPage from "./pages/CityLabPage";
+import CitizenshipPage from "./pages/CitizenshipPage";
+import CitizenProfilePage from "./pages/CitizenProfilePage";
+import OpenReposPage from "./pages/OpenReposPage";
+
+const HomeLegacyPage = lazy(() => import("./pages/HomeLegacyPage"));
+const CityZeroLegacyPage = lazy(() => import("./pages/CityZeroLegacyPage"));
 
 function App() {
   return (
@@ -26,7 +33,25 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route
+              path="/home-legacy"
+              element={
+                <Suspense fallback={<div className="legacy-route-loading">Loading old Home…</div>}>
+                  <HomeLegacyPage />
+                </Suspense>
+              }
+            />
+            <Route path="/citizenship" element={<CitizenshipPage />} />
             <Route path="/city-zero" element={<CityZeroPage />} />
+            <Route path="/city-zero/repos" element={<OpenReposPage />} />
+            <Route
+              path="/city-zero-legacy"
+              element={
+                <Suspense fallback={<div className="legacy-route-loading">Loading old City Zero…</div>}>
+                  <CityZeroLegacyPage />
+                </Suspense>
+              }
+            />
             <Route path="/city-zero/lab" element={<CityLabPage />} />
             <Route path="/city-zero/stadium" element={<CityZeroStadiumPage />} />
             <Route path="/city-zero/metaloft" element={<MetaloftDetailPage />} />
@@ -37,7 +62,7 @@ function App() {
             <Route path="/dashboard" element={<DashboardPage />} />
             <Route path="/dashboard-legacy" element={<DashboardLegacyPage />} />
             <Route path="/dashboard-legacy/identity" element={<DashboardLegacyIdentityPage />} />
-            <Route path="/citizen/:id" element={<DashboardLegacyIdentityPage publicView />} />
+            <Route path="/citizen/:id" element={<CitizenProfilePage />} />
             <Route path="/news" element={<NewsListPage />} />
             <Route path="/news/:id" element={<NewsDetailPage />} />
             <Route path="/nft/:id" element={<NFTDetailPage />} />

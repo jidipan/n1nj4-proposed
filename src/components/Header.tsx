@@ -48,7 +48,8 @@ function Header() {
   };
 
   const getActiveClass = (item: { path: string }) => {
-    return location.pathname === item.path ? "active" : "";
+    if (item.path === "/") return location.pathname === "/" ? "active" : "";
+    return location.pathname.startsWith(item.path) ? "active" : "";
   };
 
   return (
@@ -230,20 +231,17 @@ function Header() {
                         {isAccountMenuOpen && (
                           <div className="account-popover">
                             <div className="account-popover-head">
-                              <div className="account-avatar">N1</div>
+                              <div className="account-avatar" aria-hidden="true">N1</div>
                               <div className="account-popover-id">
                                 <div className="account-popover-citizen">
                                   {language === "zh"
-                                    ? "公民 #1427"
-                                    : "Citizen #1427"}
-                                  <span className="account-tier-chip">
-                                    BUILDER
-                                  </span>
+                                    ? "已连接钱包"
+                                    : "Wallet connected"}
                                 </div>
                                 <span className="account-popover-series">
                                   {language === "zh"
-                                    ? "创世忍者 · Origins"
-                                    : "Origins"}
+                                    ? "链上身份需根据持有资产核验"
+                                    : "On-chain identity requires asset verification"}
                                 </span>
                                 <span className="account-popover-addr">
                                   {account.displayName}

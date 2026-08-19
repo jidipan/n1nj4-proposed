@@ -1,0 +1,191 @@
+.citizenship-hero .public-hero__media img { object-position: 62% center; filter: saturate(.82); }
+.citizenship-hero .public-hero__content { max-width: 920px; }
+.citizenship-hero .public-section-kicker {
+  margin-bottom: 30px;
+  color: var(--public-orange);
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .4em;
+}
+
+.citizenship-ronin { scroll-margin-top: 130px; padding: 88px 0 96px; color: #f4ecff; background: #0d0a18; }
+.citizenship-ronin__grid { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(340px, .9fr); gap: clamp(40px, 7vw, 84px); align-items: stretch; }
+.citizenship-ronin__copy { display: flex; flex-direction: column; }
+.citizenship-ronin__copy .product-status--planned { color: #d5d2dc; background: rgba(255,255,255,.06); }
+.citizenship-ronin__copy .public-eyebrow {
+  margin-top: 26px;
+  margin-bottom: 30px;
+  color: var(--public-pink);
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .4em;
+}
+.citizenship-ronin__copy h2 { margin: 0; color: #fff; font-size: var(--public-section-title-size); line-height: .9; letter-spacing: -.065em; }
+.citizenship-ronin__copy h3 { margin: 18px 0 0; color: #c8b8e8; font-size: var(--public-feature-title-size); font-weight: 500; line-height: 1.15; letter-spacing: -.025em; }
+.citizenship-ronin__copy > p:not(.public-eyebrow) { max-width: 720px; margin: 26px 0 0; color: #d6c9ef; font-size: 1.02rem; line-height: 1.75; }
+.citizenship-ronin__facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin: auto 0 0; padding: 34px 0 0; list-style: none; }
+.citizenship-ronin__facts li { display: flex; flex-direction: column; gap: 6px; padding: 15px 17px; border: 1px solid rgba(238,106,158,.2); border-radius: 9px; background: rgba(255,255,255,.035); }
+.citizenship-ronin__facts strong,
+.citizenship-ronin__stats span { color: #a99ec8; font: 600 .68rem/1.2 "Consolas", monospace; letter-spacing: .14em; text-transform: uppercase; }
+.citizenship-ronin__facts span { color: var(--public-pink); font: 500 .88rem/1.3 "Consolas", monospace; letter-spacing: .1em; animation: citizenship-encrypted-pulse 2.4s ease-in-out infinite; }
+.citizenship-ronin__intel { display: inline-flex; width: fit-content; align-items: center; gap: 8px; margin-top: 16px; color: #a99ec8; font: 600 .72rem/1.3 "Consolas", monospace; letter-spacing: .08em; text-decoration: none; text-transform: uppercase; transition: color .2s ease; }
+.citizenship-ronin__intel:hover { color: var(--public-pink); }
+.citizenship-ronin__intel svg { width: 14px; }
+
+.citizenship-ronin__drop-card { align-self: stretch; overflow: hidden; border: 1px solid rgba(238,106,158,.24); border-radius: 18px; background: rgba(255,255,255,.045); }
+.citizenship-ronin__drop-card > img { display: block; width: 100%; aspect-ratio: 1.45; object-fit: cover; }
+.citizenship-ronin__drop-body { display: flex; min-height: 300px; flex-direction: column; padding: 28px 30px 30px; }
+.citizenship-ronin__drop-body .public-eyebrow { margin-bottom: 12px; color: var(--public-pink); }
+.citizenship-ronin__drop-body h3 { margin: 0 0 24px; color: #fff; font-size: var(--public-card-title-size); line-height: 1; letter-spacing: -.035em; }
+.citizenship-ronin__stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px; padding: 18px 0; border-top: 1px solid rgba(255,255,255,.12); border-bottom: 1px solid rgba(255,255,255,.12); }
+.citizenship-ronin__stats > div { display: flex; flex-direction: column; gap: 7px; }
+.citizenship-ronin__stats strong { color: #fff; font-size: 1.35rem; line-height: 1; }
+.citizenship-ronin__drop-status { display: flex; align-items: center; justify-content: center; gap: 9px; margin-top: auto; padding: 15px 20px; border: 1px solid rgba(238,106,158,.32); border-radius: 8px; color: #d8cfe5; background: rgba(238,106,158,.08); font: 700 .76rem/1.2 "Consolas", monospace; letter-spacing: .1em; text-align: center; text-transform: uppercase; }
+.citizenship-ronin__drop-status span { width: 6px; height: 6px; border-radius: 50%; background: var(--public-pink); }
+
+.citizenship-ai-residency .ai-residency-header {
+  width: 100%;
+  max-width: 1120px;
+  align-items: center;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.citizenship-ai-residency .ai-residency-kicker.public-section-kicker {
+  margin-bottom: 30px;
+  color: var(--public-orange);
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .4em;
+}
+
+.citizenship-ai-residency .ai-residency-title {
+  width: 100%;
+  max-width: 1120px;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+@keyframes citizenship-encrypted-pulse { 50% { opacity: .45; } }
+@media (prefers-reduced-motion: reduce) { .citizenship-ronin__facts span { animation: none; } }
+
+.citizenship-origins-index__header { display: grid; grid-template-columns: minmax(0, 1fr) minmax(300px, .42fr); gap: clamp(36px, 7vw, 86px); align-items: end; margin-bottom: 42px; }
+.citizenship-origins-index > .public-shell > .public-section-heading {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  text-align: center;
+}
+.citizenship-origins-index > .public-shell > .public-section-heading .public-section-kicker {
+  margin-bottom: 30px;
+  color: var(--public-orange);
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .4em;
+  text-align: center;
+}
+.citizenship-origins-index > .public-shell > .public-section-heading h2 {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+  text-align: center;
+}
+.citizenship-origins-index__copy > .public-section-lead { margin: 0; text-align: left; }
+.citizenship-origins-index__copy > .product-status { margin-top: 22px; }
+.citizenship-origins-index__meta { display: flex; align-items: flex-start; flex-direction: column; gap: 18px; padding: 0 0 4px 28px; border-left: 1px solid var(--public-line); }
+.citizenship-origins-index__meta p { margin: 0; color: var(--public-muted); font: 700 .75rem/1.3 "Consolas", monospace; letter-spacing: .1em; text-transform: uppercase; }
+.citizenship-origins-index__meta .public-button--ghost { min-height: 40px; padding: 0 16px; color: var(--public-ink); font-size: .78rem; }
+.citizenship-origins-index__meta .public-button svg { width: 13px; }
+.citizenship-origins-index .nft-showcase { max-width: none; }
+.citizenship-origins-index .nft-showcase-item::before { content: ""; position: absolute; inset: 0; background: linear-gradient(135deg, #eee5dc, #ddd4e4 52%, #eee5dc); }
+.citizenship-origins-index .nft-showcase-item img { position: relative; z-index: 1; opacity: 0; transition: opacity .25s ease; }
+.citizenship-origins-index .nft-showcase-item.is-loaded img { opacity: 1; }
+.citizenship-origins-index .nft-showcase-id { z-index: 2; }
+
+.citizenship-origins-today__boundary { display: flex; align-items: flex-start; gap: 18px; margin-top: 20px; padding: 24px 28px; border: 1px solid var(--public-line); border-radius: 18px; background: var(--public-soft); }
+.citizenship-origins-today__boundary .product-status { flex: 0 0 auto; }
+.citizenship-origins-today__boundary p { max-width: 820px; margin: 0; color: var(--public-muted); line-height: 1.7; }
+
+.citizenship-origins-today,
+#citizenship-faq {
+  padding-top: 60px;
+}
+
+.citizenship-ai-residency {
+  padding-top: 60px;
+}
+
+.citizenship-origins-today .public-section-heading,
+#citizenship-faq .public-section-heading {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  text-align: center;
+}
+
+.citizenship-origins-today .public-section-kicker,
+#citizenship-faq .public-section-kicker {
+  margin-bottom: 30px;
+  color: var(--public-orange);
+  font-family: inherit;
+  font-size: .88rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .4em;
+}
+
+.citizenship-origins-today .public-section-heading h2 {
+  width: 100%;
+  max-width: 1120px;
+  margin-inline: auto;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.1;
+  letter-spacing: 0;
+}
+
+.citizenship-origins-today .public-section-lead {
+  margin-inline: auto;
+}
+
+#citizenship-faq .citizenship-faq__heading .public-section-kicker {
+  margin-bottom: 0;
+}
+
+.citizenship-ai-residency .ai-residency-soon-badge { color: #9f3d65; background: rgba(200,74,124,.1); }
+.citizenship-ai-residency .ai-residency-collapse.is-open .ai-residency-collapse-inner { overflow: visible; }
+
+@media (max-width: 900px) {
+  .citizenship-ronin__grid { grid-template-columns: 1fr; }
+  .citizenship-ronin__facts { margin-top: 0; }
+  .citizenship-origins-index__header { grid-template-columns: 1fr; gap: 28px; }
+  .citizenship-origins-index__meta { padding: 24px 0 0; border-top: 1px solid var(--public-line); border-left: 0; }
+}
+
+@media (max-width: 680px) {
+  .citizenship-hero .public-section-kicker { font-size: .76rem; letter-spacing: .24em; }
+  .citizenship-ronin__copy .public-section-kicker { font-size: .76rem; letter-spacing: .24em; }
+  .citizenship-origins-index > .public-shell > .public-section-heading .public-section-kicker { font-size: .76rem; letter-spacing: .24em; }
+  .citizenship-origins-today .public-section-kicker,
+  .citizenship-ai-residency .ai-residency-kicker.public-section-kicker,
+  #citizenship-faq .public-section-kicker { font-size: .76rem; letter-spacing: .24em; }
+  .citizenship-ronin { padding: 64px 0; }
+  .citizenship-ronin__grid { gap: 34px; }
+  .citizenship-ronin__facts { grid-template-columns: 1fr; }
+  .citizenship-ronin__drop-body { min-height: 280px; padding: 24px; }
+  .citizenship-ronin__stats { gap: 8px; }
+  .citizenship-ronin__stats strong { font-size: 1.15rem; }
+  .citizenship-origins-index__meta .public-button { width: fit-content; }
+  .citizenship-origins-today__boundary { flex-direction: column; padding: 22px; }
+}

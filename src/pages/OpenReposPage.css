@@ -1,0 +1,89 @@
+.repos-archive__hero {
+  min-height: 520px;
+  display: flex;
+  align-items: flex-end;
+  padding-top: 150px;
+}
+
+.repos-archive__hero .public-shell {
+  padding-bottom: 12px;
+}
+
+.repos-archive__back {
+  display: inline-flex;
+  margin-bottom: 64px;
+  color: rgba(255, 255, 255, 0.66);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.repos-archive__back:hover {
+  color: var(--public-lime);
+}
+
+.repos-archive__hero h1 {
+  max-width: 900px;
+  margin: 0;
+  font-size: clamp(3.2rem, 8vw, 7rem);
+  line-height: 0.88;
+  letter-spacing: -0.07em;
+}
+
+.repos-archive__hero .public-shell > p:last-child {
+  max-width: 680px;
+  margin: 28px 0 0;
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.repos-archive__heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 40px;
+  align-items: end;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--public-line);
+}
+
+.repos-archive__heading .public-section-heading {
+  margin-bottom: 0;
+}
+
+.repos-archive__github {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--public-ink);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.repos-archive__github:hover {
+  color: var(--public-pink);
+}
+
+.repos-archive__grid {
+  margin-top: 34px;
+}
+
+@media (max-width: 980px) {
+  .repos-archive__heading {
+    grid-template-columns: 1fr;
+  }
+
+  .repos-archive__github {
+    width: fit-content;
+  }
+}
+
+@media (max-width: 680px) {
+  .repos-archive__hero {
+    min-height: 520px;
+    padding-top: 120px;
+  }
+
+  .repos-archive__back {
+    margin-bottom: 48px;
+  }
+}
